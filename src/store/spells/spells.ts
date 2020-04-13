@@ -1,108 +1,6 @@
-export type Level = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-export const Levels = [0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9];
-
-export type Class =
-  | "Sorcerer"
-  | "Wizard"
-  | "Druid"
-  | "Ranger"
-  | "Cleric"
-  | "Paladin"
-  | "Bard"
-  | "Ritual Caster"
-  | "Warlock";
-export const Classes: Class[] = [
-  "Sorcerer",
-  "Wizard",
-  "Druid",
-  "Ranger",
-  "Cleric",
-  "Paladin",
-  "Bard",
-  "Ritual Caster",
-  "Warlock",
-];
-
-export type School =
-  | "Conjuration"
-  | "Necromancy"
-  | "Evocation"
-  | "Abjuration"
-  | "Transmutation"
-  | "Divination"
-  | "Enchantment"
-  | "Illusion";
-export const Schools = [
-  ,
-  "Conjuration",
-  "Necromancy",
-  "Evocation",
-  "Abjuration",
-  "Transmutation",
-  "Divination",
-  "Enchantment",
-  "Illusion",
-];
-
-export type Source = "PHB" | "EE PC" | "SCAG" | "EBB" | "UA TOBM";
-export const Sources = ["PHB", "EE PC", "SCAG", "EBB", "UA TOBM"];
-
-export type Components = {
-  verbal: boolean;
-  somatic: boolean;
-  material: boolean;
-  materials: string[];
-};
-
-export type Spell = {
-  name: string;
-  description: string;
-  range: string;
-  ritual: boolean;
-  duration: string;
-  concentration: boolean;
-  casting_time: string;
-  level: Level;
-  school: School;
-  class: Class[];
-  components: Components;
-  source: Source;
-  page: number;
-};
+import { Spell } from "./models";
 
 export const spells: Spell[] = [
-  {
-    name: "Abi-Dalzim's Horrid Wilting",
-    description:
-      "<p>You draw the moisture from every creature in a 30-foot cube centered on a point you choose within range. Each creature in that area must make a Constitution saving throw. Constructs and undead aren't affected, and plants and water elementals make this saving throw with disadvantage. A creature takes 12d8 necrotic damage on a failed save, or half as much damage on a successful one.</p><p>Nonmagical plants in the area that aren't creatures, such as trees and shrubs, wither and die instantly.</p>",
-    range: "150 feet",
-    ritual: false,
-    duration: "Instantaneous",
-    concentration: false,
-    casting_time: "1 action",
-    level: 8,
-    school: "Necromancy",
-    class: ["Sorcerer", "Wizard"],
-    components: { verbal: true, somatic: true, material: true, materials: ["a bit of sponge"] },
-    source: "EE PC",
-    page: 15,
-  },
-  {
-    name: "Absorb Elements",
-    description:
-      "<p>The spell captures some of the incoming energy, lessening its effect on you and storing it for your next melee attack. You have resistance to the triggering damage type until the start of your next turn. Also, the first time you hit with a melee attack on your next turn, the target takes an extra 1d6 damage of the triggering type, and the spell ends.</p>",
-    range: "Self",
-    ritual: false,
-    duration: "1 round",
-    concentration: false,
-    casting_time: "1 action",
-    level: 1,
-    school: "Abjuration",
-    class: ["Druid", "Ranger", "Wizard"],
-    components: { verbal: false, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 15,
-  },
   {
     name: "Acid Splash",
     description:
@@ -118,27 +16,6 @@ export const spells: Spell[] = [
     components: { verbal: true, somatic: true, material: false, materials: [] },
     source: "PHB",
     page: 211,
-  },
-  {
-    name: "Aganazzar's Scorcher",
-    description:
-      '<p><span style="font-weight:400">A line of roaring flame 30 feet long and 5 feet wide emanates from you in a direction you choose. Each creature in the line must make a Dexterity saving throw. A creature takes 3d8 fire damage on a failed save, or half as much damage on a successful one.</span></p>',
-    range: "30 feet",
-    ritual: false,
-    duration: "Instantaneous",
-    concentration: false,
-    casting_time: "1 action",
-    level: 2,
-    school: "Evocation",
-    class: ["Sorcerer", "Wizard"],
-    components: {
-      verbal: true,
-      somatic: true,
-      material: true,
-      materials: ["a red dragon's scale"],
-    },
-    source: "EE PC",
-    page: 15,
   },
   {
     name: "Aid",
@@ -172,7 +49,7 @@ export const spells: Spell[] = [
     casting_time: "1 minute",
     level: 1,
     school: "Abjuration",
-    class: ["Ranger", "Ritual Caster", "Wizard"],
+    class: ["Ranger", "Ritual", "Wizard"],
     components: {
       verbal: true,
       somatic: true,
@@ -225,7 +102,7 @@ export const spells: Spell[] = [
     casting_time: "1 action",
     level: 2,
     school: "Enchantment",
-    class: ["Bard", "Druid", "Ranger", "Ritual Caster"],
+    class: ["Bard", "Druid", "Ranger", "Ritual"],
     components: { verbal: true, somatic: true, material: true, materials: ["a morsel of food"] },
     source: "PHB",
     page: 212,
@@ -464,7 +341,7 @@ export const spells: Spell[] = [
     casting_time: "1 minute",
     level: 2,
     school: "Divination",
-    class: ["Cleric", "Ritual Caster"],
+    class: ["Cleric", "Ritual"],
     components: {
       verbal: true,
       somatic: true,
@@ -634,27 +511,6 @@ export const spells: Spell[] = [
     page: 217,
   },
   {
-    name: "Beast Bond",
-    description:
-      "<p>You establish a telepathic link with one beast you touch that is friendly to you or charmed by you. The spell fails if the beast's Intelligence is 4 or higher. Until the spell ends, the link is active while you and the beast are within line of sight of each other. Through the link, the beast can understand your telepathic messages to it, and it can telepathically communicate simple emotions and concepts back to you. While the link is active, the beast gains advantage on attack rolls against any creature within 5 feet of you that you can see.</p>",
-    range: "Touch",
-    ritual: false,
-    duration: "Concentration, up to 10 minutes",
-    concentration: true,
-    casting_time: "1 action",
-    level: 1,
-    school: "Divination",
-    class: ["Druid", "Ranger", "Wizard"],
-    components: {
-      verbal: true,
-      somatic: true,
-      material: true,
-      materials: ["a bit of fur wrapped in a cloth"],
-    },
-    source: "EE PC",
-    page: 15,
-  },
-  {
     name: "Beast Sense",
     description:
       "<p>You touch a willing beast. For the duration of the spell, you can use your action to see through the beast's eyes and hear what it hears, and continue to do so until you use your action to return to your normal senses. While perceiving through the beast's senses, you gain the benefits of any special senses possessed by that creature, though you are blinded and deafened to your own surroundings.</p>",
@@ -665,7 +521,7 @@ export const spells: Spell[] = [
     casting_time: "1 action",
     level: 2,
     school: "Divination",
-    class: ["Druid", "Ranger", "Ritual Caster"],
+    class: ["Druid", "Ranger", "Ritual"],
     components: { verbal: false, somatic: true, material: false, materials: [] },
     source: "PHB",
     page: 217,
@@ -841,38 +697,6 @@ export const spells: Spell[] = [
     page: 219,
   },
   {
-    name: "Bones of the Earth",
-    description:
-      "<p>You cause up to six pillars of stone to burst from places on the ground that you can see within range. Each pillar is a cylinder that has a diameter of 5 feet and a height of up to 30 feet. The ground where a pillar appears must be wide enough for its diameter, and you can target the ground under a creature if that creature is Medium or smaller. Each pillar has AC 5 and 30 hit points. When reduced to 0 hit points, a pillar crumbles into rubble, which creates an area of difficult terrain with a 10-foot radius that lasts until the rubble is cleared. Each 5-foot-diameter portion of the area requires at least 1 minute to clear by hand.</p><p>If a pillar is created under a creature, that creature must succeed on a Dexterity saving throw or be lifted by the pillar. A creature can choose to fail the save.</p><p>If a pillar is prevented from reaching its full height because of a ceiling or other obstacle, a creature on the pillar takes 6d6 bludgeoning damage and is restrained, pinched between the pillar and the obstacle. The restrained creature can use an action to make a Strength or Dexterity check (the creature's choice) against the spell's save DC. On a success, the creature is no longer restrained and must either move off the pillar or fall off it.</p>",
-    range: "120 feet",
-    ritual: false,
-    duration: "Instantaneous",
-    concentration: false,
-    casting_time: "1 action",
-    level: 6,
-    school: "Transmutation",
-    class: ["Druid"],
-    components: { verbal: true, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 15,
-  },
-  {
-    name: "Booming Blade",
-    description:
-      "<p>As part of the action used the cast this spell, you must make a melee attack with a weapon against one create within the spell's range otherwise the spell fails. On a hit, the target suffers the attack's normal effects, and it becomes sheathed in booming energy until the start of your next turn. If the target willingly moves before then, it immediately takes 1d8 thunder damage, and the spell ends.</p><p>This spell's damage increases when you reach higher levels. At 5th level, the melee attack deals an extra 1d8 thunder damage to the target, and the damage the target take for moving increases to 2d8. Both damage rolls increase by 1d8 at 11th level and 17th level.</p>",
-    range: "5 feet",
-    ritual: false,
-    duration: "1 round",
-    concentration: false,
-    casting_time: "1 action",
-    level: 0,
-    school: "Evocation",
-    class: ["Sorcerer", "Warlock", "Wizard"],
-    components: { verbal: true, somatic: false, material: true, materials: ["a weapon"] },
-    source: "SCAG",
-    page: 142,
-  },
-  {
     name: "Branding Smite",
     description:
       "<p>The next time you hit a creature with a weapon attack before this spell ends, the weapon gleams with astral radiance as you strike. The attack deals an extra 2d6 radiant damage to the target, which becomes visible if it is invisible, and the target sheds dim light in a 5-foot radius and can't become invisible until the spell ends. </p>",
@@ -935,22 +759,6 @@ export const spells: Spell[] = [
     components: { verbal: true, somatic: true, material: false, materials: [] },
     source: "PHB",
     page: 221,
-  },
-  {
-    name: "Catapult",
-    description:
-      "<p>Choose one object weighing 1 to 5 pounds within range that isn't being worn or carried. The object flies in a straight line up to 90 feet in a direction you choose before falling to the ground, stopping early if it impacts against a solid surface. If the object would strike a creature, that creature must make a Dexterity saving throw. On a failed save, the object strikes the target and stops moving. When the object strikes something, the object and what it strikes each take 3d8 bludgeoning damage.</p>",
-    range: "150 feet",
-    ritual: false,
-    duration: "Instantaneous",
-    concentration: false,
-    casting_time: "1 action",
-    level: 1,
-    school: "Transmutation",
-    class: ["Sorcerer", "Wizard"],
-    components: { verbal: false, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 15,
   },
   {
     name: "Chain Lightning",
@@ -1195,7 +1003,7 @@ export const spells: Spell[] = [
     casting_time: "1 minute",
     level: 5,
     school: "Divination",
-    class: ["Cleric", "Ritual Caster"],
+    class: ["Cleric", "Ritual"],
     components: {
       verbal: true,
       somatic: true,
@@ -1216,7 +1024,7 @@ export const spells: Spell[] = [
     casting_time: "1 minute",
     level: 5,
     school: "Divination",
-    class: ["Druid", "Ranger", "Ritual Caster"],
+    class: ["Druid", "Ranger", "Ritual"],
     components: { verbal: true, somatic: true, material: false, materials: [] },
     source: "PHB",
     page: 224,
@@ -1248,7 +1056,7 @@ export const spells: Spell[] = [
     casting_time: "1 action",
     level: 1,
     school: "Divination",
-    class: ["Bard", "Ritual Caster", "Sorcerer", "Warlock", "Wizard"],
+    class: ["Bard", "Ritual", "Sorcerer", "Warlock", "Wizard"],
     components: {
       verbal: true,
       somatic: true,
@@ -1328,22 +1136,6 @@ export const spells: Spell[] = [
     page: 225,
   },
   {
-    name: "Conjure Barlgura",
-    description:
-      "<p>You summon a barlgura that appears in an unoccupied space you can see within range. The barlgura disappears when it drops to 0 hit points or when the spell ends.</p><p>The barlgura is hostile to all non demons. Roll initiative for the barlgura, which has its own turns. At the start of its turn, it moves toward and attacks the nearest non demon it can perceive. If two or more creatures are equally near, it picks one at random. If it cannot see any potential enemies, the barlgura moves in a random direction in search of foes.</p><p>As part of casting the spell, you can scribe a circle on the ground using the blood of an intelligent humanoid slain within the past 24 hours. The circle is large enough to encompass your space. The summoned barlgura cannot cross the circle or target anyone in it while the spell lasts.</p>",
-    range: "60 feet",
-    ritual: false,
-    duration: "Concentration, up to 10 minutes",
-    concentration: true,
-    casting_time: "1 action",
-    level: 4,
-    school: "Conjuration",
-    class: ["Sorcerer", "Warlock", "Wizard"],
-    components: { verbal: true, somatic: true, material: false, materials: [] },
-    source: "UA TOBM",
-    page: 2,
-  },
-  {
     name: "Conjure Barrage",
     description:
       "<p>You throw a nonmagical weapon or fire a piece of nonmagical ammunition into the air to create a cone of identical weapons that shoot forward and then disappear. Each creature in a 60-foot cone must succeed on a dexterity saving throw. A creature takes 3d8 damage on a failed save, or half as much damage on a successful one. The damage type is the same as that of the weapon or ammunition used as a component.</p>",
@@ -1407,27 +1199,6 @@ export const spells: Spell[] = [
     page: 225,
   },
   {
-    name: "Conjure Hezrou",
-    description:
-      "<p>You summon a hezrou that appears in an unoccupied space you can see within range. The hezrou disappears when it drops to 0 hit points or when the spell ends.</p><p>The hezrou’s attitude depends on the value of the food used as a material component for this spell. Roll initiative for the hezrou, which has its own turns. At the start of the hezrou’s turn, the DM makes a secret Charisma check on your behalf, with a bonus equal to the food’s value divided by 20. The check DC starts at 10 and increases by 2 each round. You can issue orders to the hezrou and have it obey you as long as you succeed on the Charisma check.</p><p>If the check fails, the spell no longer requires concentration and the demon is no longer under your control. The hezrou then focuses on devouring any corpses it can see. If there are no such meals at hand, it attacks the nearest creatures and eats anything it kills. If its hit points are reduced to below half its hit point maximum, it returns to the Abyss.</p><p>As part of casting the spell, you can scribe a circle on the ground using the blood of an intelligent humanoid slain within the past 24 hours. The circle is large enough to encompass your space. The summoned hezrou cannot cross the circle or target anyone in it while the spell lasts.</p>",
-    range: "60 feet",
-    ritual: false,
-    duration: "Concentration, up to 1 hour",
-    concentration: true,
-    casting_time: "1 action",
-    level: 7,
-    school: "Conjuration",
-    class: ["Sorcerer", "Warlock", "Wizard"],
-    components: {
-      verbal: true,
-      somatic: true,
-      material: true,
-      materials: ["food worth at least 100 gp", "which the spell consumes"],
-    },
-    source: "UA TOBM",
-    page: 2,
-  },
-  {
     name: "Conjure Fey",
     description:
       "<p>You summon a fey creature of challenge rating 6 or lower, or a fey spirit that takes the form of a beast of challenge rating 6 or lower. It appears in an unoccupied space that you can see within range. The fey creature disappears when it drops to 0 hit points or when the spell ends.</p><p>The fey creature is friendly to you and your companions for the duration. Roll initiative for the creature, which has its own turns. It obeys any verbal commands that you issue to it (no action required by you), as long as they don't violate its alignment. If you don't issue any commands to the fey creature, it defends itself from hostile creatures but otherwise takes no actions.</p><p>If your concentration is broken, the fey creature doesn't disappear. Instead, you lose control of the fey creature, it becomes hostile toward you and your companions, and it might attack. An uncontrolled fey creature can't be dismissed by you, and it disappears 1 hour after you summoned it.</p><p>The GM has the fey creature's statistics. Some sample creatures are listed below.</p>",
@@ -1444,27 +1215,6 @@ export const spells: Spell[] = [
     page: 226,
   },
   {
-    name: "Conjure Lesser Demon",
-    description:
-      "<p>You summon up to a total of eight manes or dretches that appear in unoccupied spaces you can see within range. A manes or dretch disappears when it drops to 0 hit points or when the spell ends.</p><p>The demons are hostile to all creatures. Roll initiative for the summoned demons as a group, which has its own turns. The demons attack the nearest non demons to the best of their ability.</p><p>As part of casting the spell, you can scribe a circle on the ground with the blood used as a material component. The circle is large enough to encompass your space. The summoned demons cannot cross the circle or target anyone in it while the spell lasts. Using the material component in this manner consumes it.</p>",
-    range: "60 feet",
-    ritual: false,
-    duration: "Concentration, up to 1 hour",
-    concentration: true,
-    casting_time: "1 action",
-    level: 3,
-    school: "Conjuration",
-    class: ["Sorcerer", "Warlock", "Wizard"],
-    components: {
-      verbal: true,
-      somatic: true,
-      material: true,
-      materials: ["a vial of blood from an intelligent humanoid killed within the past 24 hours"],
-    },
-    source: "UA TOBM",
-    page: 2,
-  },
-  {
     name: "Conjure Minor Elementals",
     description:
       "<p>You summon elementals that appear in unoccupied spaces that you can see within range. You choose one the following options for what appears:</p><ul><li>One elemental of challenge rating 2 or lower</li><li>Two elementals of challenge rating 1 or lower</li><li>Four elementals of challenge rating 1/2 or lower</li><li>Eight elementals of challenge rating 1/4 or lower.</li></ul><p><br/>An elemental summoned by this spell disappears when it drops to 0 hit points or when the spell ends.</p><p>The summoned creatures are friendly to you and your companions. Roll initiative for the summoned creatures as a group, which has its own turns. They obey any verbal commands that you issue to them (no action required by you). If you don't issue any commands to them, they defend themselves from hostile creatures, but otherwise take no actions.</p><p>The GM has the creatures' statistics.</p>",
@@ -1479,27 +1229,6 @@ export const spells: Spell[] = [
     components: { verbal: true, somatic: true, material: false, materials: [] },
     source: "PHB",
     page: 226,
-  },
-  {
-    name: "Conjure Shadow Demon",
-    description:
-      "<p>You summon a shadow demon that appears in an unoccupied space you can see within range. The shadow demon disappears when it drops to 0 hit points or when the spell ends.</p><p>Roll initiative for the shadow demon, which has its own turns. You can issue orders to the shadow demon, and it obeys you as long as it can attack a creature on each of its turns and does not start its turn in an area of bright light. If either of these conditions is not met, the shadow demon immediately makes a Charisma check contested by your Charisma check. If you fail the check, the spell no longer requires concentration and the demon is no longer under your control. The demon automatically succeeds on the check if it is more than 100 feet away from you.</p><p>As part of casting the spell, you can scribe a circle on the ground using the blood of an intelligent humanoid slain within the past 24 hours. The circle is large enough to encompass your space. The summoned shadow demon cannot cross the circle or target anyone in it while the spell lasts.</p>",
-    range: "60 feet",
-    ritual: false,
-    duration: "Concentration, up to 1 hour",
-    concentration: true,
-    casting_time: "1 action",
-    level: 4,
-    school: "Conjuration",
-    class: ["Sorcerer", "Warlock", "Wizard"],
-    components: {
-      verbal: true,
-      somatic: true,
-      material: true,
-      materials: ["a vial of blood from an intelligent humanoid killed within the past 24 hours"],
-    },
-    source: "UA TOBM",
-    page: 3,
   },
   {
     name: "Conjure Volley",
@@ -1521,27 +1250,6 @@ export const spells: Spell[] = [
     },
     source: "PHB",
     page: 226,
-  },
-  {
-    name: "Conjure Vrock",
-    description:
-      "<p>You summon a vrock that appears in an unoccupied space you can see within range. The vrock disappears when it drops to 0 hit points or when the spell ends.</p><p>The vrock’s attitude depends on the value of the gem used as a material component for this spell. Roll initiative for the vrock, which has its own turns. At the start of the vrock’s turn, the DM makes a secret Charisma check on your behalf, with a bonus equal to the gem’s value divided by 20. The check DC starts at 10 and increases by 2 each round. You can issue orders to the vrock and have it obey you as long as you succeed on the Charisma check.</p><p>If the check fails, the spell no longer requires concentration and the vrock is no longer under your control. The vrock takes no actions on its next turn and uses its telepathy to tell any creature it can see that it will fight in exchange for treasure. The creature that gives the vrock the most expensive gem can command it for the next 1d6 rounds. At the end of that time, it offers the bargain again. If no one offers the vrock treasure before its next turn begins, it attacks the nearest creatures for 1d6 rounds before returning to the Abyss.</p><p>As part of casting the spell, you can scribe a circle on the ground using the blood of an intelligent humanoid slain within the past 24 hours. The circle is large enough to encompass your space. The summoned vrock cannot cross the circle or target anyone in it while the spell lasts.</p>",
-    range: "60 feet",
-    ritual: false,
-    duration: "Concentration, up to 1 hour",
-    concentration: true,
-    casting_time: "1 action",
-    level: 5,
-    school: "Conjuration",
-    class: ["Sorcerer", "Warlock", "Wizard"],
-    components: {
-      verbal: true,
-      somatic: true,
-      material: true,
-      materials: ["a gem worth at least 100 gp", "which the spell consumes"],
-    },
-    source: "UA TOBM",
-    page: 3,
   },
   {
     name: "Conjure Woodland Beings",
@@ -1575,7 +1283,7 @@ export const spells: Spell[] = [
     casting_time: "1 minute",
     level: 5,
     school: "Divination",
-    class: ["Ritual Caster", "Warlock", "Wizard"],
+    class: ["Ritual", "Warlock", "Wizard"],
     components: { verbal: true, somatic: false, material: false, materials: [] },
     source: "PHB",
     page: 226,
@@ -1641,22 +1349,6 @@ export const spells: Spell[] = [
     page: 227,
   },
   {
-    name: "Control Flames",
-    description:
-      "<p>You choose nonmagical flame that you can see within range and that fits within a 5-foot cube. You affect it in one of the following ways:</p><ul><li><p>You instantaneously expand the flame 5 feet in one direction, provided that wood or other fuel is present in the new location.</p></li><li><p>You instantaneously extinguish the flames within the cube.</p></li><li><p>You double or halve the area of bright light and dim light cast by the flame, change its color, or both. The change lasts for 1 hour.</p></li><li><p>You cause simple shapes--such as the vague form of a creature, an inanimate object, or a location--to appear within the flames and animate as you like. The shapes last for 1 hour.</p><p>If you cast this spell multiple times, you can have up to three of its non-instantaneous effects active at a time, and you can dismiss such an effect as an action.</p></li></ul>",
-    range: "60 feet",
-    ritual: false,
-    duration: "Instantaneous/1 hour",
-    concentration: false,
-    casting_time: "1 action",
-    level: 0,
-    school: "Transmutation",
-    class: ["Druid", "Sorcerer", "Wizard"],
-    components: { verbal: false, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 16,
-  },
-  {
     name: "Control Water",
     description:
       "<p>Until the spell ends, you control any freestanding water inside an area you choose that is a cube up to 100 feet on a side. You can choose from any of the following effects when you cast this spell. As an action on your turn, you can repeat the same effect or choose a different one.</p><p><strong>Flood.</strong> You cause the water level of all standing water in the area to rise by as much as 20 feet. If the area includes a shore, the flooding water spills over onto dry land.</p><p>If you choose an area in a large body of water, you instead create a 20-foot tall wave that travels from one side of the area to the other and then crashes down. Any Huge or smaller vehicles in the wave's path are carried with it to the other side. Any Huge or smaller vehicles struck by the wave have a 25 percent chance of capsizing.</p><p>The water level remains elevated until the spell ends or you choose a different effect. If this effect produced a wave, the wave repeats on the start of your next turn while the flood effect lasts.</p><p><strong>Part Water.</strong> You cause water in the area to move apart and create a trench. The trench extends across the spell's area, and the separated water forms a wall to either side. The trench remains until the spell ends or you choose a different effect. The water then slowly fills in the trench over the course of the next round until the normal water level is restored.</p><p><strong>Redirect Flow.</strong> You cause flowing water in the area to move in a direction you choose, even if the water has to flow over obstacles, up walls, or in other unlikely directions. The water in the area moves as you direct it, but once it moves beyond the spell's area, it resumes its flow based on the terrain conditions. The water continues to move in the direction you chose until the spell ends or you choose a different effect.</p><p><strong>Whirlpool.</strong> This effect requires a body of water at least 50 feet square and 25 feet deep. You cause a whirlpool to form in the center of the area. The whirlpool forms a vortex that is 5 feet wide at the base, up to 50 feet wide at the top, and 25 feet tall. Any creature or object in the water and within 25 feet of the vortex is pulled 10 feet toward it. A creature can swim away from the vortex by making a Strength (Athletics) check against your spell save DC.</p><p>When a creature enters the vortex for the first time on a turn or starts its turn there, it must make a Strength saving throw. On a failed save, the creature takes 2d8 bludgeoning damage and is caught in the vortex until the spell ends. On a successful save, the creature takes half damage, and isn't caught in the vortex. A creature caught in the vortex can use its action to try to swim away from the vortex as described above, but has disadvantage on the Strength (Athletics) check to do so.</p><p>The first time each turn that an object enters the vortex, the object takes 2d8 bludgeoning damage; this damage occurs each round it remains in the vortex.</p>",
@@ -1699,22 +1391,6 @@ export const spells: Spell[] = [
     page: 228,
   },
   {
-    name: "Control Winds",
-    description:
-      "<p>You take control of the air in a 100-foot cube that you can see within range. Choose one of the following effects when you cast the spell. The effect lasts for the spell's duration, unless you use your action on a later turn to switch to a different effect. You can also use your action to temporarily halt the effect or to restart one you've halted.</p><p><strong><span>Gusts.</span></strong> A wind picks up within the cube, continually blowing in a horizontal direction you designate. You choose the intensity of the wind: calm, moderate, or strong. If the wind is moderate or strong, ranged weapon attacks that enter or leave the cube or pass through it have disadvantage on their attack rolls. If the wind is strong, any creature moving against the wind must spend 1 extra foot of movement for each foot moved.</p><p><span><strong>Downdraft.</strong> </span>You cause a sustained blast of strong wind to blow downward from the top of the cube. Ranged weapon attacks that pass through the cube or that are made against targets within it have disadvantage on their attack rolls. A creature must make a Strength saving throw if it flies into the cube for the first time on a turn or starts its turn there flying. On a failed save, the creature is knocked prone.</p><p><strong><span>Updraft.</span></strong> You cause a sustained updraft within the cube, rising upward from the cube's bottom side. Creatures that end a fall within the cube take only half damage from the fall. When a creature in the cube makes a vertical jump, the creature can jump up to 10 feet higher than normal.</p>",
-    range: "300 feet",
-    ritual: false,
-    duration: "Concentration, up to 1 hour",
-    concentration: true,
-    casting_time: "1 action",
-    level: 5,
-    school: "Transmutation",
-    class: ["Druid", "Sorcerer", "Wizard"],
-    components: { verbal: true, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 16,
-  },
-  {
     name: "Cordon of Arrows",
     description:
       "<p>You plant four pieces of nonmagical ammunition—arrows or crossbow bolts—in the ground within range and lay magic upon them to protect an area. Until the spell ends, whenever a creature other than you comes within 30 feet of the ammunition for the first time on a turn or ends its turn there, one piece of ammunition flies up to strike it. The creature must succeed on a dexterity saving throw or take 1d6 piercing damage. The piece of ammunition is then destroyed. The spell ends when no ammunition remains.</p><p>When you cast this spell, you can designate any creatures you choose, and the spell ignores them.</p>",
@@ -1750,22 +1426,6 @@ export const spells: Spell[] = [
     components: { verbal: false, somatic: true, material: false, materials: [] },
     source: "PHB",
     page: 228,
-  },
-  {
-    name: "Create Bonfire",
-    description:
-      "<p>You create a bonfire on ground that you can see within range. Until the spell ends, the magic bonfire fills a 5-foot cube. Any creature in the bonfire's space when you cast the spell must succeed on a Dexterity saving throw or take 1d8 fire damage. A creature must also make the saving throw when it moves into the bonfire's space for the first time on a turn or ends its turn there.</p><p>The bonfire ignites flammable objects in its area that aren't being worn or carried.</p><p>The spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8).</p>",
-    range: "60 feet",
-    ritual: false,
-    duration: "Concentration, up to 1 minute",
-    concentration: true,
-    casting_time: "1 action",
-    level: 0,
-    school: "Conjuration",
-    class: ["Druid", "Sorcerer", "Warlock", "Wizard"],
-    components: { verbal: true, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 16,
   },
   {
     name: "Create Food and Water",
@@ -2073,7 +1733,7 @@ export const spells: Spell[] = [
     casting_time: "1 action",
     level: 1,
     school: "Divination",
-    class: ["Bard", "Cleric", "Druid", "Paladin", "Ranger", "Ritual Caster", "Sorcerer", "Wizard"],
+    class: ["Bard", "Cleric", "Druid", "Paladin", "Ranger", "Ritual", "Sorcerer", "Wizard"],
     components: { verbal: true, somatic: true, material: false, materials: [] },
     source: "PHB",
     page: 231,
@@ -2089,7 +1749,7 @@ export const spells: Spell[] = [
     casting_time: "1 action",
     level: 1,
     school: "Divination",
-    class: ["Cleric", "Druid", "Paladin", "Ranger", "Ritual Caster"],
+    class: ["Cleric", "Druid", "Paladin", "Ranger", "Ritual"],
     components: { verbal: true, somatic: true, material: true, materials: ["a yew leaf"] },
     source: "PHB",
     page: 231,
@@ -2227,7 +1887,7 @@ export const spells: Spell[] = [
     casting_time: "1 action",
     level: 4,
     school: "Divination",
-    class: ["Cleric", "Ritual Caster"],
+    class: ["Cleric", "Ritual"],
     components: {
       verbal: true,
       somatic: true,
@@ -2300,7 +1960,7 @@ export const spells: Spell[] = [
     casting_time: "1 minute",
     level: 6,
     school: "Conjuration",
-    class: ["Ritual Caster", "Wizard"],
+    class: ["Ritual", "Wizard"],
     components: {
       verbal: true,
       somatic: true,
@@ -2384,54 +2044,6 @@ export const spells: Spell[] = [
     page: 236,
   },
   {
-    name: "Dust Devil",
-    description:
-      "<p>Choose an unoccupied 5-foot cube of air that you can see within range. An elemental force that resembles a dust devil appears in the cube and lasts for the spell's duration.</p><p>Any creature that ends its turn within 5 feet of the dust devil must make a Strength saving throw. On a failed save, the creature takes 1d8 bludgeoning damage and is pushed 10 feet away. On a successful save, the creature takes half as much damage and isn't pushed.</p><p>As a bonus action, you can move the dust devil up to 30 feet in any direction. If the dust devil moves over sand, dust, loose dirt, or small gravel, it sucks up the material and forms a 10-foot-radius cloud of debris around itself that lasts until the start of your next turn. The cloud heavily obscures its area.</p>",
-    range: "60 feet",
-    ritual: false,
-    duration: "Concentration, up to 1 minute",
-    concentration: true,
-    casting_time: "1 action",
-    level: 2,
-    school: "Conjuration",
-    class: ["Druid", "Sorcerer", "Wizard"],
-    components: { verbal: true, somatic: true, material: true, materials: ["a pinch of dust"] },
-    source: "EE PC",
-    page: 17,
-  },
-  {
-    name: "Earth Tremor",
-    description:
-      "<p>You cause a tremor in the ground within range. Each creature other than you in that area must make a Dexterity saving throw. On a failed save, a creature takes 1d6 bludgeoning damage and is knocked prone. If the ground in that area is loose earth or stone, it becomes difficult terrain until cleared, with each 5-foot-diameter portion requiring at least 1 minute to clear by hand.</p>",
-    range: "Self (10-foot radius)",
-    ritual: false,
-    duration: "Instantaneous",
-    concentration: false,
-    casting_time: "1 action",
-    level: 1,
-    school: "Evocation",
-    class: ["Bard", "Druid", "Sorcerer", "Wizard"],
-    components: { verbal: true, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 17,
-  },
-  {
-    name: "Earthbind",
-    description:
-      "<p>Choose one creature you can see within range. Yellow strips of magical energy loop around the creature. The target must succeed on a Strength saving throw, or its flying speed (if any) is reduced to 0 feet for the spell's duration. An airborne creature affected by this spell safely descends at 60 feet per round until it reaches the ground or the spell ends.</p>",
-    range: "300 feet",
-    ritual: false,
-    duration: "Concentration, up to 1 minute",
-    concentration: true,
-    casting_time: "1 action",
-    level: 2,
-    school: "Transmutation",
-    class: ["Druid", "Sorcerer", "Warlock", "Wizard"],
-    components: { verbal: true, somatic: false, material: false, materials: [] },
-    source: "EE PC",
-    page: 17,
-  },
-  {
     name: "Earthquake",
     description:
       "<p>You create a seismic disturbance at a point on the ground that you can see within range. For the duration, an intense tremor rips through the ground in a 100-foot-radius circle centered on that point and shakes creatures and structures in contact with the ground in that area.</p><p>The ground in the area becomes difficult terrain. Each creature on the ground that is concentrating must make a Constitution saving throw. On a failed save, the creature's concentration is broken.</p><p>When you cast this spell and at the end of each turn you spend concentrating on it, each creature on the ground in the area must make a Dexterity saving throw. On a failed save, the creature is knocked prone.</p><p>This spell can have additional effects depending on the terrain in the area, as determined by the GM.</p><p><strong>Fissures.</strong> Fissures open throughout the spell's area at the start of your next turn after you cast the spell. A total of 1d6 such fissures open in locations chosen by the GM. Each is 1d10 x 10 feet deep, 10 feet wide, and extends from one edge of the spell's area to the opposite side. A creature standing on a spot where a fissure opens must succeed on a Dexterity saving throw or fall in. A creature that successfully saves moves with the fissure's edge as it opens.</p><p>A fissure that opens beneath a structure causes it to automatically collapse (see below).</p><p><strong>Structures.</strong> The tremor deals 50 bludgeoning damage to any structure in contact with the ground in the area when you cast the spell and at the start of each of your turns until the spell ends. If a structure drops to 0 hit points, it collapses and potentially damages nearby creatures. A creature within half the distance of a structure's height must make a Dexterity saving throw. On a failed save, the creature takes 5d6 bludgeoning damage, is knocked prone, and is buried in the rubble, requiring a DC 20 Strength (Athletics) check as an action to escape. The GM can adjust the DC higher or lower, depending on the nature of the rubble. On a successful save, the creature takes half as much damage and doesn't fall prone or become buried.</p>",
@@ -2467,22 +2079,6 @@ export const spells: Spell[] = [
     components: { verbal: true, somatic: true, material: false, materials: [] },
     source: "PHB",
     page: 237,
-  },
-  {
-    name: "Elemental Bane",
-    description:
-      "<p>Choose one creature you can see within range, and choose one of the following damage types: acid, cold, fire, lightning, or thunder. The target must succeed on a Constitution saving throw or be affected by the spell for its duration. The first time each turn the affected target takes damage of the chosen type, the target takes an extra 2d6 damage of that type. Moreover, the target loses any resistance to that damage type until the spell ends.</p>",
-    range: "90 feet",
-    ritual: false,
-    duration: "Concentration, up to 1 minute",
-    concentration: true,
-    casting_time: "1 action",
-    level: 4,
-    school: "Transmutation",
-    class: ["Druid", "Warlock", "Wizard"],
-    components: { verbal: true, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 17,
   },
   {
     name: "Elemental Weapon",
@@ -2584,22 +2180,6 @@ export const spells: Spell[] = [
     components: { verbal: true, somatic: true, material: false, materials: [] },
     source: "PHB",
     page: 238,
-  },
-  {
-    name: "Erupting Earth",
-    description:
-      "<p>Choose a point you can see on the ground within range. A fountain of churned earth and stone erupts in a 20-foot cube centered on that point. Each creature in that area must make a Dexterity saving throw. A creature takes 3d12 bludgeoning damage on a failed save, or half as much damage on a successful one. Additionally, the ground in that area becomes difficult terrain until cleared. Each 5-foot-square portion of the area requires at least 1 minute to clear by hand.</p>",
-    range: "120 feet",
-    ritual: false,
-    duration: "Instantaneous",
-    concentration: false,
-    casting_time: "1 action",
-    level: 3,
-    school: "Transmutation",
-    class: ["Druid", "Sorcerer", "Wizard"],
-    components: { verbal: true, somatic: true, material: true, materials: ["a piece of obsidian"] },
-    source: "EE PC",
-    page: 17,
   },
   {
     name: "Etherealness",
@@ -2797,7 +2377,7 @@ export const spells: Spell[] = [
     casting_time: "1 action",
     level: 3,
     school: "Necromancy",
-    class: ["Bard", "Cleric", "Druid", "Ritual Caster", "Wizard"],
+    class: ["Bard", "Cleric", "Druid", "Ritual", "Wizard"],
     components: {
       verbal: true,
       somatic: true,
@@ -2818,7 +2398,7 @@ export const spells: Spell[] = [
     casting_time: "1 hour",
     level: 1,
     school: "Conjuration",
-    class: ["Ritual Caster", "Wizard"],
+    class: ["Ritual", "Wizard"],
     components: {
       verbal: true,
       somatic: true,
@@ -2982,22 +2562,6 @@ export const spells: Spell[] = [
     page: 242,
   },
   {
-    name: "Flame Arrows",
-    description:
-      "<p>You touch a quiver containing arrows or bolts. When a target is hit by a ranged weapon attack using a piece of ammunition drawn from the quiver, the target takes an extra 1d6 fire damage. The spell's magic ends on the piece of ammunition when it hits or misses, and the spell ends when twelve pieces of ammunition have been drawn from the quiver.</p>",
-    range: "Touch",
-    ritual: false,
-    duration: "Concentration, up to 1 hour",
-    concentration: true,
-    casting_time: "1 action",
-    level: 3,
-    school: "Transmutation",
-    class: ["Druid", "Ranger", "Sorcerer", "Wizard"],
-    components: { verbal: true, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 18,
-  },
-  {
     name: "Flame Blade",
     description:
       "<p>You evoke a fiery blade in your free hand. The blade is similar in size and shape to a scimitar, and it lasts for the duration. If you let go of the blade, it disappears, but you can evoke the blade again as a bonus action.</p><p>You can use your action to make a melee spell attack with the fiery blade. On a hit, the target takes 3d6 fire damage.</p><p>The flaming blade sheds bright light in a 10-foot radius and dim light for an additional 10 feet.</p>",
@@ -3119,7 +2683,7 @@ export const spells: Spell[] = [
     casting_time: "10 minutes",
     level: 6,
     school: "Abjuration",
-    class: ["Cleric", "Ritual Caster"],
+    class: ["Cleric", "Ritual"],
     components: {
       verbal: true,
       somatic: true,
@@ -3218,22 +2782,6 @@ export const spells: Spell[] = [
     page: 244,
   },
   {
-    name: "Frostbite",
-    description:
-      "<p>You cause numbing frost to form on one creature that you can see within range. The target must make a Constitution saving throw. On a failed save, the target takes 1d6 cold damage, and it has disadvantage on the next weapon attack roll it makes before the end of its next turn.</p><p>The spell's damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).</p>",
-    range: "60 feet",
-    ritual: false,
-    duration: "Instantaneous",
-    concentration: false,
-    casting_time: "1 action",
-    level: 0,
-    school: "Evocation",
-    class: ["Druid", "Sorcerer", "Warlock", "Wizard"],
-    components: { verbal: true, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 18,
-  },
-  {
     name: "Gaseous Form",
     description:
       "<p>You transform a willing creature you touch, along with everything it's wearing and carrying, into a misty cloud for the duration. The spell ends if the creature drops to 0 hit points. An incorporeal creature isn't affected.</p><p>While in this form, the target's only method of movement is a flying speed of 10 feet. The target can enter and occupy the space of another creature. The target has resistance to nonmagical damage, and it has advantage on Strength, Dexterity, and Constitution saving throws. The target can pass through small holes, narrow openings, and even mere cracks, though it treats liquids as though they were solid surfaces. The target can't fall and remains hovering in the air even when stunned or otherwise incapacitated.</p><p>While in the form of a misty cloud, the target can't talk or manipulate objects, and any objects it was carrying or holding can't be dropped, used, or otherwise interacted with. The target can't attack or cast spells.</p>",
@@ -3302,7 +2850,7 @@ export const spells: Spell[] = [
     casting_time: "1 action",
     level: 2,
     school: "Necromancy",
-    class: ["Cleric", "Ritual Caster", "Wizard"],
+    class: ["Cleric", "Ritual", "Wizard"],
     components: {
       verbal: true,
       somatic: true,
@@ -3485,22 +3033,6 @@ export const spells: Spell[] = [
     page: 246,
   },
   {
-    name: "Green-Flame Blade",
-    description:
-      "<p>As part of the action used the cast this spell, you must make a melee attack with a weapon against one create within the spell's range otherwise the spell fails. On a hit, the target suffers the attack's normal effects, and green fire leaps from the target to a different creature of your choice that you can see within 5 feet of it. The second creature take fire damage equal to your spellcasting modifier.</p><p>This spell's damage increases when you reach higher levels. At 5th level, the melee attack deals an extra 1d8 fire damage to the target, and the fire damage to the second creature increases to 18d + your spellcasting ability modifier. Both damage rolls increase by 1d8 at 11th level and 17th level.</p>",
-    range: "5 feet",
-    ritual: false,
-    duration: "Instantaneous",
-    concentration: false,
-    casting_time: "1 action",
-    level: 0,
-    school: "Evocation",
-    class: ["Sorcerer", "Warlock", "Wizard"],
-    components: { verbal: true, somatic: false, material: true, materials: ["a weapon"] },
-    source: "SCAG",
-    page: 143,
-  },
-  {
     name: "Guardian of Faith",
     description:
       "<p>A Large spectral guardian appears and hovers for the duration in an unoccupied space of your choice that you can see within range. The guardian occupies that space and is indistinct except for a gleaming sword and shield emblazoned with the symbol of your deity.</p><p>Any creature hostile to you that moves to a space within 10 feet of the guardian for the first time on a turn must succeed on a Dexterity saving throw. The creature takes 20 radiant damage on a failed save, or half as much damage on a successful one. The guardian vanishes when it has dealt a total of 60 damage.</p>",
@@ -3574,22 +3106,6 @@ export const spells: Spell[] = [
     components: { verbal: true, somatic: true, material: false, materials: [] },
     source: "PHB",
     page: 248,
-  },
-  {
-    name: "Gust",
-    description:
-      "<p>You seize the air and compel it to create one of the following effects at a point you can see within range:</p><ul><li><p>One Medium or smaller creature that you choose must succeed on a Strength saving throw or be pushed up to 5 feet away from you.</p></li><li><p>You create a small blast of air capable of moving one object that is neither held nor carried and that weighs no more than 5 pounds. The object is pushed up to 10 feet away from you. It isn't pushed with enough force to cause damage.</p></li><li><p>You create a harmless sensory affect using air, such as causing leaves to rustle, wind to slam shutters shut, or your clothing to ripple in a breeze.</p></li></ul>",
-    range: "30 feet",
-    ritual: false,
-    duration: "Instantaneous",
-    concentration: false,
-    casting_time: "1 action",
-    level: 0,
-    school: "Transmutation",
-    class: ["Druid", "Sorcerer", "Wizard"],
-    components: { verbal: true, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 19,
   },
   {
     name: "Gust of Wind",
@@ -3975,27 +3491,6 @@ export const spells: Spell[] = [
     page: 252,
   },
   {
-    name: "Ice Knife",
-    description:
-      "<p>You create a shard of ice and fling it at one creature within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 piercing damage. Hit or miss, the shard then explodes. The target and each creature within 5 feet of it must succeed on a Dexterity saving throw or take 2d6 cold damage.</p>",
-    range: "60 feet",
-    ritual: false,
-    duration: "Instantaneous",
-    concentration: false,
-    casting_time: "1 action",
-    level: 1,
-    school: "Conjuration",
-    class: ["Druid", "Sorcerer", "Wizard"],
-    components: {
-      verbal: false,
-      somatic: true,
-      material: true,
-      materials: ["a drop of water or piece of ice"],
-    },
-    source: "EE PC",
-    page: 19,
-  },
-  {
     name: "Ice Storm",
     description:
       "<p>A hail of rock-hard ice pounds to the ground in a 20- foot-radius, 40-foot-high cylinder centered on a point within range. Each creature in the cylinder must make a Dexterity saving throw. A creature takes 2d8 bludgeoning damage and 4d6 cold damage on a failed save, or half as much damage on a successful one.</p><p>Hailstones turn the storm's area of effect into difficult terrain until the end of your next turn.</p>",
@@ -4027,7 +3522,7 @@ export const spells: Spell[] = [
     casting_time: "1 minute",
     level: 1,
     school: "Divination",
-    class: ["Bard", "Ritual Caster", "Wizard"],
+    class: ["Bard", "Ritual", "Wizard"],
     components: {
       verbal: true,
       somatic: true,
@@ -4048,7 +3543,7 @@ export const spells: Spell[] = [
     casting_time: "1 minute",
     level: 1,
     school: "Illusion",
-    class: ["Bard", "Ritual Caster", "Warlock", "Wizard"],
+    class: ["Bard", "Ritual", "Warlock", "Wizard"],
     components: {
       verbal: false,
       somatic: true,
@@ -4057,22 +3552,6 @@ export const spells: Spell[] = [
     },
     source: "PHB",
     page: 252,
-  },
-  {
-    name: "Immolation",
-    description:
-      "<p>Flames wreathe one creature you can see within range. The target must make a Dexterity saving throw. It takes 8d6 fire damage on a failed save, or half as much damage on a successful one. On a failed save, the target also burns for the spell's duration. The burning target sheds bright light in a 30-foot radius and dim light for an additional 30 feet. At the end of each of its turns, the target repeats the saving throw. It takes 4d6 fire damage on a failed save, and the spell ends on a successful one. These magical flames can't be extinguished by nonmagical means.</p><p>If damage from this spell kills a target, the target is turned to ash.</p>",
-    range: "90 feet",
-    ritual: false,
-    duration: "Concentration, up to 1 minute",
-    concentration: true,
-    casting_time: "1 action",
-    level: 5,
-    school: "Evocation",
-    class: ["Sorcerer", "Wizard"],
-    components: { verbal: true, somatic: false, material: false, materials: [] },
-    source: "EE PC",
-    page: 19,
   },
   {
     name: "Imprisonment",
@@ -4151,70 +3630,6 @@ export const spells: Spell[] = [
     },
     source: "PHB",
     page: 254,
-  },
-  {
-    name: "Investiture of Flame",
-    description:
-      "<p>Flames race across your body, shedding bright light in a 30-foot radius and dim light for an additional 30 feet for the spell's duration. The flames don't harm you. Until the spell ends, you gain the following benefits:</p><ul><li><p>You are immune to fire damage and have resistance to cold damage.</p></li><li><p>Any creature that moves within 5 feet of you for the first time on a turn or ends its turn there takes 1d10 fire damage.</p></li><li><p>You can use your action to create a line of fire 15 feet long and 5 feet wide extending from you in a direction you choose. Each creature in the line must make a Dexterity saving throw. A creature takes 4d8 fire damage on a failed save, or half as much damage on a successful one.</p></li></ul>",
-    range: "Self",
-    ritual: false,
-    duration: "Concentration, up to 10 minutes",
-    concentration: true,
-    casting_time: "1 action",
-    level: 6,
-    school: "Transmutation",
-    class: ["Druid", "Sorcerer", "Warlock", "Wizard"],
-    components: { verbal: true, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 19,
-  },
-  {
-    name: "Investiture of Ice",
-    description:
-      "<p>Until the spell ends, ice rimes your body, and you gain the following benefits:</p><ul><li><p>You are immune to cold damage and have resistance to fire damage.</p></li><li><p>You can move across difficult terrain created by ice or snow without spending extra movement.</p></li><li><p>The ground in a 10-foot radius around you is icy and is difficult terrain for creatures other than you. The radius moves with you.</p></li><li><p>You can use your action to create a 15-foot cone of freezing wind extending from your outstretched hand in a direction you choose. Each creature in the cone must make a Constitution saving throw. A creature takes 4d6 cold damage on a failed save, or half as much damage on a successful one. A creature that fails its save against this effect has its speed halved until the start of your next turn.</p></li></ul>",
-    range: "Self",
-    ritual: false,
-    duration: "Concentration, up to 10 minutes",
-    concentration: true,
-    casting_time: "1 action",
-    level: 6,
-    school: "Transmutation",
-    class: ["Druid", "Sorcerer", "Warlock", "Wizard"],
-    components: { verbal: true, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 19,
-  },
-  {
-    name: "Investiture of Stone",
-    description:
-      "<p>Until the spell ends, bits of rock spread across your body, and you gain the following benefits:</p><ul><li><p>You have resistance to bludgeoning, piercing, and slashing damage from nonmagical attacks.</p></li><li><p>You can use your action to create a small earthquake on the ground in a 15-foot radius centered on you. Other creatures on that ground must succeed on a Dexterity saving throw or be knocked prone.</p></li><li><p>You can move across difficult terrain made of earth or stone without spending extra movement. You can move through solid earth or stone as if it was air and without destabilizing it, but you can't end your movement there. If you do so, you are ejected to the nearest unoccupied space, this spell ends, and you are stunned until the end of your next turn.</p></li></ul>",
-    range: "Self",
-    ritual: false,
-    duration: "Concentration, up to 10 minutes",
-    concentration: true,
-    casting_time: "1 action",
-    level: 6,
-    school: "Transmutation",
-    class: ["Druid", "Sorcerer", "Warlock", "Wizard"],
-    components: { verbal: true, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 19,
-  },
-  {
-    name: "Investiture of Wind",
-    description:
-      "<p>Until the spell ends, wind whirls around you, and you gain the following benefits:</p><ul><li><p>Ranged weapon attacks made against you have disadvantage on the attack roll.</p></li><li><p>You gain a flying speed of 60 feet. If you are still flying when the spell ends, you fall, unless you can somehow prevent it.</p></li><li><p>You can use your action to create a 15-foot cube of swirling wind centered on a point you can see within 60 feet of you. Each creature in that area must make a Constitution saving throw. A creature takes 2d10 bludgeoning damage on a failed save, or half as much damage on a successful one. If a Large or smaller creature fails the save, that creature is also pushed up to 10 feet away from the center of the cube.</p></li></ul>",
-    range: "Self",
-    ritual: false,
-    duration: "Concentration, up to 10 minutes",
-    concentration: true,
-    casting_time: "1 action",
-    level: 6,
-    school: "Transmutation",
-    class: ["Druid", "Sorcerer", "Warlock", "Wizard"],
-    components: { verbal: true, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 20,
   },
   {
     name: "Invisibility",
@@ -4334,7 +3749,7 @@ export const spells: Spell[] = [
     casting_time: "1 minute",
     level: 3,
     school: "Evocation",
-    class: ["Bard", "Ritual Caster", "Wizard"],
+    class: ["Bard", "Ritual", "Wizard"],
     components: {
       verbal: true,
       somatic: true,
@@ -4442,22 +3857,6 @@ export const spells: Spell[] = [
     page: 255,
   },
   {
-    name: "Lightning Lure",
-    description:
-      "<p>You create a lash of lightning energy that strikes at one creature of your choice that you can see within range. The target must succeed on a Strength saving throw or be pulled up to 10 feet in a straight line toward you and then take 1d8 lightning damage if it is within 5 feet of you.</p><p>This spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8).</p>",
-    range: "15 feet",
-    ritual: false,
-    duration: "Instantaneous",
-    concentration: false,
-    casting_time: "1 action",
-    level: 0,
-    school: "Evocation",
-    class: ["Sorcerer", "Warlock", "Wizard"],
-    components: { verbal: true, somatic: false, material: false, materials: [] },
-    source: "SCAG",
-    page: 143,
-  },
-  {
     name: "Locate Animals or Plants",
     description:
       "<p>Describe or name a specific kind of beast or plant. Concentrating on the voice of nature in your surroundings, you learn the direction and distance to the closest creature or plant of that kind within 5 miles, if any are present.</p>",
@@ -4468,7 +3867,7 @@ export const spells: Spell[] = [
     casting_time: "1 action",
     level: 2,
     school: "Divination",
-    class: ["Bard", "Druid", "Ranger", "Ritual Caster"],
+    class: ["Bard", "Druid", "Ranger", "Ritual"],
     components: {
       verbal: true,
       somatic: true,
@@ -4530,27 +3929,6 @@ export const spells: Spell[] = [
     components: { verbal: true, somatic: true, material: true, materials: ["a pinch of dirt"] },
     source: "PHB",
     page: 256,
-  },
-  {
-    name: "Maelstrom",
-    description:
-      "<p>A swirling mass of 5-foot-deep water appears in a 30-foot radius centered on a point you can see within range. The point must be on the ground or in a body of water. Until the spell ends, that area is difficult terrain, and any creature that starts its turn there must succeed on a Strength saving throw or take 6d6 bludgeoning damage and be pulled 10 feet toward the center.</p>",
-    range: "120 feet",
-    ritual: false,
-    duration: "Concentration, up to 1 minute",
-    concentration: true,
-    casting_time: "1 action",
-    level: 5,
-    school: "Evocation",
-    class: ["Druid"],
-    components: {
-      verbal: true,
-      somatic: true,
-      material: true,
-      materials: ["paper or leaf in the shape of a funnel"],
-    },
-    source: "EE PC",
-    page: 20,
   },
   {
     name: "Mage Armor",
@@ -4666,7 +4044,7 @@ export const spells: Spell[] = [
     casting_time: "1 minute",
     level: 2,
     school: "Illusion",
-    class: ["Bard", "Ritual Caster", "Wizard"],
+    class: ["Bard", "Ritual", "Wizard"],
     components: {
       verbal: true,
       somatic: true,
@@ -4675,22 +4053,6 @@ export const spells: Spell[] = [
     },
     source: "PHB",
     page: 257,
-  },
-  {
-    name: "Magic Stone",
-    description:
-      "<p>You touch one to three pebbles and imbue them with magic. You or someone else can make a ranged spell attack with one of the pebbles by throwing it or hurling it with a sling. If thrown, it has a range of 60 feet. If someone else attacks with the pebble, that attacker adds your spellcasting ability modifier, not the attacker's, to the attack roll. On a hit, the target takes bludgeoning damage equal to 1d6 + your spellcasting ability modifier. Hit or miss, the spell then ends on the stone.</p><p>If you cast this spell again, the spell ends early on any pebbles still affected by it.</p>",
-    range: "Touch",
-    ritual: false,
-    duration: "1 minute",
-    concentration: false,
-    casting_time: "1 bonus action",
-    level: 0,
-    school: "Transmutation",
-    class: ["Druid", "Warlock"],
-    components: { verbal: true, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 20,
   },
   {
     name: "Magic Weapon",
@@ -4794,27 +4156,6 @@ export const spells: Spell[] = [
     page: 258,
   },
   {
-    name: "Maximilian's Earthen Grasp",
-    description:
-      "<p>You choose a 5-foot-square unoccupied space on the ground that you can see within range. A Medium hand made from compacted soil rises there and reaches for one creature you can see within 5 feet of it. The target must make a Strength saving throw. On a failed save, the target takes 2d6 bludgeoning damage and is restrained for the spell's duration.</p><p>As an action, you can cause the hand to crush the restrained target, who must make a Strength saving throw. It takes 2d6 bludgeoning damage on a failed save, or half as much damage on a successful one.</p><p>To break out, the restrained target can make a Strength check against your spell save DC. On a success, the target escapes and is no longer restrained by the hand.</p><p>As an action, you can cause the hand to reach for a different creature or to move to a different unoccupied space within range. The hand releases a restrained target if you do either.</p>",
-    range: "30 feet",
-    ritual: false,
-    duration: "Concentration, up to 1 minute",
-    concentration: true,
-    casting_time: "1 action",
-    level: 2,
-    school: "Transmutation",
-    class: ["Sorcerer", "Wizard"],
-    components: {
-      verbal: true,
-      somatic: true,
-      material: true,
-      materials: ["a miniature hand sculpted from clay"],
-    },
-    source: "EE PC",
-    page: 20,
-  },
-  {
     name: "Maze",
     description:
       "<p>You banish a creature that you can see within range into a labyrinthine demiplane. The target remains there for the duration or until it escapes the maze.</p><p>The target can use its action to attempt to escape. When it does so, it makes a DC 20 Intelligence check. If it succeeds, it escapes, and the spell ends (a minotaur or goristro demon automatically succeeds).</p><p>When the spell ends, the target reappears in the space it left or, if that space is occupied, in the nearest unoccupied space.</p>",
@@ -4841,7 +4182,7 @@ export const spells: Spell[] = [
     casting_time: "1 action",
     level: 3,
     school: "Transmutation",
-    class: ["Cleric", "Druid", "Ritual Caster"],
+    class: ["Cleric", "Druid", "Ritual"],
     components: { verbal: true, somatic: true, material: false, materials: [] },
     source: "PHB",
     page: 259,
@@ -4866,27 +4207,6 @@ export const spells: Spell[] = [
     },
     source: "PHB",
     page: 259,
-  },
-  {
-    name: "Melf's Minute Meteors",
-    description:
-      "<p>You create six tiny meteors in your space. They float in the air and orbit you for the spell's duration. When you cast the spell -- and as a bonus action on each of your turns thereafter -- you can expend one or two of the meteors, sending them streaking toward a point or points you choose within 120 feet of you. Once a meteor reaches its destination or impacts against a solid surface, the meteor explodes. Each creature within 5 feet of the point where the meteor explodes must make a Dexterity saving throw. A creature takes 2d6 fire damage on a failed save, or half as much damage on a successful one.</p>",
-    range: "Self",
-    ritual: false,
-    duration: "Concentration, up to 10 minutes",
-    concentration: true,
-    casting_time: "1 action",
-    level: 3,
-    school: "Transmutation",
-    class: ["Sorcerer", "Wizard"],
-    components: {
-      verbal: true,
-      somatic: true,
-      material: true,
-      materials: ["niter", "sulfur", "and pine tar formed into a bead"],
-    },
-    source: "EE PC",
-    page: 20,
   },
   {
     name: "Mending",
@@ -5052,22 +4372,6 @@ export const spells: Spell[] = [
     components: { verbal: true, somatic: true, material: false, materials: [] },
     source: "PHB",
     page: 261,
-  },
-  {
-    name: "Mold Earth",
-    description:
-      "<p>You choose a portion of dirt or stone that you can see within range and that fits within a 5-foot cube. You manipulate it in one of the following ways:</p><ul><li><p>If you target an area of loose earth, you can instantaneously excavate it, move it along the ground, and deposit it up to 5 feet away. This movement doesn't have enough force to cause damage.</p></li><li><p>You cause shapes, colors, or both to appear on the dirt or stone, spelling out words, creating images, or shaping patterns. The changes last for 1 hour.</p></li><li><p>If the dirt or stone you target is on the ground, you cause it to become difficult terrain. Alternatively, you can cause the ground to become normal terrain if it is already difficult terrain. This change lasts for 1 hour.</p></li></ul><p>If you cast this spell multiple times, you can have no more than two of its non-instantaneous effects active at a time, and you can dismiss such an effect as an action.</p>",
-    range: "30 feet",
-    ritual: false,
-    duration: "Instantaneous/1 hour",
-    concentration: false,
-    casting_time: "1 action",
-    level: 0,
-    school: "Transmutation",
-    class: ["Druid", "Sorcerer", "Wizard"],
-    components: { verbal: false, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 21,
   },
   {
     name: "Moonbeam",
@@ -5405,7 +4709,7 @@ export const spells: Spell[] = [
     casting_time: "1 minute",
     level: 3,
     school: "Illusion",
-    class: ["Ritual Caster", "Wizard"],
+    class: ["Ritual", "Wizard"],
     components: { verbal: true, somatic: true, material: false, materials: [] },
     source: "PHB",
     page: 265,
@@ -5606,22 +4910,6 @@ export const spells: Spell[] = [
     page: 267,
   },
   {
-    name: "Primordial Ward",
-    description:
-      "<p>You have resistance to acid, cold, fire, lightning, and thunder damage for the spell's duration.</p><p>When you take damage of one of those types, you can use your reaction to gain immunity to that type of damage, including against the triggering damage.</p><p>If you do so, the resistances end, and you have the immunity until the end of your next turn, at which time the spell ends.</p>",
-    range: "Self",
-    ritual: false,
-    duration: "Concentration, up to 1 minute",
-    concentration: true,
-    casting_time: "1 action",
-    level: 6,
-    school: "Abjuration",
-    class: ["Druid"],
-    components: { verbal: true, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 21,
-  },
-  {
     name: "Prismatic Spray",
     description:
       "<p>Eight multicolored rays of light flash from your hand. Each ray is a different color and has a different power and purpose. Each creature in a 60-foot cone must make a Dexterity saving throw. For each target, roll a d8 to determine which color ray affects it.</p><p><strong>1. Red.</strong> The target takes 10d6 fire damage on a failed save, or half as much damage on a successful one.</p><p><strong>2. Orange.</strong> The target takes 10d6 acid damage on a failed save, or half as much damage on a successful one.</p><p><strong>3. Yellow.</strong> The target takes 10d6 lightning damage on a failed save, or half as much damage on a successful one.</p><p><strong>4. Green.</strong> The target takes 10d6 poison damage on a failed save, or half as much damage on a successful one.</p><p><strong>5. Blue.</strong> The target takes 10d6 cold damage on a failed save, or half as much damage on a successful one.</p><p><strong>6. Indigo.</strong> On a failed save, the target is restrained. It must then make a Constitution saving throw at the end of each of its turns. If it successfully saves three times, the spell ends. If it fails its save three times, it permanently turns to stone and is subjected to the petrified condition. The successes and failures don't need to be consecutive; keep track of both until the target collects three of a kind.</p><p><strong>7. Violet.</strong> On a failed save, the target is blinded. It must then make a Wisdom saving throw at the start of your next turn. A successful save ends the blindness. If it fails that save, the creature is transported to another plane of existence of the GM's choosing and is no longer blinded. (Typically, a creature that is on a plane that isn't its home plane is banished home, while other creatures are usually cast into the Astral or Ethereal planes.) </p><p><strong>8. Special.</strong> The target is struck by two rays. Roll twice more, rerolling any 8.</p>",
@@ -5775,26 +5063,10 @@ export const spells: Spell[] = [
     casting_time: "1 action",
     level: 1,
     school: "Transmutation",
-    class: ["Cleric", "Druid", "Paladin", "Ritual Caster"],
+    class: ["Cleric", "Druid", "Paladin", "Ritual"],
     components: { verbal: true, somatic: true, material: false, materials: [] },
     source: "PHB",
     page: 270,
-  },
-  {
-    name: "Pyrotechnics",
-    description:
-      "<p>Choose an area of nonmagical flame that you can see and that fits within a 5-foot cube within range. You can extinguish the fire in that area, and you create either fireworks or smoke when you do so.</p><p><span><strong>Fireworks</strong><em><strong>.</strong></em> </span>The target explodes with a dazzling display of colors. Each creature within 10 feet of the target must succeed on a Constitution saving throw or become blinded until the end of your next turn.</p><p><span><strong>Smoke.</strong> </span>Thick black smoke spreads out from the target in a 20-foot radius, moving around corners. The area of the smoke is heavily obscured. The smoke persists for 1 minute or until a strong wind disperses it.</p>",
-    range: "60 feet",
-    ritual: false,
-    duration: "Instantaneous",
-    concentration: false,
-    casting_time: "1 action",
-    level: 2,
-    school: "Transmutation",
-    class: ["Bard", "Sorcerer", "Wizard"],
-    components: { verbal: true, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 21,
   },
   {
     name: "Raise Dead",
@@ -5828,7 +5100,7 @@ export const spells: Spell[] = [
     casting_time: "1 action",
     level: 5,
     school: "Divination",
-    class: ["Ritual Caster", "Wizard"],
+    class: ["Ritual", "Wizard"],
     components: {
       verbal: true,
       somatic: true,
@@ -6225,22 +5497,6 @@ export const spells: Spell[] = [
     page: 274,
   },
   {
-    name: "Shape Water",
-    description:
-      "<p>You choose an area of water that you can see within range and that fits within a 5-foot cube. You manipulate it in one of the following ways:</p><ul><li><p>You instantaneously move or otherwise change the flow of the water as you direct, up to 5 feet in any direction. This movement doesn't have enough force to cause damage.</p></li><li><p>You cause the water to form into simple shapes and animate at your direction. This change lasts for 1 hour.</p></li><li><p>You change the water's color or opacity. The water must be changed in the same way throughout. This change lasts for 1 hour.</p></li><li><p>You freeze the water, provided that there are no creatures in it. The water unfreezes in 1 hour.</p></li></ul><p>If you cast this spell multiple times, you can have no more than two of its non-instantaneous effects active at a time, and you can dismiss such an effect as an action.</p>",
-    range: "30 feet",
-    ritual: false,
-    duration: "Instantaneous/1 hour",
-    concentration: false,
-    casting_time: "1 action",
-    level: 0,
-    school: "Transmutation",
-    class: ["Druid", "Sorcerer", "Wizard"],
-    components: { verbal: false, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 21,
-  },
-  {
     name: "Shapechange",
     description:
       "<p>You assume the form of a different creature for the duration. The new form can be of any creature with a challenge rating equal to your level or lower. The creature can't be a construct or an undead, and you must have seen the sort of creature at least once. You transform into an average example of that creature, one without any class levels or the Spellcasting trait.</p><p>Your game statistics are replaced by the statistics of the chosen creature, though you retain your alignment and Intelligence, Wisdom, and Charisma scores. You also retain all of your skill and saving throw proficiencies, in addition to gaining those of the creature. If the creature has the same proficiency as you and the bonus listed in its statistics is higher than yours, use the creature's bonus in place of yours. You can't use any legendary actions or lair actions of the new form.</p><p>You assume the hit points and Hit Dice of the new form. When you revert to your normal form, you return to the number of hit points you had before you transformed. If you revert as a result of dropping to 0 hit points, any excess damage carries over to your normal form. As long as the excess damage doesn't reduce your normal form to 0 hit points, you aren't knocked unconscious.</p><p>You retain the benefit of any features from your class, race, or other source and can use them, provided that your new form is physically capable of doing so. You can't use any special senses you have (for example, darkvision) unless your new form also has that sense. You can only speak if the creature can normally speak.</p><p>When you transform, you choose whether your equipment falls to the ground, merges into the new form, or is worn by it. Worn equipment functions as normal. The GM determines whether it is practical for the new form to wear a piece of equipment, based on the creature's shape and size. Your equipment doesn't change shape or size to match the new form, and any equipment that the new form can't wear must either fall to the ground or merge into your new form. Equipment that merges has no effect in that state.</p><p>During this spell's duration, you can use your action to assume a different form following the same restrictions and rules for the original form, with one exception: if your new form has more hit points than your current one, your hit points remain at their current value.</p>",
@@ -6365,7 +5621,7 @@ export const spells: Spell[] = [
     casting_time: "1 action",
     level: 2,
     school: "Illusion",
-    class: ["Bard", "Cleric", "Ranger", "Ritual Caster"],
+    class: ["Bard", "Cleric", "Ranger", "Ritual"],
     components: { verbal: true, somatic: true, material: false, materials: [] },
     source: "PHB",
     page: 275,
@@ -6411,22 +5667,6 @@ export const spells: Spell[] = [
     },
     source: "PHB",
     page: 276,
-  },
-  {
-    name: "Skywrite",
-    description:
-      "<p>You cause up to ten words to form in a part of the sky you can see. The words appear to be made of cloud and remain in place for the spell's duration. The words dissipate when the spell ends. A strong wind can disperse the clouds and end the spell early.</p>",
-    range: "Sight",
-    ritual: true,
-    duration: "Concentration, up to 1 hour",
-    concentration: true,
-    casting_time: "1 action",
-    level: 2,
-    school: "Transmutation",
-    class: ["Bard", "Druid", "Ritual Caster", "Wizard"],
-    components: { verbal: true, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 22,
   },
   {
     name: "Sleep",
@@ -6487,27 +5727,6 @@ export const spells: Spell[] = [
     page: 277,
   },
   {
-    name: "Snilloc's Snowball Swarm",
-    description:
-      "<p>A flurry of magic snowballs erupts from a point you choose within range. Each creature in a 5-foot-radius sphere centered on that point must make a Dexterity saving throw. A creature takes 3d6 cold damage on a failed save, or half as much damage on a successful one.</p>",
-    range: "90 feet",
-    ritual: false,
-    duration: "Concentration, up to 1 hour",
-    concentration: true,
-    casting_time: "1 action",
-    level: 2,
-    school: "Evocation",
-    class: ["Sorcerer", "Wizard"],
-    components: {
-      verbal: true,
-      somatic: true,
-      material: true,
-      materials: ["a piece of ice or a small white rock chip"],
-    },
-    source: "EE PC",
-    page: 22,
-  },
-  {
     name: "Spare the Dying",
     description:
       "<p>You touch a living creature that has 0 hit points. The creature becomes stable. This spell has no effect on undead or constructs.</p>",
@@ -6534,7 +5753,7 @@ export const spells: Spell[] = [
     casting_time: "1 action",
     level: 1,
     school: "Divination",
-    class: ["Bard", "Druid", "Ranger", "Ritual Caster"],
+    class: ["Bard", "Druid", "Ranger", "Ritual"],
     components: { verbal: true, somatic: true, material: false, materials: [] },
     source: "PHB",
     page: 277,
@@ -6741,22 +5960,6 @@ export const spells: Spell[] = [
     page: 279,
   },
   {
-    name: "Storm Sphere",
-    description:
-      "<p>A 20-foot-radius sphere of whirling air springs into existence centered on a point you choose within range. The sphere remains for the spell's duration. Each creature in the sphere when it appears or that ends its turn there must succeed on a Strength saving throw or take 2d6 bludgeoning damage. The sphere's space is difficult terrain.</p><p>Until the spell ends, you can use a bonus action on each of your turns to cause a bolt of lightning to leap from the center of the sphere toward one creature you choose within 60 feet of the center. Make a ranged spell attack. You have advantage on the attack roll if the target is in the sphere. On a hit, the target takes 4d6 lightning damage.</p><p>Creatures within 30 feet of the sphere have disadvantage on Wisdom (Perception) checks made to listen.</p>",
-    range: "150 feet",
-    ritual: false,
-    duration: "Concentration, up to 1 minute",
-    concentration: true,
-    casting_time: "1 action",
-    level: 4,
-    school: "Evocation",
-    class: ["Sorcerer", "Wizard"],
-    components: { verbal: true, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 22,
-  },
-  {
     name: "Suggestion",
     description:
       "<p>You suggest a course of activity (limited to a sentence or two) and magically influence a creature you can see within range that can hear and understand you. Creatures that can't be charmed are immune to this effect. The suggestion must be worded in such a manner as to make the course of action sound reasonable. Asking the creature to stab itself, throw itself onto a spear, immolate itself, or do some other obviously harmful act ends the spell.</p><p>The target must make a Wisdom saving throw. On a failed save, it pursues the course of action you described to the best of its ability. The suggested course of action can continue for the entire duration. If the suggested activity can be completed in a shorter time, the spell ends when the subject finishes what it was asked to do.</p><p>You can also specify conditions that will trigger a special activity during the duration. For example, you might suggest that a knight give her warhorse to the first beggar she meets. If the condition isn't met before the spell expires, the activity isn't performed.</p><p>If you or any of your companions damage the target, the spell ends.</p>",
@@ -6834,22 +6037,6 @@ export const spells: Spell[] = [
     },
     source: "PHB",
     page: 279,
-  },
-  {
-    name: "Sword Burst",
-    description:
-      "<p>You create a momentary circle of spectral blades that sweep around you. Each creature within range, other than you, must succeed on a Dexterity saving throw or take 1d6 force damage.</p><p>This spell's damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).</p>",
-    range: "5 feet",
-    ritual: false,
-    duration: "Instantaneous",
-    concentration: false,
-    casting_time: "1 action",
-    level: 0,
-    school: "Conjuration",
-    class: ["Sorcerer", "Warlock", "Wizard"],
-    components: { verbal: true, somatic: false, material: false, materials: [] },
-    source: "SCAG",
-    page: 143,
   },
   {
     name: "Symbol",
@@ -6986,7 +6173,7 @@ export const spells: Spell[] = [
     casting_time: "1 action",
     level: 1,
     school: "Conjuration",
-    class: ["Ritual Caster", "Wizard"],
+    class: ["Ritual", "Wizard"],
     components: { verbal: true, somatic: true, material: true, materials: ["a drop of mercury"] },
     source: "PHB",
     page: 282,
@@ -7045,22 +6232,6 @@ export const spells: Spell[] = [
     page: 282,
   },
   {
-    name: "Thunderclap",
-    description:
-      "<p>You create a burst of thunderous sound that can be heard up to 100 feet away. Each creature within range, other than you, must succeed on a Constitution saving throw or take 1d6 thunder damage.</p><p>The spell's damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).</p>",
-    range: "Self (5-foot radius)",
-    ritual: false,
-    duration: "Instantaneous",
-    concentration: false,
-    casting_time: "1 action",
-    level: 0,
-    school: "Evocation",
-    class: ["Bard", "Druid", "Sorcerer", "Warlock", "Wizard"],
-    components: { verbal: false, somatic: true, material: false, materials: [] },
-    source: "EE PC",
-    page: 22,
-  },
-  {
     name: "Thunderwave",
     description:
       "<p>A wave of thunderous force sweeps out from you. Each creature in a 15-foot cube originating from you must make a Constitution saving throw. On a failed save, a creature takes 2d8 thunder damage and is pushed 10 feet away from you. On a successful save, the creature takes half as much damage and isn't pushed.</p><p>In addition, unsecured objects that are completely within the area of effect are automatically pushed 10 feet away from you by the spell's effect, and the spell emits a thunderous boom audible out to 300 feet.</p>",
@@ -7075,22 +6246,6 @@ export const spells: Spell[] = [
     components: { verbal: true, somatic: true, material: false, materials: [] },
     source: "PHB",
     page: 282,
-  },
-  {
-    name: "Tidal Wave",
-    description:
-      "<p>You conjure up a wave of water that crashes down on an area within range. The area can be up to 30 feet long, up to 10 feet wide, and up to 10 feet tall. Each creature in that area must make a Dexterity saving throw. On a failed save, a creature takes 4d8 bludgeoning damage and is knocked prone. On a successful save, a creature takes half as much damage and isn't knocked prone. The water then spreads out across the ground in all directions, extinguishing unprotected flames in its area and within 30 feet of it, and then it vanishes.</p>",
-    range: "120 feet",
-    ritual: false,
-    duration: "Instantaneous",
-    concentration: false,
-    casting_time: "1 action",
-    level: 3,
-    school: "Conjuration",
-    class: ["Druid", "Wizard"],
-    components: { verbal: true, somatic: true, material: true, materials: ["a drop of water"] },
-    source: "EE PC",
-    page: 22,
   },
   {
     name: "Time Stop",
@@ -7128,22 +6283,6 @@ export const spells: Spell[] = [
     },
     source: "PHB",
     page: 283,
-  },
-  {
-    name: "Transmute Rock",
-    description:
-      "<p>You choose an area of stone or mud that you can see that fits within a 40-foot cube and is within range, and choose one of the following effects.</p><p><span><strong>Transmute Rock to Mud.</strong> </span>Nonmagical rock of any sort in the area becomes an equal volume of thick, flowing mud that remains for the spell's duration.</p><p>The ground in the spell's area becomes muddy enough that creatures can sink into it. Each foot that a creature moves through the mud costs 4 feet of movement, and any creature on the ground when you cast the spell must make a Strength saving throw. A creature must also make the saving throw when it moves into the area for the first time on a turn or ends its turn there. On a failed save, a creature sinks into the mud and is restrained, though it can use an action to end the restrained condition on itself by pulling itself free of the mud.</p><p>If you cast the spell on a ceiling, the mud falls. Any creature under the mud when it falls must make a Dexterity saving throw. A creature takes 4d8 bludgeoning damage on a failed save, or half as much damage on a successful one.</p><p><strong><span>Transmute Mud to Rock. </span></strong>Nonmagical mud or quicksand in the area no more than 10 feet deep transforms into soft stone for the spell's duration. Any creature in the mud when it transforms must make a Dexterity saving throw. On a successful save, a creature is shunted safely to the surface in an unoccupied space. On a failed save, a creature becomes restrained by the rock. A restrained creature, or another creature within reach, can use an action to try to break the rock by succeeding on a DC 20 Strength check or by dealing damage to it. The rock has AC 15 and 25 hit points, and it is immune to poison and psychic damage.</p>",
-    range: "120 feet",
-    ritual: false,
-    duration: "Instantaneous",
-    concentration: false,
-    casting_time: "1 action",
-    level: 5,
-    school: "Transmutation",
-    class: ["Druid", "Wizard"],
-    components: { verbal: true, somatic: true, material: true, materials: ["clay and water"] },
-    source: "EE PC",
-    page: 22,
   },
   {
     name: "Transport via Plants",
@@ -7306,7 +6445,7 @@ export const spells: Spell[] = [
     casting_time: "1 action",
     level: 1,
     school: "Conjuration",
-    class: ["Bard", "Ritual Caster", "Warlock", "Wizard"],
+    class: ["Bard", "Ritual", "Warlock", "Wizard"],
     components: {
       verbal: true,
       somatic: true,
@@ -7347,27 +6486,6 @@ export const spells: Spell[] = [
     components: { verbal: true, somatic: false, material: false, materials: [] },
     source: "PHB",
     page: 285,
-  },
-  {
-    name: "Vitriolic Sphere",
-    description:
-      "<p>You point at a location within range, and a glowing, 1-foot-diameter ball of emerald acid streaks there and explodes in a 20-foot-radius sphere. Each creature in that area must make a Dexterity saving throw. On a failed save, a creature takes 10d4 acid damage and another 5d4 acid damage at the end of its next turn. On a successful save, a creature takes half the initial damage and no damage at the end of its next turn.</p>",
-    range: "150 feet",
-    ritual: false,
-    duration: "Instantaneous",
-    concentration: false,
-    casting_time: "1 action",
-    level: 4,
-    school: "Evocation",
-    class: ["Sorcerer", "Wizard"],
-    components: {
-      verbal: true,
-      somatic: true,
-      material: true,
-      materials: ["a drop of a giant slug bile"],
-    },
-    source: "EE PC",
-    page: 23,
   },
   {
     name: "Wall of Fire",
@@ -7433,22 +6551,6 @@ export const spells: Spell[] = [
     page: 285,
   },
   {
-    name: "Wall of Sand",
-    description:
-      "<p>You conjure up a wall of swirling sand on the ground at a point you can see within range. You can make the wall up to 30 feet long, 10 feet high, and 10 feet thick, and it vanishes when the spell ends. It blocks line of sight but not movement. A creature is blinded while in the wall's space and must spend 3 feet of movement for every 1 foot it moves there.</p>",
-    range: "90 feet",
-    ritual: false,
-    duration: "Concentration, up to 10 minutes",
-    concentration: true,
-    casting_time: "1 action",
-    level: 3,
-    school: "Evocation",
-    class: ["Wizard"],
-    components: { verbal: true, somatic: true, material: true, materials: ["a handful of sand"] },
-    source: "EE PC",
-    page: 23,
-  },
-  {
     name: "Wall of Stone",
     description:
       "<p>A nonmagical wall of solid stone springs into existence at a point you choose within range. The wall is 6 inches thick and is composed of ten 10-foot- by-10-foot panels. Each panel must be contiguous with at least one other panel. Alternatively, you can create 10-foot-by-20-foot panels that are only 3 inches thick.</p><p>If the wall cuts through a creature's space when it appears, the creature is pushed to one side of the wall (your choice). If a creature would be surrounded on all sides by the wall (or the wall and another solid surface), that creature can make a Dexterity saving throw. On a success, it can use its reaction to move up to its speed so that it is no longer enclosed by the wall.</p><p>The wall can have any shape you desire, though it can't occupy the same space as a creature or object. The wall doesn't need to be vertical or rest on any firm foundation. It must, however, merge with and be solidly supported by existing stone. Thus, you can use this spell to bridge a chasm or create a ramp.</p><p>If you create a span greater than 20 feet in length, you must halve the size of each panel to create supports. You can crudely shape the wall to create crenellations, battlements, and so on.</p><p>The wall is an object made of stone that can be damaged and thus breached. Each panel has AC 15 and 30 hit points per inch of thickness. Reducing a panel to 0 hit points destroys it and might cause connected panels to collapse at the GM's discretion.</p><p>If you maintain your concentration on this spell for its whole duration, the wall becomes permanent and can't be dispelled. Otherwise, the wall disappears when the spell ends.</p>",
@@ -7486,22 +6588,6 @@ export const spells: Spell[] = [
     page: 287,
   },
   {
-    name: "Wall of Water",
-    description:
-      "<p>You create a wall of water on the ground at a point you can see within range. You can make the wall up to 30 feet long, 10 feet high, and 1 foot thick, or you can make a ringed wall up to 20 feet in diameter, 20 feet high, and 1 foot thick. The wall vanishes when the spell ends. The wall's space is difficult terrain.</p><p>Any ranged weapon attack that enters the wall's space has disadvantage on the attack roll, and fire damage is halved if the fire effect passes through the wall to reach its target. Spells that deal cold damage that pass through the wall cause the area of the wall they pass through to freeze solid (at least a 5-foot-square section is frozen). Each 5-foot-square frozen section has AC 5 and 15 hit points. Reducing a frozen section to 0 hit points destroys it. When a section is destroyed, the wall's water doesn't fill it.</p>",
-    range: "60 feet",
-    ritual: false,
-    duration: "Concentration, up to 10 minutes",
-    concentration: true,
-    casting_time: "1 action",
-    level: 3,
-    school: "Evocation",
-    class: ["Druid", "Sorcerer", "Wizard"],
-    components: { verbal: true, somatic: true, material: true, materials: ["a drop of water"] },
-    source: "EE PC",
-    page: 23,
-  },
-  {
     name: "Warding Bond",
     description:
       "<p>This spell wards a willing creature you touch and creates a mystic connection between you and the target until the spell ends. While the target is within 60 feet of you, it gains a +1 bonus to AC and saving throws, and it has resistance to all damage. Also, each time it takes damage, you take the same amount of damage.</p><p>The spell ends if you drop to 0 hit points or if you and the target become separated by more than 60 feet. It also ends if the spell is cast again on either of the connected creatures. You can also dismiss the spell as an action.</p>",
@@ -7526,22 +6612,6 @@ export const spells: Spell[] = [
     page: 287,
   },
   {
-    name: "Warding Wind",
-    description:
-      "<p>A strong wind (20 miles per hour) blows around you in a 10-foot radius and moves with you, remaining centered on you. The wind lasts for the spell's duration.</p><p>The wind has the following effects:</p><ul><li>It deafens you and other creatures in its area.</li><li>It extinguishes unprotected flames in its area that are torch-sized or smaller.</li><li>It hedges out vapor, gas, and fog that can be dispersed by strong wind.</li><li>The area is difficult terrain for creatures other than you.</li><li>The attack rolls of ranged weapon attacks have disadvantage if the attacks pass in or out of the wind.</li></ul>",
-    range: "Self",
-    ritual: false,
-    duration: "Concentration, up to 10 minutes",
-    concentration: true,
-    casting_time: "1 action",
-    level: 2,
-    school: "Evocation",
-    class: ["Bard", "Druid", "Sorcerer"],
-    components: { verbal: true, somatic: false, material: false, materials: [] },
-    source: "EE PC",
-    page: 23,
-  },
-  {
     name: "Water Breathing",
     description:
       "<p>This spell grants up to ten willing creatures you can see within range the ability to breathe underwater until the spell ends. Affected creatures also retain their normal mode of respiration.</p>",
@@ -7552,7 +6622,7 @@ export const spells: Spell[] = [
     casting_time: "1 action",
     level: 3,
     school: "Transmutation",
-    class: ["Druid", "Ranger", "Ritual Caster", "Sorcerer", "Wizard"],
+    class: ["Druid", "Ranger", "Ritual", "Sorcerer", "Wizard"],
     components: {
       verbal: true,
       somatic: true,
@@ -7573,26 +6643,10 @@ export const spells: Spell[] = [
     casting_time: "1 action",
     level: 3,
     school: "Transmutation",
-    class: ["Cleric", "Druid", "Ranger", "Ritual Caster", "Sorcerer"],
+    class: ["Cleric", "Druid", "Ranger", "Ritual", "Sorcerer"],
     components: { verbal: true, somatic: true, material: true, materials: [] },
     source: "PHB",
     page: 287,
-  },
-  {
-    name: "Watery Sphere",
-    description:
-      "<p>You conjure up a sphere of water with a 5-foot radius at a point you can see within range. The sphere can hover but no more than 10 feet off the ground. The sphere remains for the spell's duration.</p><p>Any creature in the sphere's space must make a Strength saving throw. On a successful save, a creature is ejected from that space to the nearest unoccupied space of the creature's choice outside the sphere. A Huge or larger creature succeeds on the saving throw automatically, and a Large or smaller creature can choose to fail it. On a failed save, a creature is restrained by the sphere and is engulfed by the water. At the end of each of its turns, a restrained target can repeat the saving throw, ending the effect on itself on a success.</p><p>The sphere can restrain as many as four Medium or smaller creatures or one Large creature. If the sphere restrains a creature that causes it to exceed this capacity, a random creature that was already restrained by the sphere falls out of it and lands prone in a space within 5 feet of it.</p><p>As an action, you can move the sphere up to 30 feet in a straight line. If it moves over a pit, a cliff, or other drop-off, it safely descends until it is hovering 10 feet above the ground. Any creature restrained by the sphere moves with it. You can ram the sphere into creatures, forcing them to make the saving throw.</p><p>When the spell ends, the sphere falls to the ground and extinguishes all normal flames within 30 feet of it. Any creature restrained by the sphere is knocked prone in the space where it falls. The water then vanishes.</p>",
-    range: "90 feet",
-    ritual: false,
-    duration: "Concentration, up to 1 minute",
-    concentration: true,
-    casting_time: "1 action",
-    level: 4,
-    school: "Conjuration",
-    class: ["Druid", "Sorcerer", "Wizard"],
-    components: { verbal: true, somatic: true, material: true, materials: ["a droplet of water"] },
-    source: "EE PC",
-    page: 23,
   },
   {
     name: "Web",
@@ -7625,22 +6679,6 @@ export const spells: Spell[] = [
     components: { verbal: true, somatic: true, material: false, materials: [] },
     source: "PHB",
     page: 288,
-  },
-  {
-    name: "Whirlwind",
-    description:
-      "<p>A whirlwind howls down to a point that you can see on the ground within range. The whirlwind is a 10-foot-radius, 30-foot-high cylinder centered on that point. Until the spell ends, you can use your action to move the whirlwind up to 30 feet in any direction along the ground. The whirlwind sucks up any Medium or smaller objects that aren't secured to anything and that aren't worn or carried by anyone.</p><p>A creature must make a Dexterity saving throw the first time on a turn that it enters the whirlwind or that the whirlwind enters its space, including when the whirlwind first appears. A creature takes 10d6 bludgeoning damage on a failed save, or half as much damage on a successful one. In addition, a Large or smaller creature that fails the save must succeed on a Strength saving throw or become restrained in the whirlwind until the spell ends. When a creature starts its turn restrained by the whirlwind, the creature is pulled 5 feet higher inside it, unless the creature is at the top. A restrained creature moves with the whirlwind and falls when the spell ends, unless the creature has some means to stay aloft.</p><p>A restrained creature can use an action to make a Strength or Dexterity check against your spell save DC. If successful, the creature is no longer restrained by the whirlwind and is hurled 3d6 x 10 feet away from it in a random direction.</p>",
-    range: "300 feet",
-    ritual: false,
-    duration: "Concentration, up to 1 minute",
-    concentration: true,
-    casting_time: "1 action",
-    level: 7,
-    school: "Evocation",
-    class: ["Druid", "Wizard"],
-    components: { verbal: true, somatic: false, material: true, materials: ["a piece of straw"] },
-    source: "EE PC",
-    page: 24,
   },
   {
     name: "Wind Walk",

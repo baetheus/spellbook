@@ -2,71 +2,44 @@ import { useEffect, useState } from "preact/hooks";
 import { createStore } from "@nll/dux/Store";
 import { actionCreatorFactory } from "@nll/dux/Actions";
 import { useStoreFactory } from "@nll/dux/React";
-import { Spell, spells, Class, Source, School, Level } from "./spells";
 import { caseFn } from "@nll/dux/Reducers";
 import { Lens } from "monocle-ts";
 import { createSelector } from "reselect";
 import { isIn, intersects, toggleIn } from "~/libraries/fns";
-
-type State = {
-  spells: Spell[];
-  book: Spell[];
-  source: Source[];
-  class: Class[];
-  school: School[];
-  level: Level[];
-  search: string;
-};
-const INITIAL_STATE: State = {
-  spells: spells,
-  book: [],
-  source: ["PHB", "EE PC", "SCAG", "EBB", "UA TOBM"],
-  class: [
-    "Sorcerer",
-    "Wizard",
-    "Druid",
-    "Ranger",
-    "Cleric",
-    "Paladin",
-    "Bard",
-    "Ritual Caster",
-    "Warlock",
-  ],
-  school: [
-    "Conjuration",
-    "Necromancy",
-    "Evocation",
-    "Abjuration",
-    "Transmutation",
-    "Divination",
-    "Enchantment",
-    "Illusion",
-  ],
-  level: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-  search: "",
-};
+import { logger } from "~/libraries/dux";
+import { State, Spell, Source, Class, School, Level, Sort } from "./models";
+import { INITIAL_STATE } from "./consts";
 
 // Action Creators
 const creator = actionCreatorFactory("SPELLS");
 
 // Lenses
-const rootLens = Lens.fromProp<State>();
-export const spellsL = rootLens("spells");
-export const bookL = rootLens("book");
-export const sourceL = rootLens("source");
-export const classL = rootLens("class");
-export const schoolL = rootLens("school");
-export const levelL = rootLens("level");
-export const searchL = rootLens("search");
+const rootProp = Lens.fromProp<State>();
+export const spellsL = rootProp("spells");
+export const bookL = rootProp("book");
+
+const rootProps = Lens.fromPath<State>();
+export const sourceL = rootProps(["filters", "source"]);
+export const classL = rootProps(["filters", "class"]);
+export const schoolL = rootProps(["filters", "school"]);
+export const levelL = rootProps(["filters", "level"]);
+export const searchL = rootProps(["filters", "search"]);
+export const sortSpellsL = rootProps(["sort", "spells"]);
+export const sortBookL = rootProps(["sort", "book"]);
 
 /**
- * Select/Deselect Spells
+ * Add / Remove spells from book
  */
 export const toggleSpell = creator.simple<Spell>("TOGGLE_SPELL");
 const toggleSpellCase = caseFn(toggleSpell, (s: State, { value }) =>
   bookL.modify(toggleIn(value))(s)
 );
 
+/**
+ * Filters
+ * - Toggle Sources, Classes, Schools, Levels shown
+ * - Filter on search phrase
+ */
 export const toggleSource = creator.simple<Source>("TOGGLE_SOURCE");
 const toggleSourceCase = caseFn(toggleSource, (s: State, { value }) =>
   sourceL.modify(toggleIn(value))(s)
@@ -91,35 +64,69 @@ export const search = creator.simple<string>("SEARCH");
 const searchCase = caseFn(search, (s: State, { value }) => searchL.set(value)(s));
 
 /**
- * Selectors
+ * Reset Filters
  */
+export const resetFilters = creator.simple("RESET_FILTERS");
+const resetFilterCase = caseFn(
+  resetFilters,
+  (s: State): State => ({
+    ...s,
+    filters: INITIAL_STATE.filters,
+  })
+);
+
+/**
+ * Sorts
+ */
+export const sortSpells = creator.simple<Sort<Spell> | undefined>("SORT_SPELLS");
+const sortSpellsCase = caseFn(sortSpells, (s: State, { value }) => sortSpellsL.set(value)(s));
+
+export const sortBook = creator.simple<Sort<Spell> | undefined>("SORT_BOOK");
+const sortBookCase = caseFn(sortBook, (s: State, { value }) => sortBookL.set(value)(s));
+
+/**
+ * Select Spells Filtered by Filters
+ */
+export const selectBook = createSelector(bookL.get, sortBookL.get, (books, sort) =>
+  books.sort(sort)
+);
 export const selectSpells = createSelector(
   spellsL.get,
   sourceL.get,
   classL.get,
   schoolL.get,
   levelL.get,
+  bookL.get,
   searchL.get,
-  (spells, sources, classes, schools, levels, search) =>
-    spells.filter(
-      (s) =>
-        isIn(sources)(s.source) &&
-        intersects(classes)(s.class) &&
-        isIn(schools)(s.school) &&
-        isIn(levels)(s.level) &&
-        s.name.toLowerCase().includes(search.toLowerCase())
-    )
+  sortSpellsL.get,
+  (spells, sources, classes, schools, levels, book, search, sort) =>
+    spells
+      .filter(
+        (s) =>
+          isIn(sources)(s.source) && // Spell source must be in selected sources
+          intersects(classes)(s.class) && // Spell classes must intersect selected classes
+          isIn(schools)(s.school) && // Spell school must be in selected schools
+          isIn(levels)(s.level) && // Spell level must be in selected levels
+          !isIn(book)(s) && // Spell must not be in the book already
+          s.name.toLowerCase().includes(search.toLowerCase()) // Spell must contain the search phrase
+      )
+      .sort(sort)
 );
 
 /**
  * Wireup Store
  */
-export const store = createStore(INITIAL_STATE).addReducers(
-  toggleSpellCase,
-  toggleSourceCase,
-  toggleClassCase,
-  toggleSchoolCase,
-  toggleLevelCase,
-  searchCase
-);
+export const store = createStore(INITIAL_STATE)
+  .addMetaReducers(logger())
+  .addReducers(
+    toggleSpellCase,
+    toggleSourceCase,
+    toggleClassCase,
+    toggleSchoolCase,
+    toggleLevelCase,
+    searchCase,
+    resetFilterCase,
+    sortSpellsCase,
+    sortBookCase
+  );
 export const useSpells = useStoreFactory(store, useState, useEffect);

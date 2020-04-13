@@ -1,5 +1,8 @@
 @import "./styles/nll.scss";
 
+/**
+ * Reset
+ */
 html {
   font-family: "Proza Libre", sans-serif;
   font-size: var(--font-size);
@@ -26,4 +29,33 @@ h4 {
 
 h5 {
   font-size: var(--font-size-u1);
+}
+
+small {
+  font-size: var(--font-size-d2);
+}
+
+a {
+  @extend .ct-inherit;
+  text-decoration: none;
+}
+
+button {
+  font-size: inherit;
+  width: 100%;
+  @extend .crsr-pointer;
+  @extend .ct-primary;
+  @extend .pwx-4;
+  @extend .pwy-2;
+  @extend .bwa-0;
+  @extend .bra-1;
+}
+
+button:hover {
+  @extend .ct-secondary-on-hover;
+}
+
+*:focus {
+  outline: none;
+  box-shadow: 0 0 1.5px 1.5px var(--ce-focus);
 }

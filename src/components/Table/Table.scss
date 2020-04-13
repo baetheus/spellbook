@@ -1,11 +1,11 @@
 .table {
   display: grid;
-  grid-gap: var(--margin-width-4);
+  grid-gap: var(--margin-width-2);
 }
 
 .table-row,
 .table-header {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  grid-gap: var(--margin-width-4);
+  grid-template-columns: repeat(auto-fit, minmax(10ch, 2fr));
+  grid-gap: var(--margin-width-2);
 }

@@ -14,27 +14,9 @@ $themes: (
   ),
   (
     "label": "light",
-    "foreground": #111111,
+    "foreground": #333333,
     "background": #efefef,
-    "edge": #111111,
-    "psuedo": (
-      "hover",
-    ),
-  ),
-  (
-    "label": "primary",
-    "foreground": #ffffff,
-    "background": #357edd,
-    "edge": #ffffff,
-    "psuedo": (
-      "hover",
-    ),
-  ),
-  (
-    "label": "secondary",
-    "foreground": #555555,
-    "background": #96ccff,
-    "edge": #555555,
+    "edge": #bbbbbb,
     "psuedo": (
       "hover",
     ),
@@ -49,23 +31,30 @@ $themes: (
     ),
   ),
   (
-    "label": "visited",
+    "label": "focus",
     "foreground": #a463f2,
     "background": #ffffff,
     "edge": #a463f2,
     "psuedo": (
-      "visited",
+      "focus",
       "hover",
     ),
   ),
   (
-    "label": "focus",
-    "foreground": #555555,
+    "label": "primary",
+    "foreground": #333333,
     "background": #ffb700,
-    "edge": #555555,
+    "edge": #888888,
     "psuedo": (
-      "focus",
-      "focus-within",
+      "hover",
+    ),
+  ),
+  (
+    "label": "secondary",
+    "foreground": #af7002,
+    "background": #dedede,
+    "edge": #888888,
+    "psuedo": (
       "hover",
     ),
   ),
@@ -98,4 +87,4 @@ $themes: (
   )
 );
 
-@import "../../node_modules/@nll/css/src/minimal";
+@import "../../node_modules/@nll/css/src/standard";

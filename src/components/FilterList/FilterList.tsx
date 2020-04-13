@@ -1,3 +1,5 @@
+import "./FilterList.scss";
+
 import { h, VNode } from "preact";
 import { useCallback } from "preact/hooks";
 import { isIn } from "~/libraries/fns";
@@ -20,20 +22,20 @@ interface FilterItemProps<T> {
 }
 
 const FilterItem = <T, _ = never>({ select, selected, config }: FilterItemProps<T>) => {
-  const className = selected ? "ct-primary" : "ct-base";
+  const className = selected ? "ct-primary ct-secondary-on-hover" : "ct-light ct-primary-on-hover";
   const handleClick = useCallback(() => select(config.value), [select, config]);
   return (
-    <li class={className}>
-      <a href="#" onClick={handleClick}>
+    <li>
+      <button class={`${className} bwa-0 pwy-2 pwx-3 bra-1 ta-c`} onClick={handleClick}>
         {config.label}
-      </a>
+      </button>
     </li>
   );
 };
 
 export const FilterList = <T, _ = never>({ select, selected, config }: FilterListProps<T>) => {
   return (
-    <ul>
+    <ul class="filter-list fs-d1">
       {config.map((config) =>
         FilterItem({ select, selected: isIn(selected)(config.value), config })
       )}

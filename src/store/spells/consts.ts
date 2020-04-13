@@ -32,7 +32,7 @@ export const INITIAL_STATE: State = {
   spells: spells,
   book: [],
   filters: {
-    source: Sources,
+    source: ["PHB"],
     class: ["Bard"],
     school: Schools,
     level: Levels,
@@ -40,3 +40,5 @@ export const INITIAL_STATE: State = {
   },
   sort: {},
 };
+
+export const STORAGE_KEY = "SPELL_STATE";

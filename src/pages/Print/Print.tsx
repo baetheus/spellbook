@@ -1,18 +1,17 @@
 import "./Print.scss";
 
-import { h, FunctionalComponent, FunctionComponent } from "preact";
+import { h, FunctionalComponent } from "preact";
 import { useSpells, selectBook } from "~/store/spells";
+import { SpellCard } from "~/components/SpellCard";
 
-export const Print: FunctionComponent<{}> = () => {
+export const Print: FunctionalComponent<{}> = () => {
   let [spells] = useSpells(selectBook);
 
   return (
-    <main>
-      <ul>
-        {spells.map((s) => (
-          <li>{s.name}</li>
-        ))}
-      </ul>
+    <main class="flw-wrap fld-row">
+      {spells.map((spell) => (
+        <SpellCard spell={spell}></SpellCard>
+      ))}
     </main>
   );
 };

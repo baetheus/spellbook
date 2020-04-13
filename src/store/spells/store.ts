@@ -5,10 +5,15 @@ import { useStoreFactory } from "@nll/dux/React";
 import { caseFn } from "@nll/dux/Reducers";
 import { Lens } from "monocle-ts";
 import { createSelector } from "reselect";
-import { isIn, intersects, toggleIn } from "~/libraries/fns";
+import { EMPTY } from "rxjs";
+import { tap, mergeMapTo, skip } from "rxjs/operators";
+
+import { isIn, intersects, toggleIn, notNil } from "~/libraries/fns";
 import { logger } from "~/libraries/dux";
+
 import { State, Spell, Source, Class, School, Level, Sort } from "./models";
-import { INITIAL_STATE } from "./consts";
+import { INITIAL_STATE, STORAGE_KEY } from "./consts";
+import { StateCodec } from "./validators";
 
 // Action Creators
 const creator = actionCreatorFactory("SPELLS");
@@ -85,6 +90,17 @@ export const sortBook = creator.simple<Sort<Spell> | undefined>("SORT_BOOK");
 const sortBookCase = caseFn(sortBook, (s: State, { value }) => sortBookL.set(value)(s));
 
 /**
+ * Recover State
+ */
+export const recoverState = creator.simple<Omit<State, "spells">>("RECOVER_STATE");
+const recoverStateCase = caseFn(recoverState, (s: State, { value }) => ({
+  spells: s.spells,
+  sort: s.sort,
+  book: value.book.map((bs) => s.spells.find((ss) => ss.name === bs.name)).filter(notNil),
+  filters: value.filters,
+}));
+
+/**
  * Select Spells Filtered by Filters
  */
 export const selectBook = createSelector(bookL.get, sortBookL.get, (books, sort) =>
@@ -127,6 +143,23 @@ export const store = createStore(INITIAL_STATE)
     searchCase,
     resetFilterCase,
     sortSpellsCase,
-    sortBookCase
+    sortBookCase,
+    recoverStateCase
+  )
+  .addRunOnces((_, s) =>
+    s.pipe(
+      skip(1),
+      tap(({ book, filters }) =>
+        window.localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({
+            book,
+            filters,
+            sort: {},
+          })
+        )
+      ),
+      mergeMapTo(EMPTY)
+    )
   );
 export const useSpells = useStoreFactory(store, useState, useEffect);

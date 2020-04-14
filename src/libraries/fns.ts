@@ -24,14 +24,15 @@ export const notEq = <T>(a: T) => (b: T): boolean => a !== b;
 /**
  * Curried check for object in array function.
  */
-export const isIn = <T>(as: T[], comparitor: typeof eq = eq) => (b: T): boolean =>
+export const isIn = <T>(as: ReadonlyArray<T>, comparitor: typeof eq = eq) => (b: T): boolean =>
   as.some(comparitor(b));
 
 /**
  * Curried Array intersection predicate.
  */
-export const intersects = <T>(as: T[], comparitor: typeof eq = eq) => (bs: T[]): boolean =>
-  as.some(isIn(bs, comparitor));
+export const intersects = <T>(as: ReadonlyArray<T>, comparitor: typeof eq = eq) => (
+  bs: ReadonlyArray<T>
+): boolean => as.some(isIn(bs, comparitor));
 
 /**
  * Adds/Removes a value from an array of same values.
@@ -40,7 +41,7 @@ export const intersects = <T>(as: T[], comparitor: typeof eq = eq) => (bs: T[]):
  *
  * Curried for use with Lens.modify on an array
  */
-export const toggleIn = <T>(t: T) => (ts: T[]): T[] =>
+export const toggleIn = <T>(t: T) => (ts: ReadonlyArray<T>): T[] =>
   ts.some(eq(t)) ? ts.filter(notEq(t)) : ts.concat(t);
 
 /**

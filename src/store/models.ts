@@ -4,15 +4,19 @@
 export type Level = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 export type Class =
+  | "Barbarian"
   | "Bard"
   | "Cleric"
   | "Druid"
+  | "Fighter"
+  | "Monk"
   | "Paladin"
   | "Ranger"
-  | "Ritual"
+  | "Rogue"
   | "Sorcerer"
   | "Warlock"
-  | "Wizard";
+  | "Wizard"
+  | "Artificer";
 
 export type School =
   | "Abjuration"
@@ -59,13 +63,14 @@ export type Sort<T> = (a: T, b: T) => Comparison;
  * State
  */
 export type State = {
-  spells: Spell[];
-  book: Spell[];
+  spells: ReadonlyArray<Spell>;
+  book: ReadonlyArray<Spell>;
+  focus?: Spell;
   filters: {
-    source: Source[];
-    class: Class[];
-    school: School[];
-    level: Level[];
+    source: ReadonlyArray<Source>;
+    class: ReadonlyArray<Class>;
+    school: ReadonlyArray<School>;
+    level: ReadonlyArray<Level>;
     search: string;
   };
   sort: {

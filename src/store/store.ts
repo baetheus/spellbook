@@ -1,7 +1,7 @@
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useState, useCallback } from "preact/hooks";
 import { createStore } from "@nll/dux/Store";
 import { actionCreatorFactory } from "@nll/dux/Actions";
-import { useStoreFactory } from "@nll/dux/React";
+import { useStoreFactory, useDispatchFactory } from "@nll/dux/React";
 import { caseFn } from "@nll/dux/Reducers";
 import { Lens } from "monocle-ts";
 import { createSelector } from "reselect";
@@ -12,8 +12,8 @@ import { isIn, intersects, toggleIn, notNil } from "~/libraries/fns";
 import { logger } from "~/libraries/dux";
 
 import { State, Spell, Source, Class, School, Level, Sort } from "./models";
-import { INITIAL_STATE, STORAGE_KEY } from "./consts";
-import { StateCodec } from "./validators";
+import { INITIAL_STATE } from "./consts";
+import { restoreState, trySetState } from "./restoreState";
 
 // Action Creators
 const creator = actionCreatorFactory("SPELLS");
@@ -22,6 +22,8 @@ const creator = actionCreatorFactory("SPELLS");
 const rootProp = Lens.fromProp<State>();
 export const spellsL = rootProp("spells");
 export const bookL = rootProp("book");
+export const filtersL = rootProp("filters");
+export const focusL = rootProp("focus");
 
 const rootProps = Lens.fromPath<State>();
 export const sourceL = rootProps(["filters", "source"]);
@@ -90,6 +92,12 @@ export const sortBook = creator.simple<Sort<Spell> | undefined>("SORT_BOOK");
 const sortBookCase = caseFn(sortBook, (s: State, { value }) => sortBookL.set(value)(s));
 
 /**
+ * Focus a Spell
+ */
+export const focusSpell = creator.simple<Spell>("FOCUS_SPELL");
+const focusSpellCase = caseFn(focusSpell, (s: State, { value }) => focusL.set(value)(s));
+
+/**
  * Recover State
  */
 export const recoverState = creator.simple<Omit<State, "spells">>("RECOVER_STATE");
@@ -104,7 +112,7 @@ const recoverStateCase = caseFn(recoverState, (s: State, { value }) => ({
  * Select Spells Filtered by Filters
  */
 export const selectBook = createSelector(bookL.get, sortBookL.get, (books, sort) =>
-  books.sort(sort)
+  [...books].sort(sort)
 );
 export const selectSpells = createSelector(
   spellsL.get,
@@ -144,22 +152,11 @@ export const store = createStore(INITIAL_STATE)
     resetFilterCase,
     sortSpellsCase,
     sortBookCase,
-    recoverStateCase
+    recoverStateCase,
+    focusSpellCase
   )
-  .addRunOnces((_, s) =>
-    s.pipe(
-      skip(1),
-      tap(({ book, filters }) =>
-        window.localStorage.setItem(
-          STORAGE_KEY,
-          JSON.stringify({
-            book,
-            filters,
-            sort: {},
-          })
-        )
-      ),
-      mergeMapTo(EMPTY)
-    )
-  );
-export const useSpells = useStoreFactory(store, useState, useEffect);
+  .addRunOnces(restoreState)
+  .addRunOnces((_, s) => s.pipe(skip(1), tap(trySetState), mergeMapTo(EMPTY)));
+
+export const useStore = useStoreFactory(store, useState, useEffect);
+export const useDispatch = useDispatchFactory(store, useCallback);

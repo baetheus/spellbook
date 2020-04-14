@@ -1,0 +1,79 @@
+/**
+ * Reset
+ */
+html {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
+  font-size: var(--font-size);
+  font-size-adjust: 0.6;
+  color: var(--color-fore-base-0);
+  background-color: var(--color-back-base-0);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Lora", serif;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: var(--font-size-u5);
+}
+
+h2 {
+  font-size: var(--font-size-u4);
+}
+
+h3 {
+  font-size: var(--font-size-u3);
+}
+
+h4 {
+  font-size: var(--font-size-u2);
+}
+
+h5 {
+  font-size: var(--font-size-u1);
+}
+
+small {
+  font-size: var(--font-size-d2);
+}
+
+button {
+  font-size: inherit;
+  background: inherit;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+*:focus {
+  outline: none;
+  box-shadow: 0 0 1.5px 1.5px var(--ce-focus);
+}
+
+// Scrollbars
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.8);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(0, 0, 0, 0.4);
+}

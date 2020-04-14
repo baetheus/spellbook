@@ -1,6 +1,3 @@
-// Reset
-@import "../../node_modules/@nll/css/dist/reset/reset.min";
-
 // Customization
 $themes: (
   (
@@ -15,8 +12,26 @@ $themes: (
   (
     "label": "light",
     "foreground": #333333,
-    "background": #efefef,
-    "edge": #bbbbbb,
+    "background": #dedede,
+    "edge": #888888,
+    "psuedo": (
+      "hover",
+    ),
+  ),
+  (
+    "label": "primary",
+    "foreground": #ffffff,
+    "background": #357edd,
+    "edge": #ffffff,
+    "psuedo": (
+      "hover",
+    ),
+  ),
+  (
+    "label": "secondary",
+    "foreground": #555555,
+    "background": #96ccff,
+    "edge": #555555,
     "psuedo": (
       "hover",
     ),
@@ -26,36 +41,32 @@ $themes: (
     "foreground": #357edd,
     "background": #ffffff,
     "edge": #357edd,
-    "psuedo": (
-      "hover",
-    ),
+    "psuedo": (),
   ),
   (
-    "label": "focus",
+    "label": "link-reverse",
+    "foreground": #ffffff,
+    "background": #357edd,
+    "edge": #ffffff,
+    "psuedo": (),
+  ),
+  (
+    "label": "visited",
     "foreground": #a463f2,
     "background": #ffffff,
     "edge": #a463f2,
     "psuedo": (
-      "focus",
-      "hover",
+      "visited",
     ),
   ),
   (
-    "label": "primary",
-    "foreground": #333333,
+    "label": "focus",
+    "foreground": #555555,
     "background": #ffb700,
-    "edge": #888888,
+    "edge": #555555,
     "psuedo": (
-      "hover",
-    ),
-  ),
-  (
-    "label": "secondary",
-    "foreground": #af7002,
-    "background": #dedede,
-    "edge": #888888,
-    "psuedo": (
-      "hover",
+      "focus",
+      "focus-within",
     ),
   ),
   (
@@ -88,3 +99,16 @@ $themes: (
 );
 
 @import "../../node_modules/@nll/css/src/standard";
+
+/**
+ * Extensions
+ */
+a {
+  @extend .ct-link;
+  @extend .bra-1;
+  text-decoration: none;
+}
+
+input {
+  @extend .bra-1;
+}

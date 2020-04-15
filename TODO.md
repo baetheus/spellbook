@@ -1,6 +1,7 @@
 # TODO
 
-* Fix local storage recovery
-* Show selected spell list
-* Design print card
-* Design print page
+- Fix local storage recovery DONE
+- Show selected spell list DONE
+- Design print card
+- Design print page
+- Create browse spells page

@@ -2,7 +2,7 @@ import { h } from "preact";
 import { Link } from "preact-router";
 
 export const Header = () => (
-  <header class="fld-row flg-4 ai-ctr jc-ctr vhmn-3 bwb-2 mwx-4 ovx-au">
+  <header class="fld-row flg-4 ai-ctr jc-ctr vhmn-3 mwx-4 ovx-au">
     <h2>
       <Link href="/" class="pwx-3 bra-1">
         Spellbook

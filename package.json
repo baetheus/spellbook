@@ -24,7 +24,7 @@
   "dependencies": {
     "@nll/css": "^9.3.0",
     "@nll/datum": "^3.0.3",
-    "@nll/dux": "^8.1.3",
+    "@nll/dux": "^8.1.4",
     "fp-ts": "^2.5.3",
     "io-ts": "^2.1.3",
     "io-ts-reporters": "^1.0.0",

@@ -14,6 +14,7 @@ import { logger } from "~/libraries/dux";
 import { State, Spell, Source, Class, School, Level, Sort } from "./models";
 import { INITIAL_STATE } from "./consts";
 import { restoreState, trySetState } from "./restoreState";
+import { StateCodec } from "./validators";
 
 // Action Creators
 const creator = actionCreatorFactory("SPELLS");
@@ -100,7 +101,7 @@ const focusSpellCase = caseFn(focusSpell, (s: State, { value }) => focusL.set(va
 /**
  * Recover State
  */
-export const recoverState = creator.simple<Omit<State, "spells">>("RECOVER_STATE");
+export const recoverState = creator.simple<StateCodec>("RECOVER_STATE");
 const recoverStateCase = caseFn(recoverState, (s: State, { value }) => ({
   spells: s.spells,
   sort: s.sort,

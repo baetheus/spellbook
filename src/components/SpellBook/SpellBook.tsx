@@ -2,7 +2,7 @@ import { h, FunctionalComponent } from "preact";
 import { useCallback } from "preact/hooks";
 
 import { Spell, useStore, selectSpells, useDispatch, toggleSpell } from "~/store";
-import { SchoolIcon } from "~/components/Spell";
+import { SchoolIcon } from "~/components/SpellCard";
 
 interface SpellItemProps {
   onClick: (s: Spell) => void;

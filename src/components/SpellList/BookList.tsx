@@ -1,18 +1,18 @@
 import { h, FunctionalComponent } from "preact";
-import { useStore, selectSpells, useDispatch, toggleSpell } from "~/store";
+import { useStore, useDispatch, toggleSpell, selectBook } from "~/store";
 
 import { SpellItem } from "./SpellItem";
 
-interface SpellListProps {}
+interface BookListProps {}
 
-export const SpellList: FunctionalComponent<SpellListProps> = () => {
-  const [spells] = useStore(selectSpells);
+export const BookList: FunctionalComponent<BookListProps> = () => {
+  const [spells] = useStore(selectBook);
   const [toggle] = useDispatch(toggleSpell);
 
   return (
-    <section class="fld-col flg-4 vw-sm-p50">
+    <section class="fls-1-1 fld-col flg-4 vw-sm-p50">
       <h4>
-        Available Spells{" "}
+        Selected Spells{" "}
         <span class="fs-d4">
           {spells.length} Spell{spells.length === 1 ? "" : "s"}
         </span>

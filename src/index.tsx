@@ -4,7 +4,8 @@ if (process.env.NODE_ENV === "development") {
 
 import { h, render } from "preact";
 import { Router } from "preact-router";
-import { SpellBookPage } from "./pages/SpellBookPage/SpellBookPage";
+import { SpellBookPage } from "./pages/SpellBookPage";
+import { TestPage } from "./pages/TestPage";
 
 /**
  * Run App
@@ -12,6 +13,7 @@ import { SpellBookPage } from "./pages/SpellBookPage/SpellBookPage";
 const App = () => (
   <Router>
     <SpellBookPage path="/" />
+    <TestPage path="/test" />
   </Router>
 );
 

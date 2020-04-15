@@ -13,7 +13,7 @@ import {
   Levels,
   Classes,
 } from "~/store";
-import { SchoolIcon, ClassIcon } from "../Spell";
+import { SchoolIcon, ClassIcon } from "../SpellCard";
 import { isIn } from "~/libraries/fns";
 import { split } from "~/libraries/arrays";
 import { ordinal } from "~/libraries/numbers";

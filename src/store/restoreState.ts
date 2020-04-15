@@ -1,12 +1,14 @@
-import { isRight, tryCatch, chain, filterOrElse, mapLeft } from "fp-ts/lib/Either";
+import { isRight, tryCatch, chain, mapLeft, right, left } from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
 import { formatValidationError } from "io-ts-reporters";
 import { isSome } from "fp-ts/lib/Option";
 import { RunOnce } from "@nll/dux/Store";
-import { of, NEVER } from "rxjs";
+import { of, NEVER, EMPTY } from "rxjs";
 import { mergeMap } from "rxjs/operators";
 
-import { recoverState, StateCodec, STORAGE_KEY } from "~/store";
+import { STORAGE_KEY } from "./consts";
+import { StateCodec } from "./validators";
+import { recoverState } from "./store";
 import { notNil } from "~/libraries/fns";
 
 import { State } from "./models";
@@ -22,6 +24,8 @@ const tryGetState = () =>
     () => window.localStorage.getItem(STORAGE_KEY),
     (_) => "Failed to get state from localStorage"
   );
+
+const tryCheckNull = (s: string | null) => (notNil(s) ? right(s) : left(`Returned state was ${s}`));
 
 const tryParse = (s: string) =>
   tryCatch(
@@ -43,20 +47,13 @@ const tryDecode = (s: unknown) =>
   );
 
 export const restoreState: RunOnce<State> = () =>
-  of(
-    pipe(
-      tryGetState(),
-      filterOrElse(notNil, (e) => `State returned by localStorage is ${e}`),
-      chain(tryParse),
-      chain(tryDecode)
-    )
-  ).pipe(
+  of(pipe(tryGetState(), chain(tryCheckNull), chain(tryParse), chain(tryDecode))).pipe(
     mergeMap((e) => {
       if (isRight(e)) {
         console.log("Recovering State", e.right);
         return of(recoverState(e.right));
       }
       console.warn(e.left);
-      return NEVER;
+      return EMPTY;
     })
   );

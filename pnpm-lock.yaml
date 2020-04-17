@@ -10,13 +10,13 @@ dependencies:
   preact: 10.4.0
   preact-router: 3.2.1_preact@10.4.0
   react-icons: 3.9.0
-  reselect: 4.0.0
   rxjs: 6.5.5
 devDependencies:
   '@types/lodash': 4.14.149
   '@types/node': 12.12.35
   parcel-bundler: 1.12.4
   parcel-plugin-bundle-visualiser: 1.2.0
+  parcel-plugin-static-files-copy: 2.3.1
   sass: 1.26.3
   standard-version: 7.1.0
   tslib: 1.11.1
@@ -2796,6 +2796,19 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-ravh8VRXqHuMvZt/d8GblBeqDMkdJMBdv/2KntFH+ra5MXkO7nxNKpzQ3n6QD/2da1kH0aWmNISdvhM7gl2gVg==
+  /file-match/1.0.2:
+    dependencies:
+      utils-extend: 1.0.8
+    dev: true
+    resolution:
+      integrity: sha1-ycrSZdLIrfOoFHWw30dYWQafrvc=
+  /file-system/2.2.2:
+    dependencies:
+      file-match: 1.0.2
+      utils-extend: 1.0.8
+    dev: true
+    resolution:
+      integrity: sha1-fWWDPjojR9zZVqgTxncVPtPt2Yc=
   /file-uri-to-path/1.0.0:
     dev: true
     resolution:
@@ -4701,6 +4714,14 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-/O+26nsOwXbl1q6A/X9lEJWAPwZt5VauTV32omC3a/09bfUgHTogkAIYB/BqrGQm6OyuoG5FATToT3AGGk9RTA==
+  /parcel-plugin-static-files-copy/2.3.1:
+    dependencies:
+      file-system: 2.2.2
+      minimatch: 3.0.4
+      path: 0.12.7
+    dev: true
+    resolution:
+      integrity: sha512-yqB1bhSK+hbfxSjc1y/gBc+Fm6bedNrofx75wgnI0sP+6oEBqjyN51tlJVLu6pZhBLi11ZFwAM2XubCUh2G0+A==
   /parse-asn1/5.1.5:
     dependencies:
       asn1.js: 4.10.1
@@ -4811,6 +4832,13 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha512-T2ZUsdZFHgA3u4e5PfPbjd7HDDpxPnQb5jN0SrDsjNSuVXHJqtwTnWqG0B1jZrgmJ/7lj1EmVIByWt1gxGkWvg==
+  /path/0.12.7:
+    dependencies:
+      process: 0.11.10
+      util: 0.10.3
+    dev: true
+    resolution:
+      integrity: sha1-1NwqUGxM4hl+tIHr/NWzbAFAsQ8=
   /pbkdf2/3.0.17:
     dependencies:
       create-hash: 1.2.0
@@ -5654,10 +5682,6 @@ packages:
     dev: true
     resolution:
       integrity: sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==
-  /reselect/4.0.0:
-    dev: false
-    resolution:
-      integrity: sha512-qUgANli03jjAyGlnbYVAV5vvnOmJnODyABz51RdBN7M4WaVu8mecZWgyQNkG8Yqe3KRGRt0l4K4B3XVEULC4CA==
   /resolve-from/3.0.0:
     dev: true
     engines:
@@ -6646,6 +6670,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-HShAsny+zS2TZfaXxD9tYj4HQGlBezXZMZuM/S5PKLLoZkShZiGk9o5CzukI1LVHZvjdvZ2Sj1aW/Ndn2NB/HQ==
+  /utils-extend/1.0.8:
+    dev: true
+    resolution:
+      integrity: sha1-zP17ZFQPjpDuIe7Fd2nQZRyril8=
   /uuid/3.4.0:
     dev: true
     hasBin: true
@@ -6902,10 +6930,10 @@ specifiers:
   monocle-ts: ^2.1.0
   parcel-bundler: ^1.12.4
   parcel-plugin-bundle-visualiser: ^1.2.0
+  parcel-plugin-static-files-copy: ^2.3.1
   preact: ^10.4.0
   preact-router: ^3.2.1
   react-icons: ^3.9.0
-  reselect: ^4.0.0
   rxjs: ^6.5.5
   sass: ^1.26.3
   standard-version: ^7.1.0

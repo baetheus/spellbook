@@ -31,8 +31,8 @@ export const SpellCard: FunctionalComponent<SpellCardProps> = memoize(
   ({ spell, className = "", fixed = true }) => (
     <div
       class={`${
-        fixed ? "fixed-card" : "unfixed-card"
-      } fld-col flg-2 ct-dark fs-d2 pwx-4 pwt-4 pwb-2 bra-1 ${className}`}
+        fixed ? "fixed-card fs-d2" : "unfixed-card"
+      } fld-col flg-2 ct-dark pwx-4 pwt-4 pwb-2 bra-1 ${className}`}
     >
       <header class="fld-col flg-2 ai-stc">
         <h2 class="ct-base ta-c brt-1">{spell.name}</h2>

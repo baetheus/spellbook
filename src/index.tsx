@@ -6,7 +6,8 @@ import { h, render } from "preact";
 import { Router } from "preact-router";
 import { SpellBookPage } from "./pages/SpellBookPage";
 import { PrintPage } from "./pages/PrintPage";
-import { BrowsePage } from "./pages/BrowsePage/BrowsePage";
+import { BrowsePage } from "./pages/BrowsePage";
+import { NotFoundPage } from "./pages/NotFoundPage";
 
 /**
  * Run App
@@ -16,6 +17,7 @@ const App = () => (
     <BrowsePage path="/" />
     <SpellBookPage path="/spellbook" />
     <PrintPage path="/print" />
+    <NotFoundPage default />
   </Router>
 );
 

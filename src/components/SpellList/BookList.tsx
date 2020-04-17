@@ -22,7 +22,7 @@ export const BookList: FunctionalComponent<BookListProps> = () => {
           Print
         </a>
       </header>
-      <ul class="fld-col flg-4 pwa-2 ai-stc vhmx-vh40 vhmx-sm-vh75 ova-au">
+      <ul class="fld-col flg-4 pwa-2 ai-stc vhmx-vh40 vhmx-sm-vh60 ova-au">
         {spells.length === 0 ? <h6>No Spells To Show!</h6> : null}
         {spells.map((spell) => (
           <SpellItem spell={spell} onClick={toggle} />

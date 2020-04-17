@@ -4,7 +4,6 @@ import { actionCreatorFactory } from "@nll/dux/Actions";
 import { useStoreFactory, useDispatchFactory } from "@nll/dux/React";
 import { caseFn } from "@nll/dux/Reducers";
 import { Lens } from "monocle-ts";
-import { createSelector } from "reselect";
 import { EMPTY } from "rxjs";
 import { tap, mergeMapTo, skip } from "rxjs/operators";
 
@@ -112,34 +111,19 @@ const recoverStateCase = caseFn(recoverState, (s: State, { value }) => ({
 /**
  * Select Spells Filtered by Filters
  */
-export const selectBook = createSelector(bookL.get, sortBookL.get, (books, sort) =>
-  [...books].sort(sort)
-);
-export const selectSpells = createSelector(
-  spellsL.get,
-  sourceL.get,
-  classL.get,
-  schoolL.get,
-  levelL.get,
-  bookL.get,
-  searchL.get,
-  sortSpellsL.get,
-  (spells, sources, classes, schools, levels, book, search, sort) =>
-    spells
-      .filter(
-        (s) =>
-          isIn(sources)(s.source) && // Spell source must be in selected sources
-          intersects(classes)(s.class) && // Spell classes must intersect selected classes
-          isIn(schools)(s.school) && // Spell school must be in selected schools
-          isIn(levels)(s.level) && // Spell level must be in selected levels
-          !isIn(book)(s) && // Spell must not be in the book already
-          s.name.toLowerCase().includes(search.toLowerCase()) // Spell must contain the search phrase
-      )
-      .sort(sort)
-);
-export const selectBrowseSpells = createSelector(spellsL.get, searchL.get, (spells, search) =>
-  spells.filter((s) => s.name.toLowerCase().includes(search.toLowerCase()))
-);
+export const selectBook = bookL.get;
+export const selectSpells = (state: State) =>
+  state.spells.filter(
+    (s) =>
+      isIn(state.filters.source)(s.source) && // Spell source must be in selected sources
+      intersects(state.filters.class)(s.class) && // Spell classes must intersect selected classes
+      isIn(state.filters.school)(s.school) && // Spell school must be in selected schools
+      isIn(state.filters.level)(s.level) && // Spell level must be in selected levels
+      !isIn(state.book)(s) && // Spell must not be in the book already
+      s.name.toLowerCase().includes(state.filters.search.toLowerCase()) // Spell must contain the search phrase
+  );
+export const selectBrowseSpells = ({ spells, filters: { search } }: State) =>
+  spells.filter((s) => s.name.toLowerCase().includes(search.toLowerCase()));
 
 /**
  * Wireup Store

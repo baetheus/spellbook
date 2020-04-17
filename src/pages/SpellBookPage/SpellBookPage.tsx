@@ -1,7 +1,6 @@
 import { h, FunctionalComponent } from "preact";
 
 import { SearchSpells } from "~/components/SearchSpells";
-import { Header } from "~/components/Header/Header";
 import { SpellList, BookList } from "~/components/SpellList";
 import { FilterSpells } from "~/components/FilterSpells";
 import { DefaultLayout } from "~/components/Layouts";

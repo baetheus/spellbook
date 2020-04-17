@@ -59,19 +59,20 @@ button {
 
 // Scrollbars
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 4px;
+  height: 4px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
   background: rgba(0, 0, 0, 0.8);
 }
 ::-webkit-scrollbar-thumb:window-inactive {

@@ -137,6 +137,9 @@ export const selectSpells = createSelector(
       )
       .sort(sort)
 );
+export const selectBrowseSpells = createSelector(spellsL.get, searchL.get, (spells, search) =>
+  spells.filter((s) => s.name.toLowerCase().includes(search.toLowerCase()))
+);
 
 /**
  * Wireup Store

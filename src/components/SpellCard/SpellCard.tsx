@@ -8,6 +8,7 @@ import { ClassIcon } from "./ClassIcon";
 
 interface SpellCardProps {
   spell: Spell;
+  fixed?: boolean;
   className?: string;
 }
 
@@ -25,26 +26,34 @@ const toFontSize = (s: Spell): string => {
   }
 };
 
-export const SpellCard: FunctionalComponent<SpellCardProps> = ({ spell, className = "" }) => (
-  <div class={`card fld-col flg-2 ct-dark fs-d2 pwx-4 pwt-4 pwb-2 bra-1 ${className}`}>
+export const SpellCard: FunctionalComponent<SpellCardProps> = ({
+  spell,
+  className = "",
+  fixed = true,
+}) => (
+  <div
+    class={`${
+      fixed ? "fixed-card" : "unfixed-card"
+    } fld-col flg-2 ct-dark fs-d2 pwx-4 pwt-4 pwb-2 bra-1 ${className}`}
+  >
     <header class="fld-col flg-2 ai-stc">
       <h2 class="ct-base ta-c brt-1">{spell.name}</h2>
       <section class="fld-row flg-2 fs-d1">
-        <section class="ct-base flb-50p ta-c">
+        <section class="ct-base flb-p50 ta-c">
           <h6>Casting Time</h6>
           <p>{spell.casting_time}</p>
         </section>
-        <section class="ct-base flb-50p ta-c">
+        <section class="ct-base flb-p50 ta-c">
           <h6>Range</h6>
           <p>{spell.range}</p>
         </section>
       </section>
       <section class="fld-row flg-2 fs-d1">
-        <section class="ct-base flb-50p ta-c">
+        <section class="ct-base flb-p50 ta-c">
           <h6>Components</h6>
           <p>{toSpellComponents(spell)}</p>
         </section>
-        <section class="ct-base flb-50p ta-c">
+        <section class="ct-base flb-p50 ta-c">
           <h6>Duration</h6>
           <p>{spell.duration}</p>
         </section>

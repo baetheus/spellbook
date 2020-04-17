@@ -7,3 +7,11 @@ export const toSpellType = (s: Spell): string => {
   }
   return `${ordinal(s.level)} Level ${s.school}`;
 };
+
+export const toSpellComponents = (s: Spell): string => {
+  const components: string[] = [];
+  s.components.verbal && components.push("V");
+  s.components.somatic && components.push("S");
+  s.components.material && components.push("M");
+  return components.join(", ");
+};

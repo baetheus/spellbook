@@ -1,0 +1,17 @@
+@page {
+  size: A4;
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+  }
+}
+
+.print-page {
+  display: grid;
+  grid-template-columns: min-content min-content;
+  grid-gap: var(--margin-width-3);
+  margin-bottom: var(--margin-width-3);
+  page-break-after: always;
+}

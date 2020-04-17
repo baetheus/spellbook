@@ -11,8 +11,14 @@ export const Header = () => (
     <span>|</span>
     <nav class="fld-row flg-3 ai-ctr">
       <Link href="/" activeClassName="ct-link-reverse" class="pwx-3 bra-1">
-        Other Page
+        Browse
       </Link>
+      <Link href="/spellbook" activeClassName="ct-link-reverse" class="pwx-3 bra-1">
+        Build
+      </Link>
+      <a href="/print" target="_blank" class="pwx-3 bra-1">
+        Print
+      </a>
     </nav>
   </header>
 );

@@ -33,3 +33,10 @@ export const toComparison = (n: number): -1 | 0 | 1 => {
     return 0;
   }
 };
+
+/**
+ * Safe modulo operator
+ */
+export const mod = (m: number, n: number): number => {
+  return ((m % n) + n) % n;
+};

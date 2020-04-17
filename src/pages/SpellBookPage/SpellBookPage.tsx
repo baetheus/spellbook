@@ -4,11 +4,11 @@ import { SearchSpells } from "~/components/SearchSpells";
 import { Header } from "~/components/Header/Header";
 import { SpellList, BookList } from "~/components/SpellList";
 import { FilterSpells } from "~/components/FilterSpells";
+import { DefaultLayout } from "~/components/Layouts";
 
 export const SpellBookPage: FunctionalComponent<{}> = () => {
   return (
-    <main class="fld-col ai-stc vh-vh100 vw-p100">
-      <Header />
+    <DefaultLayout>
       <section class="fld-col flg-4 pwa-4">
         <SearchSpells />
         <FilterSpells />
@@ -17,6 +17,6 @@ export const SpellBookPage: FunctionalComponent<{}> = () => {
           <BookList />
         </section>
       </section>
-    </main>
+    </DefaultLayout>
   );
 };

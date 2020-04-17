@@ -5,15 +5,17 @@ if (process.env.NODE_ENV === "development") {
 import { h, render } from "preact";
 import { Router } from "preact-router";
 import { SpellBookPage } from "./pages/SpellBookPage";
-import { TestPage } from "./pages/TestPage";
+import { PrintPage } from "./pages/PrintPage";
+import { BrowsePage } from "./pages/BrowsePage/BrowsePage";
 
 /**
  * Run App
  */
 const App = () => (
   <Router>
-    <SpellBookPage path="/" />
-    <TestPage path="/test" />
+    <BrowsePage path="/" />
+    <SpellBookPage path="/spellbook" />
+    <PrintPage path="/print" />
   </Router>
 );
 

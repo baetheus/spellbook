@@ -6716,5 +6716,5 @@ export const spells: Spell[] = [
     components: { verbal: true, somatic: true, material: false, materials: [] },
     source: "PHB",
     page: 289,
-  },
+  }
 ];

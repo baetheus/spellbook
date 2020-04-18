@@ -30,7 +30,7 @@ const toFontSize = (s: Spell): string => {
 export const SpellCard: FunctionalComponent<SpellCardProps> = memoize(
   ({ spell, className = "", fixed = true }) => (
     <div
-      class={`${
+      class={`card ${
         fixed ? "fixed-card fs-d2" : "unfixed-card"
       } fld-col flg-2 ct-dark pwx-4 pwt-4 pwb-2 bra-1 ${className}`}
     >
@@ -65,7 +65,7 @@ export const SpellCard: FunctionalComponent<SpellCardProps> = memoize(
         </section>
       ) : null}
       <section
-        class={`ct-base vhmn-3 fls-1-1 pwa-2 brb-1 ta-j line-break-children ov-au ${toFontSize(
+        class={`ct-base vhmn-3 fls-1-1 pwa-3 brb-1 ta-j line-break-children ov-au ${toFontSize(
           spell
         )}`}
         dangerouslySetInnerHTML={{ __html: spell.description }}

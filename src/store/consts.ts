@@ -4,15 +4,11 @@ import { Level, Class, School, Source, State } from "./models";
 export const Levels: ReadonlyArray<Level> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export const Classes: ReadonlyArray<Class> = [
-  "Barbarian",
   "Bard",
   "Cleric",
   "Druid",
-  "Fighter",
-  "Monk",
   "Paladin",
   "Ranger",
-  "Rogue",
   "Sorcerer",
   "Warlock",
   "Wizard",
@@ -30,14 +26,14 @@ export const Schools: ReadonlyArray<School> = [
   "Transmutation",
 ];
 
-export const Sources: ReadonlyArray<Source> = ["PHB", "EBB"];
+export const Sources: ReadonlyArray<Source> = ["PHB", "XAN", "WLD"];
 
 export const INITIAL_STATE: State = {
   spells: spells,
   book: [],
   filters: {
-    source: ["PHB"],
-    class: ["Bard"],
+    source: Sources,
+    class: Classes,
     school: Schools,
     level: Levels,
     search: "",

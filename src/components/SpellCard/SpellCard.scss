@@ -4,5 +4,12 @@
 }
 
 .line-break-children p {
-  margin-bottom: var(--margin-width-3);
+  margin-bottom: var(--margin-width-4);
+}
+
+.card ul {
+  list-style: inside circle;
+  font-size: var(--font-size-d2);
+  padding-left: var(--margin-width-4);
+  margin-bottom: var(--margin-width-4);
 }

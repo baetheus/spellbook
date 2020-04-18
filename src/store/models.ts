@@ -4,15 +4,11 @@
 export type Level = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 export type Class =
-  | "Barbarian"
   | "Bard"
   | "Cleric"
   | "Druid"
-  | "Fighter"
-  | "Monk"
   | "Paladin"
   | "Ranger"
-  | "Rogue"
   | "Sorcerer"
   | "Warlock"
   | "Wizard"
@@ -28,7 +24,7 @@ export type School =
   | "Necromancy"
   | "Transmutation";
 
-export type Source = "PHB" | "EBB";
+export type Source = "PHB" | "XAN" | "WLD";
 
 export type Components = {
   verbal: boolean;

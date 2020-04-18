@@ -49,7 +49,8 @@ const Components = t.type({
 
 const Source = t.keyof({
   PHB: null,
-  EBB: null,
+  XAN: null,
+  WLD: null,
 });
 
 const Spell = t.type({

@@ -34,11 +34,14 @@ export const sortL = rootProps(["sort"]);
 
 /**
  * Add / Remove spells from book
+ * Clear book
  */
 export const toggleSpell = creator.simple<Spell>("TOGGLE_SPELL");
 const toggleSpellCase = caseFn(toggleSpell, (s: State, { value }) =>
   bookL.modify(toggleIn(value))(s)
 );
+export const clearBook = creator.simple("CLEAR_BOOK");
+const clearBookCase = caseFn(clearBook, bookL.set([]));
 
 /**
  * Filters
@@ -118,6 +121,7 @@ export const store = createStore(INITIAL_STATE)
   .addMetaReducers(logger())
   .addReducers(
     toggleSpellCase,
+    clearBookCase,
     toggleSourceCase,
     toggleClassCase,
     toggleLevelCase,

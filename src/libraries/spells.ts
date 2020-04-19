@@ -11,7 +11,7 @@ export const toSpellLevel = (level: Level): string => {
 export const toSpellType = (s: Spell): string => {
   const level = toSpellLevel(s.level);
   if (s.level === 0) {
-    return `${level} Cantrip`;
+    return `${level}`;
   }
   return `${level} ${s.school}`;
 };

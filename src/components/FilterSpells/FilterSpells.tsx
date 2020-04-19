@@ -1,7 +1,6 @@
 import "./FilterSpells.scss";
 
 import { h } from "preact";
-import { useState, useCallback } from "preact/hooks";
 import {
   useStore,
   filtersL,
@@ -31,7 +30,7 @@ export const FiltersSpells = () => {
       <section class="filter-list">
         {Classes.map((c) => (
           <button
-            class={`pwa-3 bra-1 fld-row flg-3 ai-ctr jc-ctr ${
+            class={`vh-1 pwa-3 bra-1 fld-row flg-3 ai-ctr jc-ctr ${
               isIn(filters.class)(c) ? "ct-primary" : "ct-light"
             }`}
             title={`Toggle ${c} Filter`}
@@ -45,7 +44,7 @@ export const FiltersSpells = () => {
       <section class="filter-list">
         {Levels.map((l) => (
           <button
-            class={`pwy-3 pwx-4 bra-1 fld-row flg-3 ai-ctr jc-ctr ${
+            class={`vh-1 pwy-3 pwx-4 bra-1 fld-row flg-3 ai-ctr jc-ctr ${
               isIn(filters.level)(l) ? "ct-primary" : "ct-light"
             }`}
             title={`Toggle ${ordinal(l)} Level Filter`}
@@ -58,7 +57,7 @@ export const FiltersSpells = () => {
       <section class="filter-list">
         {Sources.map((src) => (
           <button
-            class={`pwa-3 bra-1 fld-row ai-ctr jc-ctr ${
+            class={`vh-1 pwa-3 bra-1 fld-row ai-ctr jc-ctr ${
               isIn(filters.source)(src) ? "ct-primary" : "ct-light"
             }`}
             title={`Toggle ${src} Sourcebook Filter`}

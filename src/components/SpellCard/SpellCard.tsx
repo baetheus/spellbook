@@ -41,46 +41,38 @@ export const SpellCard: FunctionalComponent<SpellCardProps> = ({
     <article
       class={`card ${
         fixed ? "fixed-card fs-d2" : "unfixed-card"
-      } fld-col flg-2 pwx-4 pwt-4 pwb-2 bra-1 ${className} ${theme}`}
+      } pwx-4 pwt-4 pwb-2 bra-1 ${className} ${theme}`}
       onClick={handleClick}
     >
-      <header class="fld-col flg-2 ai-stc">
-        <h2 class="ct-base ta-c brt-1">{spell.name}</h2>
-        <section class="fld-row flg-2 fs-d1">
-          <section class="ct-base flb-p50 ta-c">
-            <h6>Casting Time</h6>
-            <p>{spell.casting_time}</p>
-          </section>
-          <section class="ct-base flb-p50 ta-c">
-            <h6>Range</h6>
-            <p>{spell.range}</p>
-          </section>
-        </section>
-        <section class="fld-row flg-2 fs-d1">
-          <section class="ct-base flb-p50 ta-c">
-            <h6>Components</h6>
-            <p>{toSpellComponents(spell)}</p>
-          </section>
-          <section class="ct-base flb-p50 ta-c">
-            <h6>Duration</h6>
-            <p>{spell.duration}</p>
-          </section>
-        </section>
-      </header>
+      <h2 class="head ct-base ta-c brt-1">{spell.name}</h2>
+      <section class="time ct-base ta-c">
+        <h6>Casting Time</h6>
+        <p>{spell.casting_time}</p>
+      </section>
+      <section class="rang ct-base ta-c">
+        <h6>Range</h6>
+        <p>{spell.range}</p>
+      </section>
+      <section class="comp ct-base ta-c">
+        <h6>Components</h6>
+        <p>{toSpellComponents(spell)}</p>
+      </section>
+      <section class="dura ct-base ta-c">
+        <h6>Duration</h6>
+        <p>{spell.duration}</p>
+      </section>
       {spell.components.materials.length ? (
-        <section class="ta-c fs-d2">
+        <section class="mats ta-c fs-d2">
           {spell.components.materials.map((m) => (
             <p>{m}</p>
           ))}
         </section>
       ) : null}
       <section
-        class={`ct-base vhmn-3 fls-1-1 pwa-3 brb-1 ta-j line-break-children ov-au ${toFontSize(
-          spell
-        )}`}
+        class={`desc ct-base pwa-3 brb-1 inner-children ov-au ${toFontSize(spell)}`}
         dangerouslySetInnerHTML={{ __html: spell.description }}
       ></section>
-      <footer class="fld-row jc-spb fs-d1">
+      <footer class="spel fld-row jc-spb fs-d1">
         <section>{toSpellType(spell)}</section>
         <section class="fld-row flg-2 fs-u1">
           {spell.class.map((c) => (

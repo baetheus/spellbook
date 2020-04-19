@@ -1,8 +1,12 @@
-import { h } from "preact";
+import { h, FunctionalComponent } from "preact";
 import { FaGithub } from "react-icons/fa";
 
-export const Footer = () => (
-  <footer class="js-end vw-vw100 vhmn-2 fld-row flg-4 ai-ctr jc-ctr ct-light">
+interface FooterProps {
+  className?: string;
+}
+
+export const Footer: FunctionalComponent<FooterProps> = ({ className }) => (
+  <footer class={`${className} vw-vw100 vhmn-2 fld-row flg-4 ai-ctr jc-ctr ct-light`}>
     <span class="fs-u2 mwbr-3">
       <a href="https://github.com/baetheus/spellbook" target="_blank" class="ct-light">
         <FaGithub />

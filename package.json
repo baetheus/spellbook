@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/baetheus/spellbook#readme",
   "dependencies": {
-    "@nll/css": "^9.6.0",
+    "@nll/css": "^9.7.0",
     "@nll/datum": "^3.0.3",
     "@nll/dux": "^8.1.4",
     "fp-ts": "^2.5.3",

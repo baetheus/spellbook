@@ -15,7 +15,7 @@ export const SpellTable: FunctionalComponent<SpellTableProps> = ({ spells, book,
     <Fragment>
       <section class="spell-table">
         {spells.length === 0 ? <h3>No Spells To Show!</h3> : null}
-        {spells.slice(0, 50).map((spell) => (
+        {spells.slice(0, 100).map((spell) => (
           <SpellCard
             fixed={false}
             spell={spell}
@@ -24,8 +24,8 @@ export const SpellTable: FunctionalComponent<SpellTableProps> = ({ spells, book,
           ></SpellCard>
         ))}
       </section>
-      {spells.length > 50 ? (
-        <span>There are {spells.length - 50} more spells not shown.</span>
+      {spells.length > 100 ? (
+        <span class="vw-p100 ta-c">There are {spells.length - 100} more spells not shown.</span>
       ) : null}
     </Fragment>
   );

@@ -1,4 +1,6 @@
 import * as t from "io-ts";
+import { setFromArray } from "io-ts-types/lib/setFromArray";
+import { ordString } from "fp-ts/lib/Ord";
 
 const Class = t.keyof({
   Artificer: null,
@@ -71,7 +73,7 @@ const SpellSort = t.keyof({
 });
 
 export const StateCodec = t.type({
-  book: t.readonlyArray(Spell),
+  book: setFromArray(t.string, ordString),
   filters: t.type({
     source: t.readonlyArray(Source),
     class: t.readonlyArray(Class),

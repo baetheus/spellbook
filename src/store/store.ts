@@ -7,7 +7,8 @@ import { Lens } from "monocle-ts";
 import { EMPTY } from "rxjs";
 import { tap, mergeMapTo, skip } from "rxjs/operators";
 
-import { isIn, intersects, toggleIn, notNil } from "~/libraries/fns";
+import { isIn, intersects, notNil, toggleIn } from "~/libraries/fns";
+import { toggleIn as setToggleIn } from "~/libraries/sets";
 import { logger } from "~/libraries/dux";
 
 import { State, Spell, Source, Class, Level, SpellSort } from "./models";
@@ -38,10 +39,16 @@ export const sortL = rootProps(["sort"]);
  */
 export const toggleSpell = creator.simple<Spell>("TOGGLE_SPELL");
 const toggleSpellCase = caseFn(toggleSpell, (s: State, { value }) =>
-  bookL.modify(toggleIn(value))(s)
+  bookL.modify(setToggleIn(value.name))(s)
 );
 export const clearBook = creator.simple("CLEAR_BOOK");
-const clearBookCase = caseFn(clearBook, bookL.set([]));
+const clearBookCase = caseFn(
+  clearBook,
+  bookL.modify((set) => {
+    set.clear();
+    return set;
+  })
+);
 
 /**
  * Filters
@@ -90,10 +97,8 @@ const setSpellSortCase = caseFn(setSpellSort, (s: State, { value }) => sortL.set
 export const errorRecoveringState = creator.simple<string>("RECOVER_STATE_ERROR", {}, true);
 export const recoverState = creator.simple<StateCodec>("RECOVER_STATE");
 const recoverStateCase = caseFn(recoverState, (s: State, { value }) => ({
-  spells: s.spells,
-  book: value.book.map((bs) => s.spells.find((ss) => ss.name === bs.name)).filter(notNil),
-  filters: value.filters,
-  sort: value.sort,
+  ...s,
+  ...value,
 }));
 
 /**
@@ -104,15 +109,13 @@ export const selectSpells = (state: State) =>
   state.spells
     .filter(
       (s) =>
-        isIn(state.filters.source)(s.source) && // Spell source must be in selected sources
+        state.book.has(s.name) ||
+        (isIn(state.filters.source)(s.source) && // Spell source must be in selected sources
         intersects(state.filters.class)(s.class) && // Spell classes must intersect selected classes
         isIn(state.filters.level)(s.level) && // Spell level must be in selected levels
-        !isIn(state.book)(s) && // Spell must not be in the book already
-        s.name.toLowerCase().includes(state.filters.search.toLowerCase()) // Spell must contain the search phrase
+          s.name.toLowerCase().includes(state.filters.search.toLowerCase())) // Spell must contain the search phrase
     )
     .sort(toSpellSort(state.sort)); // Sort by sort type
-export const selectBrowseSpells = ({ spells, filters: { search }, sort }: State) =>
-  spells.filter((s) => s.name.toLowerCase().includes(search.toLowerCase())).sort(toSpellSort(sort));
 
 /**
  * Wireup Store

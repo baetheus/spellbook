@@ -13,8 +13,8 @@ interface SpellTableProps {
 export const SpellTable: FunctionalComponent<SpellTableProps> = ({ spells, book, toggleSpell }) => {
   return (
     <Fragment>
+      {spells.length === 0 ? <h3 class="as-ctr js-ctr ta-c">No Spells To Show!</h3> : null}
       <section class="spell-table">
-        {spells.length === 0 ? <h3>No Spells To Show!</h3> : null}
         {spells.slice(0, 100).map((spell) => (
           <SpellCard
             fixed={false}

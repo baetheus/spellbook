@@ -7,6 +7,7 @@ import { Router } from "preact-router";
 import { PrintPage } from "./pages/PrintPage";
 import { BrowsePage } from "./pages/BrowsePage";
 import { NotFoundPage } from "./pages/NotFoundPage";
+import { AboutPage } from "./pages/AboutPage/AboutPage";
 
 /**
  * Run App
@@ -15,6 +16,7 @@ const App = () => (
   <Router>
     <BrowsePage path="/" />
     <PrintPage path="/print" />
+    <AboutPage path="/about" />
     <NotFoundPage default />
   </Router>
 );

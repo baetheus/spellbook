@@ -37,12 +37,25 @@ export const SpellCard: FunctionalComponent<SpellCardProps> = ({
   onClick = () => {},
 }) => {
   const handleClick = useCallback(() => onClick(spell), [spell, onClick]);
+  const handleKeyUp = useCallback<h.JSX.KeyboardEventHandler<any>>(
+    (e) => {
+      if (e.code === "Enter" || e.code === "Space") {
+        e.preventDefault();
+        onClick(spell);
+      }
+    },
+    [spell, onClick]
+  );
+
   return (
     <article
+      tabIndex={0}
+      label={`${spell.name} spell card - ${theme === "ct-dark" ? "Unselected" : "Selected"}`}
       class={`card ${
         fixed ? "fixed-card fs-d2" : "unfixed-card"
       } pwx-4 pwt-4 pwb-2 bra-1 ${className} ${theme}`}
       onClick={handleClick}
+      onKeyPress={handleKeyUp}
     >
       <h2 class="head ct-base ta-c brt-1">{spell.name}</h2>
       <section class="time ct-base ta-c">

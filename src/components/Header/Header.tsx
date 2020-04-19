@@ -6,7 +6,7 @@ import { MdHelp } from "react-icons/md";
 export const Header = () => (
   <header class="fld-row flg-4 ai-ctr jc-spb vhmn-3 ovx-au pwr-5">
     <h1>
-      <Link href="/" class="pwx-3 bra-1">
+      <Link href="/#" class="pwx-3 bra-1">
         Spellbook
       </Link>
     </h1>

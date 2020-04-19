@@ -1,19 +1,15 @@
 import * as t from "io-ts";
 
 const Class = t.keyof({
-  Barbarian: null,
+  Artificer: null,
   Bard: null,
   Cleric: null,
   Druid: null,
-  Fighter: null,
-  Monk: null,
   Paladin: null,
   Ranger: null,
-  Rogue: null,
   Sorcerer: null,
   Warlock: null,
   Wizard: null,
-  Artificer: null,
 });
 
 const School = t.keyof({
@@ -69,6 +65,11 @@ const Spell = t.type({
   page: t.number,
 });
 
+const SpellSort = t.keyof({
+  Name: null,
+  Level: null,
+});
+
 export const StateCodec = t.type({
   book: t.readonlyArray(Spell),
   filters: t.type({
@@ -78,5 +79,6 @@ export const StateCodec = t.type({
     level: t.readonlyArray(Level),
     search: t.string,
   }),
+  sort: SpellSort,
 });
 export type StateCodec = t.TypeOf<typeof StateCodec>;

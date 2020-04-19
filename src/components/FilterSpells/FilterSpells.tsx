@@ -106,7 +106,7 @@ export const FilterSpells = () => {
 
   return (
     <section class="fld-col flg-4 ai-stc">
-      <section class="fld-row jc-end fs-d1 pwx-4">
+      <section class="fld-row flg-4 jc-end fs-d1 pwx-4">
         <a href="#" onClick={toggleShow}>
           {show ? "Hide Filters" : "Show Filters"}
         </a>

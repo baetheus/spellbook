@@ -10,8 +10,8 @@ import { tap, mergeMapTo, skip } from "rxjs/operators";
 import { isIn, intersects, toggleIn, notNil } from "~/libraries/fns";
 import { logger } from "~/libraries/dux";
 
-import { State, Spell, Source, Class, School, Level, Sort } from "./models";
-import { INITIAL_STATE } from "./consts";
+import { State, Spell, Source, Class, School, Level, SpellSort } from "./models";
+import { INITIAL_STATE, toSpellSort } from "./consts";
 import { restoreState, trySetState } from "./restoreState";
 import { StateCodec } from "./validators";
 
@@ -31,8 +31,7 @@ export const classL = rootProps(["filters", "class"]);
 export const schoolL = rootProps(["filters", "school"]);
 export const levelL = rootProps(["filters", "level"]);
 export const searchL = rootProps(["filters", "search"]);
-export const sortSpellsL = rootProps(["sort", "spells"]);
-export const sortBookL = rootProps(["sort", "book"]);
+export const sortL = rootProps(["sort"]);
 
 /**
  * Add / Remove spells from book
@@ -85,17 +84,8 @@ const resetFilterCase = caseFn(
 /**
  * Sorts
  */
-export const sortSpells = creator.simple<Sort<Spell> | undefined>("SORT_SPELLS");
-const sortSpellsCase = caseFn(sortSpells, (s: State, { value }) => sortSpellsL.set(value)(s));
-
-export const sortBook = creator.simple<Sort<Spell> | undefined>("SORT_BOOK");
-const sortBookCase = caseFn(sortBook, (s: State, { value }) => sortBookL.set(value)(s));
-
-/**
- * Focus a Spell
- */
-export const focusSpell = creator.simple<Spell>("FOCUS_SPELL");
-const focusSpellCase = caseFn(focusSpell, (s: State, { value }) => focusL.set(value)(s));
+export const setSpellSort = creator.simple<SpellSort>("SORT_SPELLS");
+const setSpellSortCase = caseFn(setSpellSort, (s: State, { value }) => sortL.set(value)(s));
 
 /**
  * Recover State
@@ -103,9 +93,9 @@ const focusSpellCase = caseFn(focusSpell, (s: State, { value }) => focusL.set(va
 export const recoverState = creator.simple<StateCodec>("RECOVER_STATE");
 const recoverStateCase = caseFn(recoverState, (s: State, { value }) => ({
   spells: s.spells,
-  sort: s.sort,
   book: value.book.map((bs) => s.spells.find((ss) => ss.name === bs.name)).filter(notNil),
   filters: value.filters,
+  sort: value.sort,
 }));
 
 /**
@@ -113,17 +103,19 @@ const recoverStateCase = caseFn(recoverState, (s: State, { value }) => ({
  */
 export const selectBook = bookL.get;
 export const selectSpells = (state: State) =>
-  state.spells.filter(
-    (s) =>
-      isIn(state.filters.source)(s.source) && // Spell source must be in selected sources
-      intersects(state.filters.class)(s.class) && // Spell classes must intersect selected classes
-      isIn(state.filters.school)(s.school) && // Spell school must be in selected schools
-      isIn(state.filters.level)(s.level) && // Spell level must be in selected levels
-      !isIn(state.book)(s) && // Spell must not be in the book already
-      s.name.toLowerCase().includes(state.filters.search.toLowerCase()) // Spell must contain the search phrase
-  );
-export const selectBrowseSpells = ({ spells, filters: { search } }: State) =>
-  spells.filter((s) => s.name.toLowerCase().includes(search.toLowerCase()));
+  state.spells
+    .filter(
+      (s) =>
+        isIn(state.filters.source)(s.source) && // Spell source must be in selected sources
+        intersects(state.filters.class)(s.class) && // Spell classes must intersect selected classes
+        isIn(state.filters.school)(s.school) && // Spell school must be in selected schools
+        isIn(state.filters.level)(s.level) && // Spell level must be in selected levels
+        !isIn(state.book)(s) && // Spell must not be in the book already
+        s.name.toLowerCase().includes(state.filters.search.toLowerCase()) // Spell must contain the search phrase
+    )
+    .sort(toSpellSort(state.sort));
+export const selectBrowseSpells = ({ spells, filters: { search }, sort }: State) =>
+  spells.filter((s) => s.name.toLowerCase().includes(search.toLowerCase())).sort(toSpellSort(sort));
 
 /**
  * Wireup Store
@@ -138,10 +130,8 @@ export const store = createStore(INITIAL_STATE)
     toggleLevelCase,
     searchCase,
     resetFilterCase,
-    sortSpellsCase,
-    sortBookCase,
-    recoverStateCase,
-    focusSpellCase
+    setSpellSortCase,
+    recoverStateCase
   )
   .addRunOnces(restoreState)
   .addRunOnces((_, s) => s.pipe(skip(1), tap(trySetState), mergeMapTo(EMPTY)));

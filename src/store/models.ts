@@ -49,6 +49,8 @@ export type Spell = {
   page: number;
 };
 
+export type SpellSort = "Name" | "Level";
+
 /**
  * Sort Types
  */
@@ -69,8 +71,5 @@ export type State = {
     level: ReadonlyArray<Level>;
     search: string;
   };
-  sort: {
-    spells?: Sort<Spell>;
-    book?: Sort<Spell>;
-  };
+  sort: SpellSort;
 };

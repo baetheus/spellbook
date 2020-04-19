@@ -58,7 +58,7 @@ export const SearchSpells = () => {
       {showConfig ? <FiltersSpells /> : null}
       <section class="fld-row flg-3 ai-ctr">
         <button
-          class="ct-light fls-1-1 vh-1 fs-u2 bra-1 fld-row ai-ctr jc-ctr"
+          class="ct-light fls-3-1 vh-1 fs-u2 bra-1 fld-row ai-ctr jc-ctr"
           onClick={handleClearBook}
         >
           Clear Selection

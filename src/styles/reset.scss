@@ -8,6 +8,8 @@ html {
   font-size-adjust: 0.6;
   color: var(--color-fore-base-0);
   background-color: var(--color-back-base-0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1,
@@ -45,7 +47,7 @@ small {
 }
 
 strong {
-  font-weight: 400;
+  font-weight: 600;
 }
 
 button {

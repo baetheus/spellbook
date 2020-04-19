@@ -5,6 +5,7 @@ import { toComparison } from "~/libraries/numbers";
 export const Levels: ReadonlyArray<Level> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export const Classes: ReadonlyArray<Class> = [
+  "Artificer",
   "Bard",
   "Cleric",
   "Druid",
@@ -13,7 +14,6 @@ export const Classes: ReadonlyArray<Class> = [
   "Sorcerer",
   "Warlock",
   "Wizard",
-  "Artificer",
 ];
 
 export const Schools: ReadonlyArray<School> = [

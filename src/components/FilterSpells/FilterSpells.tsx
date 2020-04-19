@@ -18,7 +18,7 @@ import { isIn } from "~/libraries/fns";
 import { ordinal } from "~/libraries/numbers";
 import { toSpellLevel } from "~/libraries/spells";
 
-const Filters = () => {
+export const FiltersSpells = () => {
   const [filters] = useStore(filtersL.get);
   const [handleSource, handleClass, handleLevel] = useDispatch(
     toggleSource,
@@ -27,7 +27,7 @@ const Filters = () => {
   );
 
   return (
-    <section class="pwa-3 fld-col flg-3 ai-end">
+    <section class="fld-col flg-3 ai-end">
       <section class="filter-list">
         {Classes.map((c) => (
           <button
@@ -68,22 +68,6 @@ const Filters = () => {
           </button>
         ))}
       </section>
-    </section>
-  );
-};
-
-export const FilterSpells = () => {
-  const [show, setShow] = useState(false);
-  const toggleShow = useCallback(() => setShow((s) => !s), []);
-
-  return (
-    <section class="fld-col flg-4 ai-stc">
-      <section class="fld-row flg-4 jc-end fs-d1 pwx-4">
-        <a href="#" onClick={toggleShow}>
-          {show ? "Hide Filters" : "Show Filters"}
-        </a>
-      </section>
-      {show ? <Filters /> : null}
     </section>
   );
 };

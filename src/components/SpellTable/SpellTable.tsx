@@ -6,15 +6,22 @@ import { SpellCard } from "../SpellCard";
 
 interface SpellTableProps {
   spells: Spell[];
+  book: Set<string>;
+  toggleSpell: (s: Spell) => void;
 }
 
-export const SpellTable: FunctionalComponent<SpellTableProps> = ({ spells }) => {
+export const SpellTable: FunctionalComponent<SpellTableProps> = ({ spells, book, toggleSpell }) => {
   return (
     <Fragment>
       <section class="spell-table">
         {spells.length === 0 ? <h3>No Spells To Show!</h3> : null}
         {spells.slice(0, 50).map((spell) => (
-          <SpellCard fixed={false} spell={spell}></SpellCard>
+          <SpellCard
+            fixed={false}
+            spell={spell}
+            theme={book.has(spell.name) ? "ct-primary" : "ct-dark"}
+            onClick={toggleSpell}
+          ></SpellCard>
         ))}
       </section>
       {spells.length > 50 ? (

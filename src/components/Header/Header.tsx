@@ -10,10 +10,7 @@ export const Header = () => (
     </h2>
     <nav class="fld-row flg-3 ai-ctr">
       <Link href="/" activeClassName="ct-link-reverse" class="pwx-3 bra-1">
-        Browse
-      </Link>
-      <Link href="/spellbook" activeClassName="ct-link-reverse" class="pwx-3 bra-1">
-        Build
+        About
       </Link>
     </nav>
   </header>

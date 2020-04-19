@@ -62,7 +62,7 @@ export type Sort<T> = (a: T, b: T) => Comparison;
  */
 export type State = {
   spells: ReadonlyArray<Spell>;
-  book: ReadonlyArray<Spell>;
+  book: Set<string>;
   focus?: Spell;
   filters: {
     source: ReadonlyArray<Source>;

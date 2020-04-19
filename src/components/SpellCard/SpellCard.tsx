@@ -1,16 +1,18 @@
 import "./SpellCard.scss";
 
 import { h, FunctionalComponent } from "preact";
-import memoize from "lodash/memoize";
 
 import { toSpellComponents, toSpellType } from "~/libraries/spells";
 import { Spell } from "~/store";
 import { ClassIcon } from "./ClassIcon";
+import { useCallback } from "preact/hooks";
 
 interface SpellCardProps {
   spell: Spell;
   fixed?: boolean;
   className?: string;
+  theme?: string;
+  onClick?: (s: Spell) => void;
 }
 
 // Some spell descriptions are looooooong Eventually this will need to be
@@ -27,12 +29,20 @@ const toFontSize = (s: Spell): string => {
   }
 };
 
-export const SpellCard: FunctionalComponent<SpellCardProps> = memoize(
-  ({ spell, className = "", fixed = true }) => (
-    <div
+export const SpellCard: FunctionalComponent<SpellCardProps> = ({
+  spell,
+  className = "",
+  fixed = true,
+  theme = "ct-dark",
+  onClick = () => {},
+}) => {
+  const handleClick = useCallback(() => onClick(spell), [spell, onClick]);
+  return (
+    <article
       class={`card ${
         fixed ? "fixed-card fs-d2" : "unfixed-card"
-      } fld-col flg-2 ct-dark pwx-4 pwt-4 pwb-2 bra-1 ${className}`}
+      } fld-col flg-2 pwx-4 pwt-4 pwb-2 bra-1 ${className} ${theme}`}
+      onClick={handleClick}
     >
       <header class="fld-col flg-2 ai-stc">
         <h2 class="ct-base ta-c brt-1">{spell.name}</h2>
@@ -78,7 +88,6 @@ export const SpellCard: FunctionalComponent<SpellCardProps> = memoize(
           ))}
         </section>
       </footer>
-    </div>
-  ),
-  ({ spell, className, fixed }: SpellCardProps) => `${spell.name}${className}${fixed}`
-);
+    </article>
+  );
+};

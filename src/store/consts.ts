@@ -31,7 +31,7 @@ export const Sources: ReadonlyArray<Source> = ["PHB", "XAN", "WLD"];
 
 export const INITIAL_STATE: State = {
   spells: spells,
-  book: [],
+  book: new Set(),
   filters: {
     source: Sources,
     class: Classes,

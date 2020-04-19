@@ -11,10 +11,8 @@ export const BrowsePage: FunctionalComponent<{}> = () => {
 
   return (
     <DefaultLayout>
-      <section class="fld-col flg-4 pwa-4">
-        <SearchSpells />
-        <SpellTable spells={spells} book={book} toggleSpell={handleToggle} />
-      </section>
+      <SearchSpells />
+      <SpellTable spells={spells} book={book} toggleSpell={handleToggle} />
     </DefaultLayout>
   );
 };

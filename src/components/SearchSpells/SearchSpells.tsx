@@ -31,12 +31,13 @@ export const SearchSpells = () => {
         <input
           value={phrase}
           onInput={handleInput}
-          label="Search"
+          label="Filter spells by search string"
           placeholder="Search"
           class="vh-2 fls-1-1 ct-light brl-1 pwx-5 bwa-0 fs-u1"
         />
         <button
           type="button"
+          label="Clear search string"
           class={`search-button fs-u4 fld-row ai-ctr jc-ctr ct-light ${
             phrase.length === 0 ? "cf-disabled" : ""
           }`}
@@ -47,6 +48,7 @@ export const SearchSpells = () => {
         </button>
         <button
           type="button"
+          label={`${showConfig ? "Hide" : "Show"} settings menu`}
           class={`search-button fs-u4 fld-row ai-ctr jc-ctr  brr-1 ${
             showConfig ? "ct-primary" : "ct-light"
           }`}
@@ -58,13 +60,15 @@ export const SearchSpells = () => {
       {showConfig ? <FiltersSpells /> : null}
       <section class="fld-row flg-3 ai-ctr">
         <button
-          class="ct-light fls-3-1 vh-1 fs-u2 bra-1 fld-row ai-ctr jc-ctr"
+          label="Clear selected spells"
+          class="ct-light fls-3-1 vh-1 fs-u1 bra-1 fld-row ai-ctr jc-ctr"
           onClick={handleClearBook}
         >
-          Clear Selection
+          Clear Selections
         </button>
         <button
-          class="ct-primary fls-1-1 vh-1 fs-u2 bra-1 fld-row ai-ctr jc-ctr"
+          label="Go to print spells page"
+          class="ct-primary fls-1-1 vh-1 fs-u1 bra-1 fld-row ai-ctr jc-ctr"
           onClick={() => route("/print")}
         >
           Print

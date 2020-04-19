@@ -31,7 +31,7 @@ export const FiltersSpells = () => {
     <section class="fld-col flg-3 ai-stc">
       <button
         class="vh-1 pwy-3 pwx-4 bra-1 fld-row flg-3 ai-ctr jc-ctr ct-primary"
-        label="Show Everything"
+        aria-label="Show Everything"
         title="Show Everything"
         onClick={handleReset}
       >
@@ -43,7 +43,7 @@ export const FiltersSpells = () => {
             class={`vh-1 pwa-3 bra-1 fld-row flg-3 ai-ctr jc-ctr ${
               isIn(filters.class)(c) ? "ct-primary" : "ct-light"
             }`}
-            label={`Toggle ${c} Filter`}
+            aria-label={`Toggle ${c} Filter`}
             title={`Toggle ${c} Filter`}
             onClick={() => handleClass(c)}
           >
@@ -58,7 +58,7 @@ export const FiltersSpells = () => {
             class={`vh-1 pwy-3 pwx-4 bra-1 fld-row flg-3 ai-ctr jc-ctr ${
               isIn(filters.level)(l) ? "ct-primary" : "ct-light"
             }`}
-            label={`Toggle ${ordinal(l)} Level Filter`}
+            aria-label={`Toggle ${ordinal(l)} Level Filter`}
             title={`Toggle ${ordinal(l)} Level Filter`}
             onClick={() => handleLevel(l)}
           >
@@ -72,7 +72,7 @@ export const FiltersSpells = () => {
             class={`vh-1 pwa-3 bra-1 fld-row ai-ctr jc-ctr ${
               isIn(filters.source)(src) ? "ct-primary" : "ct-light"
             }`}
-            label={`Toggle ${src} Sourcebook Filter`}
+            aria-label={`Toggle ${src} Sourcebook Filter`}
             title={`Toggle ${src} Sourcebook Filter`}
             onClick={() => handleSource(src)}
           >

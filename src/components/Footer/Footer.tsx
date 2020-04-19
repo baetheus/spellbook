@@ -11,6 +11,7 @@ export const Footer: FunctionalComponent<FooterProps> = ({ className }) => (
       <a
         href="https://github.com/baetheus/spellbook"
         target="_blank"
+        rel="noreferrer"
         title="Link to source code on github"
         class="ct-light"
       >
@@ -22,6 +23,7 @@ export const Footer: FunctionalComponent<FooterProps> = ({ className }) => (
       <a
         href="https://blaylock.dev"
         target="_blank"
+        rel="noreferrer"
         title="Link to Brandon Blaylock's personal website"
         class="ct-light cf-link"
       >

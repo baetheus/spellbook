@@ -50,7 +50,7 @@ export const SpellCard: FunctionalComponent<SpellCardProps> = ({
   return (
     <article
       tabIndex={0}
-      label={`${spell.name} spell card - ${theme === "ct-dark" ? "Unselected" : "Selected"}`}
+      aria-label={`${spell.name} spell card - ${theme === "ct-dark" ? "Unselected" : "Selected"}`}
       class={`card ${
         fixed ? "fixed-card fs-d2" : "unfixed-card"
       } pwx-4 pwt-4 pwb-2 bra-1 ${className} ${theme}`}

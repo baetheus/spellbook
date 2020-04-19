@@ -20,7 +20,10 @@ export const AboutPage: FunctionalComponent<{}> = () => {
           show spells that include your search term in the spell name. If you've already used the
           filters to hide some spells, you may need to remove some filters to find your spell. To
           this end there is a "Show Everything" button in the filters list that will disable all
-          filters.
+          filters. In order to improve browsing performance, not all spells are shown in the list.
+          If you get to the end of the list and are informed that you need to see more spells, try
+          adding a filter. If this becomes a hinderance for you, use the contact link below and send
+          me a message.
         </p>
         <p>
           <strong>Selecting.</strong> To select a spell to add to your spell list you can click
@@ -45,6 +48,7 @@ export const AboutPage: FunctionalComponent<{}> = () => {
           <a
             href="https://dnd.wizards.com/products/tabletop-games/rpg-products/rpg_playershandbook"
             target="_blank"
+            rel="noreferrer"
           >
             Player's Handbook
           </a>
@@ -52,11 +56,12 @@ export const AboutPage: FunctionalComponent<{}> = () => {
           <a
             href="https://dnd.wizards.com/products/tabletop-games/rpg-products/xanathars-guide-everything"
             target="_blank"
+            rel="noreferrer"
           >
             Xanathar's Guide to Everything
           </a>
           , and <strong>WLD</strong> stands for{" "}
-          <a href="https://dnd.wizards.com/products/wildemount" target="_blank">
+          <a href="https://dnd.wizards.com/products/wildemount" target="_blank" rel="noreferrer">
             Explorer's Guide to Wildemount
           </a>
           .
@@ -66,7 +71,7 @@ export const AboutPage: FunctionalComponent<{}> = () => {
         <p>
           <Link href="/">Spellbook</Link> started as a weekend project to provide a more complete
           spell list with a better ui than{" "}
-          <a href="https://colinmarc.com/dndspells/" target="_blank">
+          <a href="https://colinmarc.com/dndspells/" target="_blank" rel="noreferrer">
             this site by Colin Marc
           </a>
           . The specific goals were to make a mobile friendly D&D5e spellbook that is quick enough

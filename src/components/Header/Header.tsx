@@ -11,7 +11,7 @@ export const Header = () => (
       </Link>
     </h1>
     <nav class="fld-row flg-3 ai-ctr">
-      <Link href="/about" activeClassName="ct-link-reverse" class="bra-1 fs-u3 trns-d3">
+      <Link href="/about" aria-label="Help and About page link" class="bra-1 fs-u3 trns-d3">
         <MdHelp />
       </Link>
     </nav>

@@ -1,14 +1,15 @@
-import { isRight, tryCatch, chain, mapLeft, right, left } from "fp-ts/lib/Either";
+import { tryCatch, chain, mapLeft, right, left, fold } from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
 import { formatValidationError } from "io-ts-reporters";
 import { isSome } from "fp-ts/lib/Option";
 import { RunOnce } from "@nll/dux/Store";
-import { of, NEVER, EMPTY } from "rxjs";
-import { mergeMap } from "rxjs/operators";
+import { TypedAction, ActionCreator } from "@nll/dux/Actions";
+import { of } from "rxjs";
+import { map } from "rxjs/operators";
 
 import { STORAGE_KEY } from "./consts";
 import { StateCodec } from "./validators";
-import { recoverState } from "./store";
+import { recoverState, errorRecoveringState } from "./store";
 import { notNil } from "~/libraries/fns";
 
 import { State } from "./models";
@@ -46,14 +47,9 @@ const tryDecode = (s: unknown) =>
     )
   );
 
+const asAnyAction = <P>(ac: ActionCreator<P, any>): ((p: P) => TypedAction) => (p: P) => ac(p);
+
 export const restoreState: RunOnce<State> = () =>
   of(pipe(tryGetState(), chain(tryCheckNull), chain(tryParse), chain(tryDecode))).pipe(
-    mergeMap((e) => {
-      if (isRight(e)) {
-        console.log("Recovering State", e.right);
-        return of(recoverState(e.right));
-      }
-      console.warn(e.left);
-      return EMPTY;
-    })
+    map(fold(asAnyAction(errorRecoveringState), asAnyAction(recoverState)))
   );

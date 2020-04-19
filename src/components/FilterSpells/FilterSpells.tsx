@@ -1,3 +1,5 @@
+import "./FilterSpells.scss";
+
 import { h } from "preact";
 import { useState, useCallback } from "preact/hooks";
 import {
@@ -6,93 +8,63 @@ import {
   useDispatch,
   toggleSource,
   toggleClass,
-  toggleSchool,
   toggleLevel,
-  Schools,
   Sources,
   Levels,
   Classes,
 } from "~/store";
-import { SchoolIcon, ClassIcon } from "../SpellCard";
+import { ClassIcon } from "../SpellCard";
 import { isIn } from "~/libraries/fns";
-import { split } from "~/libraries/arrays";
 import { ordinal } from "~/libraries/numbers";
-
-const [front, back] = split(Classes);
+import { toSpellLevel } from "~/libraries/spells";
 
 const Filters = () => {
   const [filters] = useStore(filtersL.get);
-  const [handleSource, handleClass, handleSchool, handleLevel] = useDispatch(
+  const [handleSource, handleClass, handleLevel] = useDispatch(
     toggleSource,
     toggleClass,
-    toggleSchool,
     toggleLevel
   );
 
   return (
     <section class="pwa-3 fld-col flg-3 ai-end">
-      <section class="fld-row flg-3 fs-u1">
-        {front.map((c) => (
+      <section class="filter-list">
+        {Classes.map((c) => (
           <button
-            class={`pwa-3 bra-1 fld-row ai-ctr jc-ctr ${
+            class={`pwa-3 bra-1 fld-row flg-3 ai-ctr jc-ctr ${
               isIn(filters.class)(c) ? "ct-primary" : "ct-light"
             }`}
             title={`Toggle ${c} Filter`}
             onClick={() => handleClass(c)}
           >
             <ClassIcon cls={c} />
+            <span>{c}</span>
           </button>
         ))}
       </section>
-      <section class="fld-row flg-3 fs-u1">
-        {back.map((c) => (
-          <button
-            class={`pwa-3 bra-1 fld-row ai-ctr jc-ctr ${
-              isIn(filters.class)(c) ? "ct-primary" : "ct-light"
-            }`}
-            title={`Toggle ${c} Filter`}
-            onClick={() => handleClass(c)}
-          >
-            <ClassIcon cls={c} />
-          </button>
-        ))}
-      </section>
-      <section class="fld-row flg-3 fs-u1">
-        {Schools.map((s) => (
-          <button
-            class={`pwa-3 bra-1 fld-row ai-ctr jc-ctr ${
-              isIn(filters.school)(s) ? "ct-primary" : "ct-light"
-            }`}
-            title={`Toggle ${s} Filter`}
-            onClick={() => handleSchool(s)}
-          >
-            <SchoolIcon school={s} />
-          </button>
-        ))}
-      </section>
-      <section class="fld-row flg-3">
+      <section class="filter-list">
         {Levels.map((l) => (
           <button
-            class={`pwy-3 pwx-4 bra-1 fld-row ai-ctr jc-ctr ${
+            class={`pwy-3 pwx-4 bra-1 fld-row flg-3 ai-ctr jc-ctr ${
               isIn(filters.level)(l) ? "ct-primary" : "ct-light"
             }`}
             title={`Toggle ${ordinal(l)} Level Filter`}
             onClick={() => handleLevel(l)}
           >
-            {String(l)}
+            {toSpellLevel(l)}
           </button>
         ))}
       </section>
-      <section class="fld-row flg-3">
-        {Sources.map((s) => (
+      <section class="filter-list">
+        {Sources.map((src) => (
           <button
             class={`pwa-3 bra-1 fld-row ai-ctr jc-ctr ${
-              isIn(filters.source)(s) ? "ct-primary" : "ct-light"
+              isIn(filters.source)(src) ? "ct-primary" : "ct-light"
             }`}
-            title={`Toggle ${s} Sourcebook Filter`}
-            onClick={() => handleSource(s)}
+            title={`Toggle ${src} Sourcebook Filter`}
+            onClick={() => handleSource(src)}
           >
-            {s}
+            {src}
           </button>
         ))}
       </section>

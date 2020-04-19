@@ -10,7 +10,7 @@ import { tap, mergeMapTo, skip } from "rxjs/operators";
 import { isIn, intersects, toggleIn, notNil } from "~/libraries/fns";
 import { logger } from "~/libraries/dux";
 
-import { State, Spell, Source, Class, School, Level, SpellSort } from "./models";
+import { State, Spell, Source, Class, Level, SpellSort } from "./models";
 import { INITIAL_STATE, toSpellSort } from "./consts";
 import { restoreState, trySetState } from "./restoreState";
 import { StateCodec } from "./validators";
@@ -28,7 +28,6 @@ export const focusL = rootProp("focus");
 const rootProps = Lens.fromPath<State>();
 export const sourceL = rootProps(["filters", "source"]);
 export const classL = rootProps(["filters", "class"]);
-export const schoolL = rootProps(["filters", "school"]);
 export const levelL = rootProps(["filters", "level"]);
 export const searchL = rootProps(["filters", "search"]);
 export const sortL = rootProps(["sort"]);
@@ -54,11 +53,6 @@ const toggleSourceCase = caseFn(toggleSource, (s: State, { value }) =>
 export const toggleClass = creator.simple<Class>("TOGGLE_CLASS");
 const toggleClassCase = caseFn(toggleClass, (s: State, { value }) =>
   classL.modify(toggleIn(value))(s)
-);
-
-export const toggleSchool = creator.simple<School>("TOGGLE_SCHOOL");
-const toggleSchoolCase = caseFn(toggleSchool, (s: State, { value }) =>
-  schoolL.modify(toggleIn(value))(s)
 );
 
 export const toggleLevel = creator.simple<Level>("TOGGLE_LEVEL");
@@ -90,6 +84,7 @@ const setSpellSortCase = caseFn(setSpellSort, (s: State, { value }) => sortL.set
 /**
  * Recover State
  */
+export const errorRecoveringState = creator.simple<string>("RECOVER_STATE_ERROR", {}, true);
 export const recoverState = creator.simple<StateCodec>("RECOVER_STATE");
 const recoverStateCase = caseFn(recoverState, (s: State, { value }) => ({
   spells: s.spells,
@@ -108,12 +103,11 @@ export const selectSpells = (state: State) =>
       (s) =>
         isIn(state.filters.source)(s.source) && // Spell source must be in selected sources
         intersects(state.filters.class)(s.class) && // Spell classes must intersect selected classes
-        isIn(state.filters.school)(s.school) && // Spell school must be in selected schools
         isIn(state.filters.level)(s.level) && // Spell level must be in selected levels
         !isIn(state.book)(s) && // Spell must not be in the book already
         s.name.toLowerCase().includes(state.filters.search.toLowerCase()) // Spell must contain the search phrase
     )
-    .sort(toSpellSort(state.sort));
+    .sort(toSpellSort(state.sort)); // Sort by sort type
 export const selectBrowseSpells = ({ spells, filters: { search }, sort }: State) =>
   spells.filter((s) => s.name.toLowerCase().includes(search.toLowerCase())).sort(toSpellSort(sort));
 
@@ -126,7 +120,6 @@ export const store = createStore(INITIAL_STATE)
     toggleSpellCase,
     toggleSourceCase,
     toggleClassCase,
-    toggleSchoolCase,
     toggleLevelCase,
     searchCase,
     resetFilterCase,

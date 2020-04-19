@@ -1,11 +1,19 @@
-import { Spell } from "~/store";
+import { Spell, Level } from "~/store";
 import { ordinal } from "./numbers";
 
-export const toSpellType = (s: Spell): string => {
-  if (s.level === 0) {
-    return `${s.school} Cantrip`;
+export const toSpellLevel = (level: Level): string => {
+  if (level === 0) {
+    return "Cantrip";
   }
-  return `${ordinal(s.level)} Level ${s.school}`;
+  return `${ordinal(level)} Level`;
+};
+
+export const toSpellType = (s: Spell): string => {
+  const level = toSpellLevel(s.level);
+  if (s.level === 0) {
+    return `${level} Cantrip`;
+  }
+  return `${level} ${s.school}`;
 };
 
 export const toSpellComponents = (s: Spell): string => {

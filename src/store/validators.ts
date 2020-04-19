@@ -75,7 +75,6 @@ export const StateCodec = t.type({
   filters: t.type({
     source: t.readonlyArray(Source),
     class: t.readonlyArray(Class),
-    school: t.readonlyArray(School),
     level: t.readonlyArray(Level),
     search: t.string,
   }),

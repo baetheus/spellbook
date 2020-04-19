@@ -35,7 +35,6 @@ export const INITIAL_STATE: State = {
   filters: {
     source: Sources,
     class: Classes,
-    school: Schools,
     level: Levels,
     search: "",
   },

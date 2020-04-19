@@ -1,0 +1,6 @@
+.filter-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10ch, 1fr));
+  grid-gap: var(--margin-width-3);
+  width: 100%;
+}

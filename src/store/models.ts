@@ -67,7 +67,6 @@ export type State = {
   filters: {
     source: ReadonlyArray<Source>;
     class: ReadonlyArray<Class>;
-    school: ReadonlyArray<School>;
     level: ReadonlyArray<Level>;
     search: string;
   };

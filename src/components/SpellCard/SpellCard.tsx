@@ -24,6 +24,8 @@ const toFontSize = (s: Spell): string => {
     return "fs-d4";
   } else if (s.description.length > 1300) {
     return "fs-d2";
+  } else if (s.description.length > 1000) {
+    return "fs-d1";
   } else {
     return "";
   }
@@ -82,7 +84,7 @@ export const SpellCard: FunctionalComponent<SpellCardProps> = ({
         </strong>
       ) : null}
       <section
-        class={`desc ct-base pwa-3 brb-1 inner-children ov-au ${toFontSize(spell)}`}
+        class={`desc ct-base pwt-3 pwx-3 brb-1 inner-children ov-hi ${toFontSize(spell)}`}
         dangerouslySetInnerHTML={{ __html: spell.description }}
       ></section>
       <footer class="spel fld-row jc-spb fs-d1">

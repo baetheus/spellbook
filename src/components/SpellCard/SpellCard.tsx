@@ -75,18 +75,18 @@ export const SpellCard: FunctionalComponent<SpellCardProps> = ({
         <p>{spell.duration}</p>
       </section>
       {spell.components.materials.length ? (
-        <section class="mats ta-c fs-d2">
+        <strong class="mats ta-c fs-d2">
           {spell.components.materials.map((m) => (
             <p>{m}</p>
           ))}
-        </section>
+        </strong>
       ) : null}
       <section
         class={`desc ct-base pwa-3 brb-1 inner-children ov-au ${toFontSize(spell)}`}
         dangerouslySetInnerHTML={{ __html: spell.description }}
       ></section>
       <footer class="spel fld-row jc-spb fs-d1">
-        <section>{toSpellType(spell)}</section>
+        <strong>{toSpellType(spell)}</strong>
         <section class="fld-row flg-2 fs-u1">
           {spell.class.map((c) => (
             <ClassIcon cls={c} />

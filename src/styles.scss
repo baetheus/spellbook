@@ -1,9 +1,9 @@
 // Meyer Reset
 @import "../node_modules/@nll/css/dist/reset/reset.min";
-// Local Reset
-@import "./styles/reset.scss";
 // Nll Styles
 @import "./styles/nll.scss";
+// Local Reset
+@import "./styles/reset.scss";
 
 .trns-d1 {
   transform: translateY(var(--margin-width-1));

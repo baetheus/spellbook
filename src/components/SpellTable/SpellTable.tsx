@@ -32,7 +32,7 @@ export const SpellTable: FunctionalComponent<SpellTableProps> = ({ spells, book,
         ))}
       </section>
 
-      <section class="fld-col ai-ctr flg-4 mwb-4">
+      <section class="fls-1-1 fld-col ai-ctr jc-end flg-4 mwb-4">
         {spells.length > _spells.length ? (
           <span class="vw-p100 ta-c">
             There are {spells.length - _spells.length} more spells not shown.

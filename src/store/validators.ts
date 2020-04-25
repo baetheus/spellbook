@@ -1,6 +1,6 @@
 import * as t from "io-ts";
-import { setFromArray } from "io-ts-types/lib/setFromArray";
-import { ordString } from "fp-ts/lib/Ord";
+import { setFromArray } from "io-ts-types/es6/setFromArray";
+import { ordString } from "fp-ts/es6/Ord";
 
 const Class = t.keyof({
   Artificer: null,

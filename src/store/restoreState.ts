@@ -1,7 +1,7 @@
-import { tryCatch, chain, mapLeft, right, left, fold } from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/pipeable";
+import { tryCatch, chain, mapLeft, right, left, fold } from "fp-ts/es6/Either";
+import { pipe } from "fp-ts/es6/pipeable";
 import { formatValidationError } from "io-ts-reporters";
-import { isSome } from "fp-ts/lib/Option";
+import { isSome } from "fp-ts/es6/Option";
 import { RunOnce } from "@nll/dux/Store";
 import { TypedAction, ActionCreator } from "@nll/dux/Actions";
 import { of } from "rxjs";

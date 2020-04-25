@@ -1,5 +1,15 @@
 import { spells } from "./spells";
-import { Level, Class, School, Source, State, Sort, Spell, SpellSort } from "./models";
+import {
+  Level,
+  Class,
+  School,
+  Source,
+  State,
+  Sort,
+  Spell,
+  SpellSort,
+  ShowSpellCount,
+} from "./models";
 import { toComparison } from "~/libraries/numbers";
 
 export const Levels: ReadonlyArray<Level> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -29,6 +39,8 @@ export const Schools: ReadonlyArray<School> = [
 
 export const Sources: ReadonlyArray<Source> = ["PHB", "XAN", "WLD"];
 
+export const SpellCounts: ReadonlyArray<ShowSpellCount> = [25, 50, 100, "All"];
+
 export const INITIAL_STATE: State = {
   spells: spells,
   book: new Set(),
@@ -39,6 +51,7 @@ export const INITIAL_STATE: State = {
     search: "",
   },
   sort: "Level",
+  showSpellCount: 25,
 };
 
 export const sortByName: Sort<Spell> = (a, b) => toComparison(a.name.localeCompare(b.name));

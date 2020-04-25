@@ -12,6 +12,9 @@ import {
   Levels,
   Classes,
   resetFilters,
+  SpellCounts,
+  setSpellCount,
+  showSpellCountL,
 } from "~/store";
 import { ClassIcon } from "../SpellCard";
 import { isIn } from "~/libraries/fns";
@@ -20,10 +23,12 @@ import { toSpellLevel } from "~/libraries/spells";
 
 export const FiltersSpells = () => {
   const [filters] = useStore(filtersL.get);
-  const [handleSource, handleClass, handleLevel, handleReset] = useDispatch(
+  const [currentCount] = useStore(showSpellCountL.get);
+  const [handleSource, handleClass, handleLevel, handleCount, handleReset] = useDispatch(
     toggleSource,
     toggleClass,
     toggleLevel,
+    setSpellCount,
     resetFilters
   );
 
@@ -77,6 +82,20 @@ export const FiltersSpells = () => {
             onClick={() => handleSource(src)}
           >
             {src}
+          </button>
+        ))}
+      </section>
+      <section class="filter-list">
+        {SpellCounts.map((count) => (
+          <button
+            class={`vh-1 pwa-3 bra-1 fld-row ai-ctr jc-ctr ${
+              count === currentCount ? "ct-primary" : "ct-light"
+            }`}
+            aria-label={`Toggle ${count} Sourcebook Filter`}
+            title={`Toggle ${count} Sourcebook Filter`}
+            onClick={() => handleCount(count)}
+          >
+            Show {count}
           </button>
         ))}
       </section>

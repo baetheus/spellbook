@@ -51,7 +51,7 @@ const Source = t.keyof({
   WLD: null,
 });
 
-const Spell = t.type({
+export const Spell = t.type({
   name: t.string,
   description: t.string,
   range: t.string,
@@ -72,6 +72,8 @@ const SpellSort = t.keyof({
   Level: null,
 });
 
+const ShowSpellCount = t.union([t.literal(25), t.literal(50), t.literal(100), t.literal("All")]);
+
 export const StateCodec = t.type({
   book: setFromArray(t.string, ordString),
   filters: t.type({
@@ -81,5 +83,6 @@ export const StateCodec = t.type({
     search: t.string,
   }),
   sort: SpellSort,
+  showSpellCount: ShowSpellCount,
 });
 export type StateCodec = t.TypeOf<typeof StateCodec>;

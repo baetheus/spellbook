@@ -12,12 +12,8 @@ export const Header = () => (
         Spellbook
       </Link>
     </h1>
-    <nav class="fld-row flg-3 ai-ctr pwx-3">
-      <Link
-        href="/about"
-        aria-label="Help and About page link"
-        class="about-icon bra-1 fs-u4 pwx-2"
-      >
+    <nav class="fld-row flg-3 ai-ctr pwx-4">
+      <Link href="/about" aria-label="Help and About page link" class="about-icon bra-1 fs-u4 ta-c">
         <MdHelp />
       </Link>
     </nav>

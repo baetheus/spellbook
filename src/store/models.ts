@@ -58,6 +58,11 @@ export type Comparison = -1 | 0 | 1;
 export type Sort<T> = (a: T, b: T) => Comparison;
 
 /**
+ * Show Spells Counts
+ */
+export type ShowSpellCount = 25 | 50 | 100 | "All";
+
+/**
  * State
  */
 export type State = {
@@ -71,4 +76,5 @@ export type State = {
     search: string;
   };
   sort: SpellSort;
+  showSpellCount: ShowSpellCount;
 };

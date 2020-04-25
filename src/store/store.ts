@@ -7,11 +7,11 @@ import { Lens } from "monocle-ts";
 import { EMPTY } from "rxjs";
 import { tap, mergeMapTo, skip } from "rxjs/operators";
 
-import { isIn, intersects, notNil, toggleIn } from "~/libraries/fns";
+import { isIn, intersects, toggleIn } from "~/libraries/fns";
 import { toggleIn as setToggleIn } from "~/libraries/sets";
 import { logger } from "~/libraries/dux";
 
-import { State, Spell, Source, Class, Level, SpellSort } from "./models";
+import { State, Spell, Source, Class, Level, SpellSort, ShowSpellCount } from "./models";
 import { INITIAL_STATE, toSpellSort } from "./consts";
 import { restoreState, trySetState } from "./restoreState";
 import { StateCodec } from "./validators";
@@ -20,18 +20,18 @@ import { StateCodec } from "./validators";
 const creator = actionCreatorFactory("SPELLS");
 
 // Lenses
-const rootProp = Lens.fromProp<State>();
-export const spellsL = rootProp("spells");
-export const bookL = rootProp("book");
-export const filtersL = rootProp("filters");
-export const focusL = rootProp("focus");
-
 const rootProps = Lens.fromPath<State>();
+export const spellsL = rootProps(["spells"]);
+export const bookL = rootProps(["book"]);
+export const filtersL = rootProps(["filters"]);
+export const focusL = rootProps(["focus"]);
+export const sortL = rootProps(["sort"]);
+export const showSpellCountL = rootProps(["showSpellCount"]);
+
 export const sourceL = rootProps(["filters", "source"]);
 export const classL = rootProps(["filters", "class"]);
 export const levelL = rootProps(["filters", "level"]);
 export const searchL = rootProps(["filters", "search"]);
-export const sortL = rootProps(["sort"]);
 
 /**
  * Add / Remove spells from book
@@ -92,6 +92,14 @@ export const setSpellSort = creator.simple<SpellSort>("SORT_SPELLS");
 const setSpellSortCase = caseFn(setSpellSort, (s: State, { value }) => sortL.set(value)(s));
 
 /**
+ * Spell Count
+ */
+export const setSpellCount = creator.simple<ShowSpellCount>("SET_SPELL_COUNT");
+const setSpellCountCase = caseFn(setSpellCount, (s: State, { value }) =>
+  showSpellCountL.set(value)(s)
+);
+
+/**
  * Recover State
  */
 export const errorRecoveringState = creator.simple<string>("RECOVER_STATE_ERROR", {}, true);
@@ -128,6 +136,7 @@ export const store = createStore(INITIAL_STATE)
     toggleSourceCase,
     toggleClassCase,
     toggleLevelCase,
+    setSpellCountCase,
     searchCase,
     resetFilterCase,
     setSpellSortCase,

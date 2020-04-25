@@ -3,7 +3,7 @@ import "./SpellTable.scss";
 import { h, FunctionalComponent, Fragment } from "preact";
 import { useCallback } from "preact/hooks";
 
-import { Spell } from "~/store";
+import { Spell, useStore, showSpellCountL } from "~/store";
 import { SpellCard } from "../SpellCard";
 
 interface SpellTableProps {
@@ -14,12 +14,15 @@ interface SpellTableProps {
 
 export const SpellTable: FunctionalComponent<SpellTableProps> = ({ spells, book, toggleSpell }) => {
   const toTop = useCallback(() => scrollTo(0, 0), []);
+  const [spellCount] = useStore(showSpellCountL.get);
+
+  const _spells = spellCount === "All" ? spells : spells.slice(0, spellCount);
 
   return (
     <Fragment>
       {spells.length === 0 ? <h3 class="as-ctr js-ctr ta-c">No Spells To Show!</h3> : null}
       <section class="spell-table">
-        {spells.slice(0, 100).map((spell) => (
+        {_spells.map((spell) => (
           <SpellCard
             fixed={false}
             spell={spell}
@@ -28,11 +31,15 @@ export const SpellTable: FunctionalComponent<SpellTableProps> = ({ spells, book,
           ></SpellCard>
         ))}
       </section>
-      <section class="fld-row flg-4 jc-spb pwx-4 pwb-4">
-        {spells.length > 100 ? (
-          <span class="vw-p100">There are {spells.length - 100} more spells not shown.</span>
-        ) : null}{" "}
-        <button class="pwx-4 pwy-3 ct-primary bra-1" onClick={toTop}>
+
+      <section class="fld-col ai-ctr flg-4 mwb-4">
+        {spells.length > _spells.length ? (
+          <span class="vw-p100 ta-c">
+            There are {spells.length - _spells.length} more spells not shown.
+          </span>
+        ) : null}
+
+        <button class="vw-p100 vwmx-ch0 wx-4 pwy-3 ct-primary bra-1" onClick={toTop}>
           <strong>Up</strong>
         </button>
       </section>

@@ -15,20 +15,33 @@ import {
   SpellCounts,
   setSpellCount,
   showSpellCountL,
+  SpellSorts,
+  sortL,
+  setSpellSort,
 } from "~/store";
 import { ClassIcon } from "../SpellCard";
 import { isIn } from "~/libraries/fns";
 import { ordinal } from "~/libraries/numbers";
 import { toSpellLevel } from "~/libraries/spells";
+import { SortIcon } from "./SortIcon";
 
 export const FiltersSpells = () => {
   const [filters] = useStore(filtersL.get);
+  const [currentSort] = useStore(sortL.get);
   const [currentCount] = useStore(showSpellCountL.get);
-  const [handleSource, handleClass, handleLevel, handleCount, handleReset] = useDispatch(
+  const [
+    handleSource,
+    handleClass,
+    handleLevel,
+    handleCount,
+    handleSort,
+    handleReset,
+  ] = useDispatch(
     toggleSource,
     toggleClass,
     toggleLevel,
     setSpellCount,
+    setSpellSort,
     resetFilters
   );
 
@@ -86,13 +99,28 @@ export const FiltersSpells = () => {
         ))}
       </section>
       <section class="filter-list">
+        {SpellSorts.map((sort) => (
+          <button
+            class={`vh-1 pwa-3 bra-1 fld-row flg-3 ai-ctr jc-ctr ${
+              sort === currentSort ? "ct-primary" : "ct-light"
+            }`}
+            aria-label={`Sort By ${sort}`}
+            title={`Sort By ${sort}`}
+            onClick={() => handleSort(sort)}
+          >
+            <SortIcon sort={sort} />
+            <span>{sort}</span>
+          </button>
+        ))}
+      </section>
+      <section class="filter-list">
         {SpellCounts.map((count) => (
           <button
             class={`vh-1 pwa-3 bra-1 fld-row ai-ctr jc-ctr ${
               count === currentCount ? "ct-primary" : "ct-light"
             }`}
-            aria-label={`Toggle ${count} Sourcebook Filter`}
-            title={`Toggle ${count} Sourcebook Filter`}
+            aria-label={`Show ${count} Cards`}
+            title={`Show ${count} Cards`}
             onClick={() => handleCount(count)}
           >
             Show {count}

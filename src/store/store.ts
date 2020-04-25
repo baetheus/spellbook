@@ -131,15 +131,15 @@ export const selectSpells = (state: State) =>
 export const store = createStore(INITIAL_STATE)
   .addMetaReducers(logger())
   .addReducers(
+    searchCase,
     toggleSpellCase,
     clearBookCase,
     toggleSourceCase,
     toggleClassCase,
     toggleLevelCase,
     setSpellCountCase,
-    searchCase,
-    resetFilterCase,
     setSpellSortCase,
+    resetFilterCase,
     recoverStateCase
   )
   .addRunOnces(restoreState)

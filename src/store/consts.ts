@@ -41,6 +41,8 @@ export const Sources: ReadonlyArray<Source> = ["PHB", "XAN", "WLD"];
 
 export const SpellCounts: ReadonlyArray<ShowSpellCount> = [25, 50, 100, "All"];
 
+export const SpellSorts: ReadonlyArray<SpellSort> = ["Level", "Name"];
+
 export const INITIAL_STATE: State = {
   spells: spells,
   book: new Set(),

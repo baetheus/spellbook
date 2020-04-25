@@ -33,7 +33,7 @@ export const SearchSpells = () => {
           onInput={handleInput}
           aria-label="Filter spells by search string"
           placeholder="Search"
-          class="vh-2 fls-1-1 ct-light brl-1 pwx-5 bwa-0 fs-u1"
+          class="vh-2 vwmn-p50 fls-1-1 ct-light brl-1 pwx-5 bwa-0 fs-u1"
         />
         <button
           type="button"

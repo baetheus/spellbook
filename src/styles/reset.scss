@@ -1,5 +1,5 @@
 /**
- * Reset
+ * Default HTML
  */
 html {
   font-family: "Open Sans", sans-serif;
@@ -10,8 +10,10 @@ html {
   background-color: var(--color-back-base-0);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-width: 320px;
 }
 
+// Typography
 h1,
 h2,
 h3,
@@ -58,9 +60,27 @@ button {
   padding: 0;
 }
 
+// Focus
 *:focus {
   outline: none;
-  box-shadow: 0 0 1.5px 1.5px var(--ce-focus);
+  box-shadow: 0 0 1.5px 1.5px var(--cb-focus);
+  @extend .ct-focus;
+}
+
+.ct-primary:focus {
+  @extend .ct-primary;
+}
+
+// Color Transitions
+* {
+  -webkit-transition: background-color 150ms ease-in-out, border-color 150ms ease-in-out,
+    box-shadow 150ms ease-in-out;
+  -moz-transition: background-color 150ms ease-in-out, border-color 150ms ease-in-out,
+    box-shadow 150ms ease-in-out;
+  -o-transition: background-color 150ms ease-in-out, border-color 150ms ease-in-out,
+    box-shadow 150ms ease-in-out;
+  transition: background-color 150ms ease-in-out, border-color 150ms ease-in-out,
+    box-shadow 150ms ease-in-out;
 }
 
 // Scrollbars

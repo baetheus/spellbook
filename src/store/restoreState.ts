@@ -14,7 +14,7 @@ import { notNil } from "~/libraries/fns";
 
 import { State } from "./models";
 
-export const trySetState = (s: StateCodec) =>
+export const trySetState = (s: State) =>
   tryCatch(
     () => window.localStorage.setItem(STORAGE_KEY, JSON.stringify(StateCodec.encode(s))),
     () => "Failed to set state in localStorage"

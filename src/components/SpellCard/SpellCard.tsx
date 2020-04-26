@@ -18,11 +18,11 @@ interface SpellCardProps {
 // Some spell descriptions are looooooong Eventually this will need to be
 // Revisted to double up spell cards
 const toFontSize = (s: Spell): string => {
-  if (s.description.length > 2800) {
-    return "fs-d5";
-  } else if (s.description.length > 2000) {
+  if (s.description.length > 3500) {
     return "fs-d4";
-  } else if (s.description.length > 1300) {
+  } else if (s.description.length > 2500) {
+    return "fs-d3";
+  } else if (s.description.length > 1700) {
     return "fs-d2";
   } else if (s.description.length > 1000) {
     return "fs-d1";

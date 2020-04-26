@@ -1,4 +1,3 @@
-import { spells } from "./spells";
 import {
   Level,
   Class,
@@ -11,6 +10,7 @@ import {
   ShowSpellCount,
 } from "./models";
 import { toComparison } from "~/libraries/numbers";
+import { initial } from "@nll/datum/Datum";
 
 export const Levels: ReadonlyArray<Level> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -44,7 +44,7 @@ export const SpellCounts: ReadonlyArray<ShowSpellCount> = [25, 50, 100, "All"];
 export const SpellSorts: ReadonlyArray<SpellSort> = ["Level", "Name"];
 
 export const INITIAL_STATE: State = {
-  spells: spells,
+  spells: initial,
   book: new Set(),
   filters: {
     source: Sources,

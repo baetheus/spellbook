@@ -1,20 +1,25 @@
 import { useEffect, useState, useCallback } from "preact/hooks";
-import { createStore } from "@nll/dux/Store";
-import { actionCreatorFactory } from "@nll/dux/Actions";
+import { createStore, RunOnce, RunEvery } from "@nll/dux/Store";
+import { actionCreatorFactory, TypedAction } from "@nll/dux/Actions";
+import { asyncReducerFactory } from "@nll/dux/Reducers";
+import { asyncExhaustMap } from "@nll/dux/Operators";
 import { useStoreFactory, useDispatchFactory } from "@nll/dux/React";
+import { map } from "@nll/datum/DatumEither";
 import { caseFn } from "@nll/dux/Reducers";
 import { Lens } from "monocle-ts";
 import { EMPTY } from "rxjs";
 import { tap, mergeMapTo, skip } from "rxjs/operators";
+import { ajax } from "rxjs/ajax";
 
 import { isIn, intersects, toggleIn } from "~/libraries/fns";
 import { toggleIn as setToggleIn } from "~/libraries/sets";
 import { logger } from "~/libraries/dux";
 
-import { State, Spell, Source, Class, Level, SpellSort, ShowSpellCount } from "./models";
+import { State, Spell, Source, Class, Level, SpellSort, ShowSpellCount, Spells } from "./models";
 import { INITIAL_STATE, toSpellSort } from "./consts";
 import { restoreState, trySetState } from "./restoreState";
-import { StateCodec } from "./validators";
+import { StateCodec, Spells as SpellsCodec } from "./validators";
+import { mapDecode } from "~/libraries/ajax";
 
 // Action Creators
 const creator = actionCreatorFactory("SPELLS");
@@ -32,6 +37,15 @@ export const sourceL = rootProps(["filters", "source"]);
 export const classL = rootProps(["filters", "class"]);
 export const levelL = rootProps(["filters", "level"]);
 export const searchL = rootProps(["filters", "search"]);
+
+/**
+ * Load Spells
+ */
+export const loadSpells = creator.async<void, Spells, Error>("LOAD_SPELLS");
+const loadSpellsReducer = asyncReducerFactory(loadSpells, spellsL);
+const loadSpellsRunOnce: RunOnce<State> = asyncExhaustMap(loadSpells, () =>
+  ajax.getJSON("/spells.json").pipe(mapDecode(SpellsCodec))
+);
 
 /**
  * Add / Remove spells from book
@@ -114,16 +128,24 @@ const recoverStateCase = caseFn(recoverState, (s: State, { value }) => ({
  */
 export const selectBook = bookL.get;
 export const selectSpells = (state: State) =>
-  state.spells
-    .filter(
-      (s) =>
-        state.book.has(s.name) ||
-        (isIn(state.filters.source)(s.source) && // Spell source must be in selected sources
-        intersects(state.filters.class)(s.class) && // Spell classes must intersect selected classes
-        isIn(state.filters.level)(s.level) && // Spell level must be in selected levels
-          s.name.toLowerCase().includes(state.filters.search.toLowerCase())) // Spell must contain the search phrase
-    )
-    .sort(toSpellSort(state.sort)); // Sort by sort type
+  map(
+    (spells: ReadonlyArray<Spell>) =>
+      spells
+        .filter(
+          (s) =>
+            state.book.has(s.name) ||
+            (isIn(state.filters.source)(s.source) && // Spell source must be in selected sources
+            intersects(state.filters.class)(s.class) && // Spell classes must intersect selected classes
+            isIn(state.filters.level)(s.level) && // Spell level must be in selected levels
+              s.name.toLowerCase().includes(state.filters.search.toLowerCase())) // Spell must contain the search phrase
+        )
+        .sort(toSpellSort(state.sort)) // Sort by sort type
+  )(state.spells);
+
+/**
+ * Save State RunEvery
+ */
+const saveState: RunOnce<State> = (_, s$) => s$.pipe(skip(1), tap(trySetState), mergeMapTo(EMPTY));
 
 /**
  * Wireup Store
@@ -140,10 +162,13 @@ export const store = createStore(INITIAL_STATE)
     setSpellCountCase,
     setSpellSortCase,
     resetFilterCase,
-    recoverStateCase
+    recoverStateCase,
+    loadSpellsReducer
   )
-  .addRunOnces(restoreState)
-  .addRunOnces((_, s) => s.pipe(skip(1), tap(trySetState), mergeMapTo(EMPTY)));
+  .addRunOnces(restoreState, saveState, loadSpellsRunOnce);
+
+// Load Spells!
+store.dispatch(loadSpells.pending());
 
 export const useStore = useStoreFactory(store, useState, useEffect);
 export const useDispatch = useDispatchFactory(store, useCallback);

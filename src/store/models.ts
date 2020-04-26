@@ -1,3 +1,5 @@
+import { DatumEither } from "@nll/datum/DatumEither";
+
 /**
  * Spell Types
  */
@@ -48,6 +50,7 @@ export type Spell = {
   source: Source;
   page: number;
 };
+export type Spells = ReadonlyArray<Spell>;
 
 export type SpellSort = "Name" | "Level";
 
@@ -66,7 +69,7 @@ export type ShowSpellCount = 25 | 50 | 100 | "All";
  * State
  */
 export type State = {
-  spells: ReadonlyArray<Spell>;
+  spells: DatumEither<Error, Spells>;
   book: Set<string>;
   focus?: Spell;
   filters: {

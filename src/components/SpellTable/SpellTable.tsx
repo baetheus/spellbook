@@ -3,11 +3,11 @@ import "./SpellTable.scss";
 import { h, FunctionalComponent, Fragment } from "preact";
 import { useCallback } from "preact/hooks";
 
-import { Spell, useStore, showSpellCountL } from "~/store";
+import { Spell, useStore, showSpellCountL, Spells } from "~/store";
 import { SpellCard } from "../SpellCard";
 
 interface SpellTableProps {
-  spells: Spell[];
+  spells: Spells;
   book: Set<string>;
   toggleSpell: (s: Spell) => void;
 }

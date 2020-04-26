@@ -67,6 +67,8 @@ export const Spell = t.type({
   page: t.number,
 });
 
+export const Spells = t.readonlyArray(Spell);
+
 const SpellSort = t.keyof({
   Name: null,
   Level: null,
@@ -74,7 +76,7 @@ const SpellSort = t.keyof({
 
 const ShowSpellCount = t.union([t.literal(25), t.literal(50), t.literal(100), t.literal("All")]);
 
-export const StateCodec = t.type({
+export const StateCodec = t.strict({
   book: setFromArray(t.string, ordString),
   filters: t.type({
     source: t.readonlyArray(Source),

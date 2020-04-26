@@ -14,7 +14,7 @@ export const BrowsePage: FunctionalComponent<{}> = () => {
   const [handleToggle] = useDispatch(toggleSpell);
 
   return (
-    <DefaultLayout>
+    <DefaultLayout width={1}>
       <SearchSpells />
       {squash(
         () => <LoadingCard title="Loading Spells..." />,

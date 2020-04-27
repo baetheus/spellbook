@@ -1,7 +1,7 @@
 import { h, FunctionalComponent } from "preact";
 import { FaSortAlphaDown, FaSortNumericDown } from "react-icons/fa";
 
-import { SpellSort } from "~/store";
+import { SpellSort } from "~/store/spells";
 
 interface SortIconProps {
   sort: SpellSort;

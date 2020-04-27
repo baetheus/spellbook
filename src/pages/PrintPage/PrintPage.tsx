@@ -3,7 +3,7 @@ import "./PrintPage.scss";
 import { h, FunctionComponent, Fragment } from "preact";
 import { squash } from "@nll/datum/DatumEither";
 
-import { useStore, selectBook, selectSpells, Spells } from "~/store";
+import { useStore, selectBook, selectSpells, Spells } from "~/store/spells";
 import { SpellCard } from "~/components/SpellCard";
 import { chunk } from "~/libraries/arrays";
 import { LoadingCard } from "~/components/LoadingCard";

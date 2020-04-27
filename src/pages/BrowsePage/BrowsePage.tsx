@@ -3,7 +3,7 @@ import { squash } from "@nll/datum/DatumEither";
 
 import { DefaultLayout } from "~/components/Layouts";
 import { SearchSpells } from "~/components/SearchSpells";
-import { Spells, useStore, selectSpells, selectBook, useDispatch, toggleSpell } from "~/store";
+import { Spells, useStore, selectSpells, selectBook, useDispatch, toggleSpell } from "~/store/spells";
 import { SpellTable } from "~/components/SpellTable/SpellTable";
 import { ErrorCard } from "~/components/ErrorCard";
 import { LoadingCard } from "~/components/LoadingCard";

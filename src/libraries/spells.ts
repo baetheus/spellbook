@@ -1,4 +1,4 @@
-import { Spell, Level } from "~/store";
+import { Spell, Level } from "~/store/spells";
 import { ordinal } from "./numbers";
 
 export const toSpellLevel = (level: Level): string => {

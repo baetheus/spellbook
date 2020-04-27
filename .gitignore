@@ -3,6 +3,7 @@
 
 # build
 /.cache
+/.parcel-cache
 
 # production
 /dist
@@ -22,3 +23,6 @@ yarn-error.log*
 
 # firebase
 .firebase
+
+# env
+.env.local

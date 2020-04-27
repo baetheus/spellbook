@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "preact/hooks";
-import { createStore, RunOnce, RunEvery } from "@nll/dux/Store";
-import { actionCreatorFactory, TypedAction } from "@nll/dux/Actions";
+import { createStore, RunOnce } from "@nll/dux/Store";
+import { actionCreatorFactory } from "@nll/dux/Actions";
 import { asyncReducerFactory } from "@nll/dux/Reducers";
 import { asyncExhaustMap } from "@nll/dux/Operators";
 import { useStoreFactory, useDispatchFactory } from "@nll/dux/React";
@@ -20,6 +20,7 @@ import { INITIAL_STATE, toSpellSort } from "./consts";
 import { restoreState, trySetState } from "./restoreState";
 import { StateCodec, Spells as SpellsCodec } from "./validators";
 import { mapDecode } from "~/libraries/ajax";
+import { pipe } from "fp-ts/es6/pipeable";
 
 // Action Creators
 const creator = actionCreatorFactory("SPELLS");
@@ -127,20 +128,18 @@ const recoverStateCase = caseFn(recoverState, (s: State, { value }) => ({
  * Select Spells Filtered by Filters
  */
 export const selectBook = bookL.get;
+
+const spellFilter = (state: State) => (spell: Spell) =>
+  isIn(state.filters.source)(spell.source) && // Spell source must be in selected sources
+  isIn(state.filters.level)(spell.level) && // Spell level must be in selected levels
+  intersects(state.filters.class)(spell.class) && // Spell classes must intersect selected classes
+  spell.name.toLowerCase().includes(state.filters.search.toLowerCase()); // Spell must contain the search phrase
+
 export const selectSpells = (state: State) =>
-  map(
-    (spells: ReadonlyArray<Spell>) =>
-      spells
-        .filter(
-          (s) =>
-            state.book.has(s.name) ||
-            (isIn(state.filters.source)(s.source) && // Spell source must be in selected sources
-            intersects(state.filters.class)(s.class) && // Spell classes must intersect selected classes
-            isIn(state.filters.level)(s.level) && // Spell level must be in selected levels
-              s.name.toLowerCase().includes(state.filters.search.toLowerCase())) // Spell must contain the search phrase
-        )
-        .sort(toSpellSort(state.sort)) // Sort by sort type
-  )(state.spells);
+  pipe(
+    state.spells,
+    map((spells) => spells.filter(spellFilter(state)).sort(toSpellSort(state.sort)))
+  );
 
 /**
  * Save State RunEvery

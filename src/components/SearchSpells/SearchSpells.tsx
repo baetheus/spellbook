@@ -4,19 +4,15 @@ import { h, Fragment } from "preact";
 import { useCallback, useState } from "preact/hooks";
 import { route } from "preact-router";
 import { MdSettings, MdClose } from "react-icons/md";
-import debounce from "lodash/debounce";
 
-import { useStore, searchL, search, useDispatch, clearBook } from "~/store/spells";
+import { useStore, searchL, search, useDispatch, clearBook, bookL } from "~/store/spells";
 import { FiltersSpells } from "../FilterSpells";
 
 export const SearchSpells = () => {
-  const [phrase, dispatch] = useStore(searchL.get);
   const [showConfig, setShowConfig] = useState(false);
-  const setPhrase = useCallback(
-    debounce((s: string) => dispatch(search(s))),
-    []
-  );
-  const [handleClearBook] = useDispatch(clearBook);
+  const [phrase] = useStore(searchL.get);
+  const [book] = useStore(bookL.get);
+  const [handleClearBook, setPhrase] = useDispatch(clearBook, search);
 
   const handleInput = useCallback<h.JSX.GenericEventHandler<HTMLInputElement>>(
     (e) => setPhrase(e.currentTarget.value),
@@ -62,9 +58,10 @@ export const SearchSpells = () => {
         <button
           aria-label="Clear selected spells"
           class="ct-light fls-3-1 vh-1 fs-u1 bra-1 fld-row ai-ctr jc-ctr"
+          disabled={book.size === 0}
           onClick={handleClearBook}
         >
-          Clear Selections
+          Clear ({book.size}) Selections
         </button>
         <button
           aria-label="Go to print spells page"

@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from "preact/hooks";
 import { Lens } from "monocle-ts";
 import { Option, none, some } from "fp-ts/es6/Option";
-import { sequenceS } from "fp-ts/es6/Apply";
+import { pipe } from "fp-ts/es6/pipeable";
 import { from } from "rxjs";
 import { actionCreatorFactory } from "@nll/dux/Actions";
 import { asyncReducerFactory, caseFn } from "@nll/dux/Reducers";
 import { asyncExhaustMap } from "@nll/dux/Operators";
-import { DatumEither, initial, isSuccess, datumEither, map } from "@nll/datum/DatumEither";
+import { DatumEither, initial, isSuccess, chain } from "@nll/datum/DatumEither";
 import createAuth0Client, {
   IdToken,
   PopupLoginOptions,
@@ -20,7 +20,6 @@ import { createStore, filterEvery } from "@nll/dux/Store";
 import { useStoreFactory, useDispatchFactory } from "@nll/dux/React";
 
 import { logger } from "~/libraries/dux";
-import { pipe } from "fp-ts/es6/pipeable";
 
 /**
  * Models
@@ -43,7 +42,6 @@ export interface LoginProps {
  */
 const INITIAL_AUTH_STATE: AuthState = { options: none, client: initial, user: initial };
 const creator = actionCreatorFactory("AUTH");
-const sequence = sequenceS(datumEither);
 
 /**
  * Lenses
@@ -176,8 +174,8 @@ const logoutRunEvery = filterEvery(logout.pending, async (s: AuthState, { value 
 
 export const selectUser = (s: AuthState) =>
   pipe(
-    sequence({ user: s.user, client: s.client }),
-    map(({ user }) => user)
+    s.client,
+    chain(() => s.user)
   );
 
 /**

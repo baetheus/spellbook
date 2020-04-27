@@ -3,7 +3,7 @@ import "./Header.scss";
 import { h } from "preact";
 import { Link } from "preact-router";
 import { MdHelp } from "react-icons/md";
-import { refreshFold } from "@nll/datum/DatumEither";
+import { squash } from "@nll/datum/DatumEither";
 
 import { useAuthStore, useAuthDispatch, loginWithRedirect, logout, selectUser } from "~/store/auth";
 
@@ -11,12 +11,7 @@ const LoginLink = () => {
   const [user] = useAuthStore(selectUser);
   const [handleLogin, handleLogout] = useAuthDispatch(loginWithRedirect.pending, logout.pending);
 
-  return refreshFold(
-    () => (
-      <a href="#" onClick={() => handleLogin({})}>
-        Login
-      </a>
-    ),
+  return squash(
     () => <span>Loading...</span>,
     () => (
       <a href="#" onClick={() => handleLogin({})}>

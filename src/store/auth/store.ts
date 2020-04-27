@@ -1,10 +1,12 @@
+import { useState, useEffect, useCallback } from "preact/hooks";
 import { Lens } from "monocle-ts";
 import { Option, none, some } from "fp-ts/es6/Option";
+import { sequenceS } from "fp-ts/es6/Apply";
 import { from } from "rxjs";
 import { actionCreatorFactory } from "@nll/dux/Actions";
 import { asyncReducerFactory, caseFn } from "@nll/dux/Reducers";
 import { asyncExhaustMap } from "@nll/dux/Operators";
-import { DatumEither, initial, isSuccess } from "@nll/datum/DatumEither";
+import { DatumEither, initial, isSuccess, datumEither, map } from "@nll/datum/DatumEither";
 import createAuth0Client, {
   IdToken,
   PopupLoginOptions,
@@ -16,9 +18,9 @@ import createAuth0Client, {
 } from "@auth0/auth0-spa-js";
 import { createStore, filterEvery } from "@nll/dux/Store";
 import { useStoreFactory, useDispatchFactory } from "@nll/dux/React";
-import { useState, useEffect, useCallback } from "preact/hooks";
 
 import { logger } from "~/libraries/dux";
+import { pipe } from "fp-ts/es6/pipeable";
 
 /**
  * Models
@@ -41,6 +43,7 @@ export interface LoginProps {
  */
 const INITIAL_AUTH_STATE: AuthState = { options: none, client: initial, user: initial };
 const creator = actionCreatorFactory("AUTH");
+const sequence = sequenceS(datumEither);
 
 /**
  * Lenses
@@ -109,9 +112,7 @@ const clientToRedirectCallback = filterEvery(createClient.success, async () => {
 const getUserAfterClientSuccess = filterEvery(createClient.success, async () => {
   return getUser.pending();
 });
-const getUserAfterRedirectSuccess = filterEvery(redirectCallback.success, async (s: AuthState) => {
-  return getUser.pending();
-});
+const getUserAfterRedirectSuccess = filterEvery(redirectCallback.success, () => getUser.pending());
 
 /**
  * Login with Popup
@@ -158,16 +159,26 @@ const loginWithRedirectRunEvery = filterEvery(
   }
 );
 
-export const logout = creator.async("LOGOUT");
+export const logout = creator.async<string>("LOGOUT");
 const logoutResetCase = caseFn(logout.success, () => INITIAL_AUTH_STATE);
-const logoutRunEvery = filterEvery(logout.pending, async (s: AuthState, _) => {
+const logoutRunEvery = filterEvery(logout.pending, async (s: AuthState, { value }) => {
   if (!isSuccess(s.client)) {
     return getUser.failure({ params: undefined, error: new Error("Client is not initilized.") });
   }
   const client = s.client.value.right;
-  await client.logout();
-  return logout.success({ params: null, result: null });
+  await client.logout({ returnTo: value });
+  return logout.success({ params: value, result: null });
 });
+
+/**
+ * Selectors
+ */
+
+export const selectUser = (s: AuthState) =>
+  pipe(
+    sequence({ user: s.user, client: s.client }),
+    map(({ user }) => user)
+  );
 
 /**
  * Create Store
@@ -181,7 +192,7 @@ export const authStore = createStore(INITIAL_AUTH_STATE)
     clientToRedirectCallback,
     getUserAfterClientSuccess,
     loginWithPopRunEvery,
-    loginWithRedirectRunEvery,,
+    loginWithRedirectRunEvery,
     getUserAfterLoginSuccess,
     logoutRunEvery,
     getUserAfterRedirectSuccess

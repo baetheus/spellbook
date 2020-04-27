@@ -3,7 +3,7 @@ import "./SpellCard.scss";
 import { h, FunctionalComponent } from "preact";
 
 import { toSpellComponents, toSpellType } from "~/libraries/spells";
-import { Spell } from "~/store";
+import { Spell } from "~/store/spells";
 import { ClassIcon } from "./ClassIcon";
 import { useCallback } from "preact/hooks";
 

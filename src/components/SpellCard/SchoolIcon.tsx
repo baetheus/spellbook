@@ -10,7 +10,7 @@ import {
   GiInvisible,
 } from "react-icons/gi";
 
-import { School } from "~/store";
+import { School } from "~/store/spells";
 
 interface SchoolIconProps {
   school: School;

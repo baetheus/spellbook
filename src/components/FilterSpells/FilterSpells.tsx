@@ -18,7 +18,7 @@ import {
   SpellSorts,
   sortL,
   setSpellSort,
-} from "~/store";
+} from "~/store/spells";
 import { ClassIcon } from "../SpellCard";
 import { isIn } from "~/libraries/fns";
 import { ordinal } from "~/libraries/numbers";

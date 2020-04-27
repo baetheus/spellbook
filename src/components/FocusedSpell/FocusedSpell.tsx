@@ -1,6 +1,6 @@
 import { h } from "preact";
 
-import { useStore, focusL } from "~/store";
+import { useStore, focusL } from "~/store/spells";
 import { nil } from "~/libraries/fns";
 
 export const FocusedSpell = () => {

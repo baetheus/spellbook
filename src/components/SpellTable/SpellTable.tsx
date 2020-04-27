@@ -3,7 +3,7 @@ import "./SpellTable.scss";
 import { h, FunctionalComponent, Fragment } from "preact";
 import { useCallback } from "preact/hooks";
 
-import { Spell, useStore, showSpellCountL, Spells } from "~/store";
+import { Spell, useStore, showSpellCountL, Spells } from "~/store/spells";
 import { SpellCard } from "../SpellCard";
 
 interface SpellTableProps {

@@ -6,7 +6,7 @@ import { route } from "preact-router";
 import { MdSettings, MdClose } from "react-icons/md";
 import debounce from "lodash/debounce";
 
-import { useStore, searchL, search, useDispatch, clearBook } from "~/store";
+import { useStore, searchL, search, useDispatch, clearBook } from "~/store/spells";
 import { FiltersSpells } from "../FilterSpells";
 
 export const SearchSpells = () => {

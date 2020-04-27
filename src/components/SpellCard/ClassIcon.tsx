@@ -11,7 +11,7 @@ import {
   GiFireball,
 } from "react-icons/gi";
 
-import { Class } from "~/store";
+import { Class } from "~/store/spells";
 
 interface ClassIconProps {
   cls: Class;

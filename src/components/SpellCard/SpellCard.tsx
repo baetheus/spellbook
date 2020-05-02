@@ -53,13 +53,13 @@ export const SpellCard: FunctionalComponent<SpellCardProps> = ({
     <article
       tabIndex={0}
       aria-label={`${spell.name} spell card - ${theme === "ct-dark" ? "Unselected" : "Selected"}`}
-      class={`card ${
+      class={`spell-card ${
         fixed ? "fixed-card fs-d2" : "unfixed-card"
       } pwx-4 pwt-4 pwb-2 bra-1 ${className} ${theme}`}
       onClick={handleClick}
       onKeyPress={handleKeyUp}
     >
-      <h2 class="head ct-base ta-c brt-1">{spell.name}</h2>
+      <h1 class="head ct-base ta-c brt-1 fs-u4">{spell.name}</h1>
       <section class="time ct-base ta-c">
         <h6>Casting Time</h6>
         <p>{spell.casting_time}</p>

@@ -7,10 +7,11 @@ import { Router, route } from "preact-router";
 import { filterEvery } from "@nll/dux/Store";
 
 import { PrintPage } from "./pages/PrintPage";
-import { BrowsePage } from "./pages/BrowsePage";
+import { SpellPage } from "./pages/SpellPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { AboutPage } from "./pages/AboutPage/AboutPage";
 import { createClient, authStore, redirectCallback } from "./store/auth";
+import { CreaturePage } from "./pages/CreaturePage";
 
 // TODO Pull this into environment configuration
 const domain = process.env.AUTH0_DOMAIN;
@@ -39,7 +40,8 @@ authStore.dispatch(startAuth);
 const App = () => {
   return (
     <Router>
-      <BrowsePage path="/" />
+      <SpellPage path="/" />
+      <CreaturePage path="/creatures" />
       <PrintPage path="/print" />
       <AboutPage path="/about" />
       <NotFoundPage default />

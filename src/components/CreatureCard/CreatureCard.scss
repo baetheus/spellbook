@@ -1,0 +1,57 @@
+.fixed-card {
+  width: 3.75in;
+  height: 5.25in;
+}
+
+.inner-children p {
+  margin-bottom: var(--margin-width-4);
+}
+
+.inner-children ul {
+  list-style: none;
+  // font-size: var(--font-size-d2);
+  // padding-left: var(--margin-width-4);
+  margin-bottom: var(--margin-width-4);
+}
+
+.inner-children li:before {
+  content: "● ";
+}
+
+.creature-stats {
+  display: grid;
+  grid-template:
+    "ac  ac  ac  ac  hp  hp" auto
+    "spd spd spd spd spd spd" auto
+    "str dex con int wis cha" auto / 1fr 1fr 1fr 1fr 1fr 1fr;
+
+  gap: var(--margin-width-2);
+}
+
+.creature-stats > .ac {
+  grid-area: ac;
+}
+.creature-stats > .hp {
+  grid-area: hp;
+}
+.creature-stats > .spd {
+  grid-area: spd;
+}
+.creature-stats > .str {
+  grid-area: str;
+}
+.creature-stats > .dex {
+  grid-area: dex;
+}
+.creature-stats > .con {
+  grid-area: con;
+}
+.creature-stats > .int {
+  grid-area: int;
+}
+.creature-stats > .wis {
+  grid-area: wis;
+}
+.creature-stats > .cha {
+  grid-area: cha;
+}

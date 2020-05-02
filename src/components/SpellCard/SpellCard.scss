@@ -3,7 +3,7 @@
   height: 5.25in;
 }
 
-.card {
+.spell-card {
   display: grid;
   grid-template:
     "head head head head" auto
@@ -15,35 +15,35 @@
   gap: var(--margin-width-2);
 }
 
-.card > .head {
+.spell-card > .head {
   grid-area: head;
 }
 
-.card > .time {
+.spell-card > .time {
   grid-area: time;
 }
 
-.card > .rang {
+.spell-card > .rang {
   grid-area: rang;
 }
 
-.card > .comp {
+.spell-card > .comp {
   grid-area: comp;
 }
 
-.card > .dura {
+.spell-card > .dura {
   grid-area: dura;
 }
 
-.card > .mats {
+.spell-card > .mats {
   grid-area: mats;
 }
 
-.card > .desc {
+.spell-card > .desc {
   grid-area: desc;
 }
 
-.card > .spel {
+.spell-card > .spel {
   grid-area: spel;
 }
 

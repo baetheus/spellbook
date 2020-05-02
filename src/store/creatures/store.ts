@@ -11,6 +11,7 @@ import { toggleIn } from "~/libraries/sets";
 
 import { INITIAL_CREATURES_STATE, creatures } from "./consts";
 import { State, Creatures, Creature } from "./models";
+import { logger } from "~/libraries/dux";
 
 const creator = actionCreatorFactory("CREATURES");
 
@@ -29,6 +30,8 @@ export const creatureStore = createStore(INITIAL_CREATURES_STATE);
 export const useCreatureStore = useStoreFactory(creatureStore, useState, useEffect);
 export const useCreatureDispatch = useDispatchFactory(creatureStore, useCallback);
 
+creatureStore.addMetaReducers(logger());
+
 /**
  * Load Creatures
  */
@@ -42,9 +45,10 @@ creatureStore.addReducers(loadCreaturesReducer).addRunOnces(loadCreaturesRunOnes
  * Clear Selected
  */
 export const toggleCreature = creator.simple<Creature>("TOGGLE_CREATURE");
-const toggleSpellCase = caseFn(toggleCreature, (s: State, { value }) =>
-  selectedL.modify(toggleIn(value.name))(s)
-);
+const toggleSpellCase = caseFn(toggleCreature, (s: State, { value }) => {
+  toggleIn(value.name)(s.selected);
+  return { ...s };
+});
 export const clearSelected = creator.simple("CLEAR_SELECTED");
 const clearSelectedCase = caseFn(
   clearSelected,

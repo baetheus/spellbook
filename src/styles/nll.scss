@@ -111,7 +111,8 @@ $themes: (
  * Extensions
  */
 a {
-  @extend .ct-link;
-  @extend .bra-1;
   text-decoration: none;
+  color: #357edd;
+  background: #ffffff;
+  border-radius: calc(var(--radius-size) * 1);
 }

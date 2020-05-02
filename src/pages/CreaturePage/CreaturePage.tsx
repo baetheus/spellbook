@@ -2,10 +2,8 @@ import { h, FunctionalComponent } from "preact";
 import { DefaultLayout } from "~/components/Layouts";
 import {
   useCreatureStore,
-  selectedL,
   useCreatureDispatch,
   toggleCreature,
-  selectCreatures,
   Creatures,
 } from "~/store/creatures";
 import { squash } from "@nll/datum/DatumEither";
@@ -16,8 +14,7 @@ import { CreatureTable } from "~/components/CreatureTable";
 interface CreaturePageProps {}
 
 export const CreaturePage: FunctionalComponent<CreaturePageProps> = () => {
-  const [creatures] = useCreatureStore(selectCreatures);
-  const [selected] = useCreatureStore(selectedL.get);
+  const [{ creatures, selected }] = useCreatureStore((s) => s);
   const [handleToggle] = useCreatureDispatch(toggleCreature);
 
   return (

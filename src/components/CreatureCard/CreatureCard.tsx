@@ -1,76 +1,37 @@
 import "./CreatureCard.scss";
 
 import { h, FunctionalComponent } from "preact";
-import { If } from "../Control";
+import { useCallback } from "preact/hooks";
+
+import { Creature } from "~/store/creatures";
+import { If } from "~/components/Control";
 
 interface CreatureCardProps {
   fixed?: boolean;
   className?: string;
   theme?: string;
-  creature?: Creature;
+  creature: Creature;
+  onClick?: (s: Creature) => void;
 }
-
-type CreatureSource =
-  | "Monster Manual"
-  | "Players Handbook"
-  | "Dungeon Masters Guide"
-  | "Explorers Guide to Wildemount"
-  | "Custom";
-
-interface Creature {
-  name: string;
-  type: string;
-  rating: number;
-  experience: number;
-  ac: number;
-  armor?: string;
-  hp: number;
-  speed: string;
-  str: number;
-  dex: number;
-  con: number;
-  int: number;
-  wis: number;
-  cha: number;
-  features: string;
-  traits: string;
-  actions?: string;
-  reactions?: string;
-  source: CreatureSource;
-  page?: number;
-}
-
-const assassin: Creature = {
-  name: "Assassin",
-  type: "Medium humanoid (any race), any non-good alignment",
-  rating: 8,
-  experience: 3900,
-  ac: 15,
-  armor: "studded leather",
-  hp: 78,
-  speed: "30 ft",
-  str: 0,
-  dex: 3,
-  con: 2,
-  int: 1,
-  wis: 0,
-  cha: 0,
-  features:
-    "<p><strong>Saving Throws: </strong>Dex +6, Int +4</p><p><strong>Skills: </strong>Acrobatics +6, Deception +3, Perception +3, Stealth +9</p><p><strong>Damage Resistances: </strong>Poison</p><p><strong>Senses: </strong>Passive Perception 13</p><p><strong>Languages: </strong>Thieves Cant + 2 Others</p>",
-  traits:
-    "<p><em>Assassinate. </em>During its first turn the assassin has advantage on attack rolls against any creature that hasn't taken a turn. Any hit the assassin scores against a surprised creature is a critical hit.</p><p><em>Evasion. </em>If the assassin is subjected to an effect that allows it to make a Dexterity saving throw to take only half damage, the assassin instead takes no damage if it succeeds and only half if it fails.</p><p><em>Sneak Attack. </em>Once per turn the assassin deals an extra 14(4d6) damage when it hits a target with a weapon attack and has advantage on the attack, or when the target is within 5 feet of an ally that isn't incapacitated and the assassin doesn't have advantage.</p>",
-  actions:
-    "<p><strong>Multiattack. </strong>The assassin makes two shortsword attacks</p><p><strong>Shortsword. </strong>+6, 5ft., 6(1d6+3) piercing damage. Target must make a DC15 CON save, taking 24(7d6) poison damage upon a failed save, or half as much on a success</p><p><strong>Light Crossbow. </strong>+6, 80/320ft., 7(1d8+3) piercing damage. Target must make a DC15 CON save, taking 24(7d6) poison damage upon a failed save, or half as much on a success</p>",
-  source: "Monster Manual",
-  page: 343,
-};
 
 export const CreatureCard: FunctionalComponent<CreatureCardProps> = ({
   fixed = false,
   className = "",
   theme = "ct-dark",
-  creature = assassin,
+  creature,
+  onClick = () => {},
 }) => {
+  const handleClick = useCallback(() => onClick(creature), [creature, onClick]);
+  const handleKeyUp = useCallback<h.JSX.KeyboardEventHandler<any>>(
+    (e) => {
+      if (e.code === "Enter" || e.code === "Space") {
+        e.preventDefault();
+        onClick(creature);
+      }
+    },
+    [creature, onClick]
+  );
+
   return (
     <article
       tabIndex={0}
@@ -78,6 +39,8 @@ export const CreatureCard: FunctionalComponent<CreatureCardProps> = ({
       class={`${
         fixed ? "fixed-card fs-d2" : "unfixed-card"
       } creature-card pwx-4 pwt-4 pwb-2 bra-1 fld-col flg-2 ${className} ${theme}`}
+      onClick={handleClick}
+      onKeyPress={handleKeyUp}
     >
       <h1 class="ct-base ta-c brt-1 fs-u4">{creature.name}</h1>
       <section class="creature-stats ct-base pwa-3">

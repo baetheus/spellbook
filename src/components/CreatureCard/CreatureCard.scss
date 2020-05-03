@@ -1,3 +1,8 @@
+.creature-card > section:last-of-type {
+  border-bottom-left-radius: var(--border-radius-1);
+  border-bottom-right-radius: var(--border-radius-1);
+}
+
 .fixed-card {
   width: 3.75in;
   height: 5.25in;

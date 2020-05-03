@@ -9,6 +9,40 @@ export const AboutPage: FunctionalComponent<{}> = () => {
   return (
     <DefaultLayout>
       <article class="about-content fld-col flg-5 mwb-6">
+        <h2>History</h2>
+        <p>
+          <Link href="/">Spellbook</Link> started as a weekend project to provide a more complete
+          spell list with a better ui than{" "}
+          <a href="https://colinmarc.com/dndspells/" target="_blank" rel="noreferrer">
+            this site by Colin Marc
+          </a>
+          . The specific goals were to make a mobile friendly D&D5e spellbook that is quick enough
+          to use during a session, to make building a spell list for your character easy, and to
+          provide printable spell cards that contain the full text of the spell (without having two
+          cards for some spells). In addition to the technical goals, I also wanted to make a site
+          that had no ads, tracking, or other nonsense. I think this project has achieved these
+          goals.
+        </p>
+        <p>
+          Given the raison d'etre, that doesn't mean that the project is going to languish without
+          improvement. In particular, I have the following stretch goals:
+        </p>
+        <ul class="about-list">
+          <li>The ability to add homebrew spell cards that are printable and shareable.</li>
+          <li>Shareable links to premade spell books.</li>
+          <li>
+            Useful pdfs: Character Sheets, Hex Maps, Name Sheets, Session Note Templates, and Hint
+            Sheets.
+          </li>
+          <li>Additional compendiums for weapons, monsters, etc.</li>
+          <li>Shared dice rollers.</li>
+        </ul>
+        <p>
+          That said, if you find any bugs, spelling errors, or have other issues feel free to file a
+          bug on the site github or to contact me at{" "}
+          <a href="mailto:brandon@ignoble.dev">brandon@ignoble.dev</a>.
+        </p>
+
         <h2>Usage</h2>
         <p>
           The <Link href="/">Search</Link> page is useful for both browsing spells and building a
@@ -65,40 +99,6 @@ export const AboutPage: FunctionalComponent<{}> = () => {
             Explorer's Guide to Wildemount
           </a>
           .
-        </p>
-
-        <h2>History</h2>
-        <p>
-          <Link href="/">Spellbook</Link> started as a weekend project to provide a more complete
-          spell list with a better ui than{" "}
-          <a href="https://colinmarc.com/dndspells/" target="_blank" rel="noreferrer">
-            this site by Colin Marc
-          </a>
-          . The specific goals were to make a mobile friendly D&D5e spellbook that is quick enough
-          to use during a session, to make building a spell list for your character easy, and to
-          provide printable spell cards that contain the full text of the spell (without having two
-          cards for some spells). In addition to the technical goals, I also wanted to make a site
-          that had no ads, tracking, or other nonsense. I think this project has achieved these
-          goals.
-        </p>
-        <p>
-          Given the raison d'etre, that doesn't mean that the project is going to languish without
-          improvement. In particular, I have the following stretch goals:
-        </p>
-        <ul class="about-list">
-          <li>The ability to add homebrew spell cards that are printable and shareable.</li>
-          <li>Shareable links to premade spell books.</li>
-          <li>
-            Useful pdfs: Character Sheets, Hex Maps, Name Sheets, Session Note Templates, and Hint
-            Sheets.
-          </li>
-          <li>Additional compendiums for weapons, monsters, etc.</li>
-          <li>Shared dice rollers.</li>
-        </ul>
-        <p>
-          That said, if you find any bugs, spelling errors, or have other issues feel free to file a
-          bug on the site github or to contact me at{" "}
-          <a href="mailto:brandon@ignoble.dev">brandon@ignoble.dev</a>.
         </p>
       </article>
     </DefaultLayout>

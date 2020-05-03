@@ -8,7 +8,7 @@ interface ErrorCardProps {
 
 const formatError = (error?: any): string | undefined => {
   try {
-    return JSON.stringify(error);
+    return JSON.stringify(error, null, 2);
   } catch {
     return;
   }
@@ -22,8 +22,8 @@ export const ErrorCard: FunctionalComponent<ErrorCardProps> = ({
 
   return (
     <article class="pwa-4 bra-1 ct-error">
-      <h2 class="ta-c">{title}</h2>
-      {notNil(formattedError) ? <p>{formattedError}</p> : null}
+      <h2>{title}</h2>
+      {notNil(formattedError) ? <pre class="ova-au">{formattedError}</pre> : null}
     </article>
   );
 };

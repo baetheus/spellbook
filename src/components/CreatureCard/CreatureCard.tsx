@@ -5,6 +5,7 @@ import { useCallback } from "preact/hooks";
 
 import { Creature } from "~/store/creatures";
 import { If } from "~/components/Control";
+import { Markdown } from "../Markdown";
 
 interface CreatureCardProps {
   fixed?: boolean;
@@ -88,22 +89,25 @@ export const CreatureCard: FunctionalComponent<CreatureCardProps> = ({
         </section>
       </section>
 
-      <section
-        class={`ct-base fld-col flg-1 pwa-3`}
-        dangerouslySetInnerHTML={{ __html: `${creature.features}${creature.traits}` }}
-      ></section>
+      <Markdown
+        className={`ct-base fld-col flg-1 pwa-3`}
+        markdown={`${creature.features}\n\n${creature.traits}`}
+      ></Markdown>
 
       <If predicate={!!creature.actions}>
         <section class="ct-base pwa-3">
           <h4>Actions</h4>
-          <section dangerouslySetInnerHTML={{ __html: `${creature.actions}` }}></section>
+          <Markdown
+            className={`ct-base fld-col flg-1 pwa-3`}
+            markdown={creature.actions as string}
+          ></Markdown>
         </section>
       </If>
 
       <If predicate={!!creature.reactions}>
         <section class="ct-base pwa-3">
           <h4>Reactions</h4>
-          <section dangerouslySetInnerHTML={{ __html: `${creature.reactions}` }}></section>
+          <Markdown markdown={creature.reactions as string}></Markdown>
         </section>
       </If>
 

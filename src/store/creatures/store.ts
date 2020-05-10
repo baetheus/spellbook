@@ -21,10 +21,13 @@ import {
   CreaturesRes,
   creatureIdLens,
   NewCreature,
+  CreatureStateCodec,
+  CREATURE_STORAGE_KEY,
 } from "./consts";
 import { State } from "./models";
 import { pipe } from "fp-ts/es6/pipeable";
 import { initial } from "@nll/datum/Datum";
+import { createStateRestore } from "~/libraries/restoreState";
 
 const creator = actionCreatorFactory("CREATURES");
 
@@ -151,6 +154,16 @@ creatureStore.addReducers(toggleSpellCase, clearSelectedCase);
 export const searchCreatures = creator.simple<string>("SEARCH_CREATURES");
 const searchCreaturesCase = caseFn(searchCreatures, (s: State, { value }) => searchL.set(value)(s));
 creatureStore.addReducers(searchCreaturesCase);
+
+/**
+ * Restore Creature State
+ */
+const { restoreSuccess, restoreStateRunOnce, saveStateRunOnce } = createStateRestore<
+  CreatureStateCodec,
+  State
+>(CreatureStateCodec, CREATURE_STORAGE_KEY);
+const restoreSuccessCase = caseFn(restoreSuccess, (s: State, { value }) => ({ ...s, ...value }));
+creatureStore.addReducers(restoreSuccessCase).addRunOnces(restoreStateRunOnce, saveStateRunOnce);
 
 /**
  * Selectors

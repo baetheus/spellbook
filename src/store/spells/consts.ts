@@ -12,9 +12,9 @@ import {
 import { toComparison } from "~/libraries/numbers";
 import { initial } from "@nll/datum/Datum";
 
-export const Levels: ReadonlyArray<Level> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+export const Levels: Level[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export const Classes: ReadonlyArray<Class> = [
+export const Classes: Class[] = [
   "Artificer",
   "Bard",
   "Cleric",
@@ -26,7 +26,7 @@ export const Classes: ReadonlyArray<Class> = [
   "Wizard",
 ];
 
-export const Schools: ReadonlyArray<School> = [
+export const Schools: School[] = [
   "Abjuration",
   "Conjuration",
   "Divination",
@@ -37,11 +37,11 @@ export const Schools: ReadonlyArray<School> = [
   "Transmutation",
 ];
 
-export const Sources: ReadonlyArray<Source> = ["PHB", "XAN", "WLD"];
+export const Sources: Source[] = ["PHB", "XAN", "WLD"];
 
-export const SpellCounts: ReadonlyArray<ShowSpellCount> = [25, 50, 100, "All"];
+export const SpellCounts: ShowSpellCount[] = [25, 50, 100, "All"];
 
-export const SpellSorts: ReadonlyArray<SpellSort> = ["Level", "Name"];
+export const SpellSorts: SpellSort[] = ["Level", "Name"];
 
 export const INITIAL_STATE: State = {
   spells: initial,

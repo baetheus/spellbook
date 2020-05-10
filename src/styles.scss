@@ -5,58 +5,24 @@
 // Local Reset
 @import "./styles/reset.scss";
 
-.trns-d1 {
-  transform: translateY(var(--margin-width-1));
+/**
+ * Styles for markdown and dangerouslySetHtml
+ */
+.inner-children p {
+  margin-bottom: var(--margin-width-4);
 }
 
-.trns-d2 {
-  transform: translateY(var(--margin-width-2));
+.inner-children ul {
+  list-style: none;
+  // font-size: var(--font-size-d2);
+  // padding-left: var(--margin-width-4);
+  margin-bottom: var(--margin-width-4);
 }
 
-.trns-d3 {
-  transform: translateY(var(--margin-width-3));
+.inner-children ul > li:before {
+  content: "● ";
 }
 
-.trns-d4 {
-  transform: translateY(var(--margin-width-4));
-}
-
-.trns-d5 {
-  transform: translateY(var(--margin-width-5));
-}
-
-.trns-d6 {
-  transform: translateY(var(--margin-width-6));
-}
-
-.trns-d7 {
-  transform: translateY(var(--margin-width-7));
-}
-
-.trns-u1 {
-  transform: translateY(calc(-1 * var(--margin-width-1)));
-}
-
-.trns-u2 {
-  transform: translateY(calc(-1 * var(--margin-width-2)));
-}
-
-.trns-u3 {
-  transform: translateY(calc(-1 * var(--margin-width-3)));
-}
-
-.trns-u4 {
-  transform: translateY(calc(-1 * var(--margin-width-4)));
-}
-
-.trns-u5 {
-  transform: translateY(calc(-1 * var(--margin-width-5)));
-}
-
-.trns-u6 {
-  transform: translateY(calc(-1 * var(--margin-width-6)));
-}
-
-.trns-u7 {
-  transform: translateY(calc(-1 * var(--margin-width-7)));
+.inner-children ol {
+  list-style: decimal inside;
 }

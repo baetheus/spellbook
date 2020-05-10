@@ -73,9 +73,9 @@ export type State = {
   book: Set<string>;
   focus?: Spell;
   filters: {
-    source: ReadonlyArray<Source>;
-    class: ReadonlyArray<Class>;
-    level: ReadonlyArray<Level>;
+    source: Source[];
+    class: Class[];
+    level: Level[];
     search: string;
   };
   sort: SpellSort;

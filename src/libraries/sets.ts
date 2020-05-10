@@ -5,10 +5,10 @@ import * as D from "io-ts/es6/Decoder";
 export const setFromStringArray: C.Codec<Set<string>> = C.make(
   D.parse(D.array(D.string), (as) => {
     const set = new Set<string>();
-    as.forEach(set.add);
+    as.forEach((a) => set.add(a));
     return right(set);
   }),
-  { encode: Array.from }
+  { encode: (set) => Array.from(set) }
 );
 
 export const toggleIn = <T>(t: T) => (s: Set<T>): Set<T> => {

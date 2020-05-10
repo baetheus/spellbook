@@ -51,7 +51,7 @@ export const CreatureCard: FunctionalComponent<CreatureCardProps> = ({
       tabIndex={hasClick ? 0 : undefined}
       aria-label={`Creature Card - ${creature.name}`}
       class={`${
-        fixed ? "fixed-card fs-d2" : "unfixed-card"
+        fixed ? "fixed-card fs-d3" : "unfixed-card"
       } creature-card pwx-4 pwt-4 pwb-2 bra-1 fld-col flg-2 ${
         hasClick ? "crsr-pointer" : ""
       } ${className} ${theme}`}
@@ -108,19 +108,19 @@ export const CreatureCard: FunctionalComponent<CreatureCardProps> = ({
       </section>
 
       <Markdown
-        className={`ct-base fld-col flg-1 pwa-3`}
+        className={`inner-children ct-base fls-1-1 fld-col flg-1 pwa-3`}
         markdown={`${creature.features}\n\n${creature.traits}`}
       ></Markdown>
 
       <If predicate={!!creature.actions}>
-        <section class="ct-base pwa-3">
+        <section class="fls-1-1 ct-base pwa-3">
           <h4>Actions</h4>
           <Markdown markdown={creature.actions as string}></Markdown>
         </section>
       </If>
 
       <If predicate={!!creature.reactions}>
-        <section class="ct-base pwa-3">
+        <section class="fls-1-1 ct-base pwa-3">
           <h4>Reactions</h4>
           <Markdown markdown={creature.reactions as string}></Markdown>
         </section>

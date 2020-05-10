@@ -8,21 +8,6 @@
   height: 5.25in;
 }
 
-.inner-children p {
-  margin-bottom: var(--margin-width-4);
-}
-
-.inner-children ul {
-  list-style: none;
-  // font-size: var(--font-size-d2);
-  // padding-left: var(--margin-width-4);
-  margin-bottom: var(--margin-width-4);
-}
-
-.inner-children li:before {
-  content: "● ";
-}
-
 .creature-stats {
   display: grid;
   grid-template:

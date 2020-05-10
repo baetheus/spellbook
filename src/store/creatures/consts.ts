@@ -3,6 +3,7 @@ import { Lens } from "monocle-ts";
 import * as C from "io-ts/es6/Codec";
 
 import { State } from "./models";
+import { setFromStringArray } from "~/libraries/sets";
 
 export const creatureIdLens = Lens.fromProp<Creature>()("id");
 
@@ -121,3 +122,14 @@ export const DEFAULT_CREATURE: Creature = {
  * Config
  */
 export const NLL_API_URL = process.env.NLL_API_URL ?? "NLL_API_URL_UNSET";
+
+/**
+ * Creature State Codec
+ */
+export const CREATURE_STORAGE_KEY = "CREATURE_STATE";
+
+export const CreatureStateCodec = C.type({
+  selected: setFromStringArray,
+  search: C.string,
+});
+export type CreatureStateCodec = C.TypeOf<typeof CreatureStateCodec>;

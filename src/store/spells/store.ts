@@ -7,8 +7,6 @@ import { useStoreFactory, useDispatchFactory } from "@nll/dux/React";
 import { map } from "@nll/datum/DatumEither";
 import { caseFn } from "@nll/dux/Reducers";
 import { Lens } from "monocle-ts";
-import { EMPTY } from "rxjs";
-import { tap, mergeMapTo, skip } from "rxjs/operators";
 import { ajax } from "rxjs/ajax";
 
 import { isIn, intersects, toggleIn } from "~/libraries/fns";
@@ -16,11 +14,11 @@ import { toggleIn as setToggleIn } from "~/libraries/sets";
 import { logger } from "~/libraries/dux";
 
 import { State, Spell, Source, Class, Level, SpellSort, ShowSpellCount, Spells } from "./models";
-import { INITIAL_STATE, toSpellSort } from "./consts";
-import { restoreState, trySetState } from "./restoreState";
+import { INITIAL_STATE, toSpellSort, STORAGE_KEY } from "./consts";
 import { StateCodec, Spells as SpellsCodec } from "./validators";
 import { mapDecode } from "~/libraries/ajax";
 import { pipe } from "fp-ts/es6/pipeable";
+import { createStateRestore } from "~/libraries/restoreState";
 
 // Action Creators
 const creator = actionCreatorFactory("SPELLS");
@@ -117,9 +115,11 @@ const setSpellCountCase = caseFn(setSpellCount, (s: State, { value }) =>
 /**
  * Recover State
  */
-export const errorRecoveringState = creator.simple<string>("RECOVER_STATE_ERROR", {}, true);
-export const recoverState = creator.simple<StateCodec>("RECOVER_STATE");
-const recoverStateCase = caseFn(recoverState, (s: State, { value }) => ({
+const { restoreSuccess, restoreStateRunOnce, saveStateRunOnce } = createStateRestore<
+  StateCodec,
+  State
+>(StateCodec, STORAGE_KEY);
+const recoverStateCase = caseFn(restoreSuccess, (s: State, { value }) => ({
   ...s,
   ...value,
 }));
@@ -142,11 +142,6 @@ export const selectSpells = (state: State) =>
   );
 
 /**
- * Save State RunEvery
- */
-const saveState: RunOnce<State> = (_, s$) => s$.pipe(skip(1), tap(trySetState), mergeMapTo(EMPTY));
-
-/**
  * Wireup Store
  */
 export const store = createStore(INITIAL_STATE)
@@ -164,7 +159,8 @@ export const store = createStore(INITIAL_STATE)
     recoverStateCase,
     loadSpellsReducer
   )
-  .addRunOnces(restoreState, saveState, loadSpellsRunOnce);
+  .addRunOnces(loadSpellsRunOnce)
+  .addRunOnces(restoreStateRunOnce, saveStateRunOnce);
 
 // Load Spells!
 store.dispatch(loadSpells.pending());

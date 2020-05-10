@@ -8,9 +8,23 @@ h6,
 p,
 ul,
 ol,
-pre {
+pre,
+input,
+button,
+textarea {
   margin: 0;
   padding: 0;
+  border: 0;
+}
+
+textarea {
+  resize: vertical;
+  min-height: var(--height-4);
+}
+
+input {
+  min-width: 10px;
+  width: 100%;
 }
 
 /**
@@ -86,7 +100,8 @@ button {
 a:focus,
 article:focus,
 input:focus,
-button:focus {
+button:focus,
+textarea:focus {
   outline: none;
   box-shadow: 0 0 1.5px 1.5px var(--cb-focus);
 }

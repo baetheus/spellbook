@@ -13,6 +13,7 @@ import { AboutPage } from "./pages/AboutPage/AboutPage";
 import { createClient, authStore, redirectCallback } from "./store/auth";
 import { CreaturePage } from "./pages/CreaturePage";
 import { EditCreaturePage } from "./pages/EditCreaturePage";
+import { CreateCreaturePage } from "./pages/CreateCreaturePage";
 
 // TODO Pull this into environment configuration
 const domain = process.env.AUTH0_DOMAIN;
@@ -43,6 +44,7 @@ const App = () => {
     <Router>
       <SpellPage path="/" />
       <CreaturePage path="/creatures" />
+      <CreateCreaturePage path="/creatures/create" />
       <EditCreaturePage path="/creatures/:id" />
       <PrintPage path="/print" />
       <AboutPage path="/about" />

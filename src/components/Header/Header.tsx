@@ -2,7 +2,7 @@ import "./Header.scss";
 
 import { h } from "preact";
 import { Link } from "preact-router/match";
-import { MdHelp } from "react-icons/md";
+import { MdHelp, MdAdd } from "react-icons/md";
 import { squash } from "@nll/datum/DatumEither";
 
 import { useAuthStore, useAuthDispatch, loginWithRedirect, logout, selectUser } from "~/store/auth";
@@ -33,11 +33,7 @@ export const Header = () => {
         <h1>Spellbook</h1>
         <section class="fld-row flg-3 ai-ctr pwx-4">
           <LoginLink />
-          <Link
-            href="/about"
-            aria-label="Help and About page link"
-            class="about-icon bra-1 fs-u4 ta-c"
-          >
+          <Link href="/about" aria-label="Help and About page link" class="sq-32 bra-1 fs-u4 ta-c">
             <MdHelp />
           </Link>
         </section>
@@ -59,6 +55,14 @@ export const Header = () => {
           activeClassName="ct-link-reverse"
         >
           Creatures
+        </Link>
+        <Link
+          href="/creatures/create"
+          aria-label="Create Creature"
+          class="fld-row flg-4 pwx-3 pwy-2 ct-link"
+          activeClassName="ct-link-reverse"
+        >
+          <MdAdd />
         </Link>
       </nav>
     </header>

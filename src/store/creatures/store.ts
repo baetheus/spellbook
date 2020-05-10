@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from "preact/hooks";
 import { Lens } from "monocle-ts";
 import { useStoreFactory, useDispatchFactory } from "@nll/dux/React";
-import { asyncReducerFactory, caseFn } from "@nll/dux/Reducers";
+import { asyncReducerFactory, caseFn, asyncEntityFactory } from "@nll/dux/Reducers";
 import { actionCreatorFactory } from "@nll/dux/Actions";
-import { asyncExhaustMap } from "@nll/dux/Operators";
+import { asyncExhaustMap, asyncSwitchMap } from "@nll/dux/Operators";
 import { createStore } from "@nll/dux/Store";
 import * as DE from "@nll/datum/DatumEither";
 import { map } from "rxjs/operators";
@@ -17,11 +17,14 @@ import {
   INITIAL_CREATURES_STATE,
   NLL_API_URL,
   Creature,
-  CreaturesWithIds,
+  Creatures,
   CreaturesRes,
+  creatureIdLens,
+  NewCreature,
 } from "./consts";
 import { State } from "./models";
 import { pipe } from "fp-ts/es6/pipeable";
+import { initial } from "@nll/datum/Datum";
 
 const creator = actionCreatorFactory("CREATURES");
 
@@ -30,6 +33,8 @@ const creator = actionCreatorFactory("CREATURES");
  */
 const rootProp = Lens.fromProp<State>();
 export const creaturesL = rootProp("creatures");
+export const editCreaturesL = rootProp("edits");
+export const createCreatureL = rootProp("create");
 export const selectedL = rootProp("selected");
 export const searchL = rootProp("search");
 
@@ -45,25 +50,91 @@ creatureStore.addMetaReducers(logger());
 /**
  * Load Creatures
  */
-export const loadCreatures = creator.async<void, CreaturesWithIds, Error>("LOAD_CREATURES");
+export const loadCreatures = creator.async<void, Creatures, Error>("LOAD_CREATURES");
 const loadCreaturesReducer = asyncReducerFactory(loadCreatures, creaturesL);
-const loadCreaturesRunOnes = asyncExhaustMap(loadCreatures, () =>
-  ajax.getJSON([NLL_API_URL, "spellbook", "creatures"].join("/")).pipe(
+const loadCreaturesRunOnce = asyncExhaustMap(loadCreatures, () =>
+  ajax.getJSON(`${NLL_API_URL}/spellbook/creatures`).pipe(
     mapDecode(CreaturesRes),
     map(({ creatures }) => creatures)
   )
 );
-creatureStore.addReducers(loadCreaturesReducer).addRunOnces(loadCreaturesRunOnes);
+creatureStore.addReducers(loadCreaturesReducer).addRunOnces(loadCreaturesRunOnce);
+
+/**
+ * Post Creature
+ */
+export const postCreature = creator.async<NewCreature, Creature, Error>("POST_CREATURE");
+const postCreatureReducer = asyncReducerFactory(postCreature, createCreatureL);
+const postCreatureRunOnce = asyncExhaustMap(postCreature, (body) =>
+  ajax({
+    url: `${NLL_API_URL}/spellbook/creatures`,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body,
+  }).pipe(
+    map((res) => res.response),
+    mapDecode(Creature)
+  )
+);
+const updateCreatureOnPostSuccess = caseFn(
+  postCreature.success,
+  (s: State, { value: { result } }) =>
+    creaturesL.modify((de) => DE.map((cs: Creatures) => cs.concat(result))(de))(s)
+);
+creatureStore
+  .addReducers(postCreatureReducer, updateCreatureOnPostSuccess)
+  .addRunOnces(postCreatureRunOnce);
+
+/**
+ * Clear Posted Creature
+ */
+export const clearCreateCreature = creator.simple("CLEAR_CREATE_CREATURE");
+const clearCreateCreatureCase = caseFn(clearCreateCreature, createCreatureL.set(initial));
+creatureStore.addReducers(clearCreateCreatureCase);
+
+/**
+ * Put Creature
+ */
+export const putCreature = creator.async<Creature, Creature, Error>("PUT_CREATURE");
+const putCreatureReducer = asyncEntityFactory(putCreature, editCreaturesL, creatureIdLens);
+const updateCreatureOnPutSuccess = caseFn(putCreature.success, (s: State, { value: { result } }) =>
+  creaturesL.modify((de) =>
+    DE.map((cs: Creatures) => cs.map((c) => (c.id === result.id ? result : c)))(de)
+  )(s)
+);
+
+const putCreatureRunOnce = asyncSwitchMap(putCreature, (body) =>
+  ajax({
+    url: `${NLL_API_URL}/spellbook/creatures/${body.id}`,
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body,
+  }).pipe(
+    map((res) => res.response),
+    mapDecode(Creature)
+  )
+);
+
+creatureStore
+  .addReducers(putCreatureReducer, updateCreatureOnPutSuccess)
+  .addRunOnces(putCreatureRunOnce);
 
 /**
  * Toggle Creature Selection
- * Clear Selected
  */
 export const toggleCreature = creator.simple<Creature>("TOGGLE_CREATURE");
 const toggleSpellCase = caseFn(toggleCreature, (s: State, { value }) => {
   toggleIn(value.name)(s.selected);
   return { ...s };
 });
+
+/**
+ * Clear Creature Selections
+ */
 export const clearSelected = creator.simple("CLEAR_SELECTED");
 const clearSelectedCase = caseFn(
   clearSelected,

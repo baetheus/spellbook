@@ -6,7 +6,7 @@ interface FooterProps {
 }
 
 export const Footer: FunctionalComponent<FooterProps> = ({ className }) => (
-  <footer class={`${className} vhmn-2 fld-row flg-4 ai-ctr jc-ctr ct-light`}>
+  <footer class={`${className} vhmn-2 mwt-4 fld-row flg-4 ai-ctr jc-ctr ct-light`}>
     <span class="fs-u2 trns-d2">
       <a
         href="https://github.com/baetheus/spellbook"

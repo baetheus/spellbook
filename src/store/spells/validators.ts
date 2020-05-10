@@ -1,90 +1,71 @@
-import * as t from "io-ts";
-import { setFromArray } from "io-ts-types/es6/setFromArray";
-import { ordString } from "fp-ts/es6/Ord";
+import * as C from "io-ts/es6/Codec";
+import { setFromStringArray } from "~/libraries/sets";
 
-const Class = t.keyof({
-  Artificer: null,
-  Bard: null,
-  Cleric: null,
-  Druid: null,
-  Paladin: null,
-  Ranger: null,
-  Sorcerer: null,
-  Warlock: null,
-  Wizard: null,
+const Class = C.literal(
+  "Artificer",
+  "Bard",
+  "Cleric",
+  "Druid",
+  "Paladin",
+  "Ranger",
+  "Sorcerer",
+  "Warlock",
+  "Wizard"
+);
+
+const School = C.literal(
+  "Abjuration",
+  "Conjuration",
+  "Divination",
+  "Enchantment",
+  "Evocation",
+  "Illusion",
+  "Necromancy",
+  "Transmutation"
+);
+
+const Level = C.literal(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+const Components = C.type({
+  verbal: C.boolean,
+  somatic: C.boolean,
+  material: C.boolean,
+  materials: C.array(C.string),
 });
 
-const School = t.keyof({
-  Abjuration: null,
-  Conjuration: null,
-  Divination: null,
-  Enchantment: null,
-  Evocation: null,
-  Illusion: null,
-  Necromancy: null,
-  Transmutation: null,
-});
+const Source = C.literal("PHB", "XAN", "WLD");
 
-const Level = t.union([
-  t.literal(0),
-  t.literal(1),
-  t.literal(2),
-  t.literal(3),
-  t.literal(4),
-  t.literal(5),
-  t.literal(6),
-  t.literal(7),
-  t.literal(8),
-  t.literal(9),
-]);
-
-const Components = t.type({
-  verbal: t.boolean,
-  somatic: t.boolean,
-  material: t.boolean,
-  materials: t.array(t.string),
-});
-
-const Source = t.keyof({
-  PHB: null,
-  XAN: null,
-  WLD: null,
-});
-
-export const Spell = t.type({
-  name: t.string,
-  description: t.string,
-  range: t.string,
-  ritual: t.boolean,
-  duration: t.string,
-  concentration: t.boolean,
-  casting_time: t.string,
+export const Spell = C.type({
+  name: C.string,
+  description: C.string,
+  range: C.string,
+  ritual: C.boolean,
+  duration: C.string,
+  concentration: C.boolean,
+  casting_time: C.string,
   level: Level,
   school: School,
-  class: t.array(Class),
+  class: C.array(Class),
   components: Components,
   source: Source,
-  page: t.number,
+  page: C.number,
 });
 
-export const Spells = t.readonlyArray(Spell);
+export const Spells = C.array(Spell);
 
-const SpellSort = t.keyof({
-  Name: null,
-  Level: null,
-});
+const SpellSort = C.literal("Name", "Level");
 
-const ShowSpellCount = t.union([t.literal(25), t.literal(50), t.literal(100), t.literal("All")]);
+const ShowSpellCount = C.literal(25, 50, 100, "All");
 
-export const StateCodec = t.strict({
-  book: setFromArray(t.string, ordString),
-  filters: t.type({
-    source: t.readonlyArray(Source),
-    class: t.readonlyArray(Class),
-    level: t.readonlyArray(Level),
-    search: t.string,
+export const StateCodec = C.type({
+  book: setFromStringArray,
+  filters: C.type({
+    source: C.array(Source),
+    class: C.array(Class),
+    level: C.array(Level),
+    search: C.string,
   }),
   sort: SpellSort,
   showSpellCount: ShowSpellCount,
 });
-export type StateCodec = t.TypeOf<typeof StateCodec>;
+export type StateCodec = C.TypeOf<typeof StateCodec>;

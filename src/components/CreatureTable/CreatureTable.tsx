@@ -1,7 +1,7 @@
 import "./CreatureTable.scss";
 
 import { h, FunctionalComponent, Fragment } from "preact";
-import { useCallback } from "preact/hooks";
+import { Link } from "preact-router";
 
 import { Creature, Creatures } from "~/store/creatures";
 import { CreatureCard } from "../CreatureCard";
@@ -17,26 +17,26 @@ export const CreatureTable: FunctionalComponent<CreatureTableProps> = ({
   selected,
   toggleCreature,
 }) => {
-  const toTop = useCallback(() => scrollTo(0, 0), []);
-
   return (
     <Fragment>
       {creatures.length === 0 ? <h3 class="as-ctr js-ctr ta-c">No Creatures To Show!</h3> : null}
       <section class="creature-table">
         {creatures.map((creature) => (
-          <CreatureCard
-            fixed={false}
-            creature={creature}
-            theme={selected.has(creature.name) ? "ct-primary" : "ct-dark"}
-            onClick={toggleCreature}
-          ></CreatureCard>
+          <section class="fld-col flg-3">
+            <CreatureCard
+              fixed={false}
+              creature={creature}
+              theme={selected.has(creature.name) ? "ct-primary" : "ct-dark"}
+              onClick={toggleCreature}
+            ></CreatureCard>
+            <Link
+              class="vw-p100 pwy-3 ct-primary bra-1 fw-u1 ta-c"
+              href={`/creatures/${creature.id}`}
+            >
+              Edit
+            </Link>
+          </section>
         ))}
-      </section>
-
-      <section class="fls-1-1 fld-col ai-ctr jc-end flg-4 mwb-4">
-        <button class="vw-p100 vwmx-ch0 wx-4 pwy-3 ct-primary bra-1" onClick={toTop}>
-          <strong>Up</strong>
-        </button>
       </section>
     </Fragment>
   );

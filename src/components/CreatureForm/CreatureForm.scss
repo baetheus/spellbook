@@ -1,0 +1,102 @@
+.creature-form {
+  display: grid;
+  grid-template:
+    "name name name" auto
+    "type type type" auto
+    "ac hp   speed " auto
+    "str  dex  con " auto
+    "int  wis  cha " auto
+    "features features features" auto
+    "traits traits traits" auto
+    "actions actions actions" auto
+    "reactions reactions reactions" auto
+    "rating experience  experience " auto
+    "source  source  source " auto
+    "page page page" auto
+    "sub  sub  sub " auto
+    ".    .    .   " 1fr
+    / 1fr 1fr 1fr;
+  gap: var(--margin-width-3);
+}
+
+@media (min-width: 50em) {
+  .creature-form {
+    display: grid;
+    grid-template:
+      "name name name name name name" auto
+      "type type type type type type" auto
+      "ac   ac   hp   hp   speed  speed " auto
+      "str  dex  con  int  wis  cha " auto
+      "features features features features features features" auto
+      "traits traits traits traits traits traits" auto
+      "actions actions actions actions actions actions" auto
+      "reactions reactions reactions reactions reactions reactions" auto
+      "rating rating experience  experience  experience  experience" auto
+      "source  source  source  source  page page" auto
+      "sub  sub  sub  sub  sub  sub " auto
+      ".    .    .    .    .    .   " 1fr
+      / 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: var(--margin-width-3);
+  }
+}
+
+.creature-form > [name="name"] {
+  grid-area: name;
+}
+.creature-form > [name="type"] {
+  grid-area: type;
+}
+.creature-form > [name="ac"] {
+  grid-area: ac;
+}
+.creature-form > [name="hp"] {
+  grid-area: hp;
+}
+.creature-form > [name="speed"] {
+  grid-area: speed;
+}
+.creature-form > [name="str"] {
+  grid-area: str;
+}
+.creature-form > [name="dex"] {
+  grid-area: dex;
+}
+.creature-form > [name="con"] {
+  grid-area: con;
+}
+.creature-form > [name="int"] {
+  grid-area: int;
+}
+.creature-form > [name="wis"] {
+  grid-area: wis;
+}
+.creature-form > [name="cha"] {
+  grid-area: cha;
+}
+.creature-form > [name="features"] {
+  grid-area: features;
+}
+.creature-form > [name="traits"] {
+  grid-area: traits;
+}
+.creature-form > [name="actions"] {
+  grid-area: actions;
+}
+.creature-form > [name="reactions"] {
+  grid-area: reactions;
+}
+.creature-form > [name="rating"] {
+  grid-area: rating;
+}
+.creature-form > [name="experience"] {
+  grid-area: experience;
+}
+.creature-form > [name="source"] {
+  grid-area: source;
+}
+.creature-form > [name="page"] {
+  grid-area: page;
+}
+.creature-form > [name="sub"] {
+  grid-area: sub;
+}

@@ -4,8 +4,11 @@ import { h, FunctionalComponent } from "preact";
 
 import { toSpellComponents, toSpellType } from "~/libraries/spells";
 import { Spell } from "~/store/spells";
-import { ClassIcon } from "./ClassIcon";
 import { useCallback } from "preact/hooks";
+import { notNil } from "~/libraries/fns";
+import classNames from "classnames";
+
+import { ClassIcon } from "./ClassIcon";
 
 interface SpellCardProps {
   spell: Spell;
@@ -36,26 +39,37 @@ export const SpellCard: FunctionalComponent<SpellCardProps> = ({
   className = "",
   fixed = true,
   theme = "ct-dark",
-  onClick = () => {},
+  onClick,
 }) => {
-  const handleClick = useCallback(() => onClick(spell), [spell, onClick]);
+  const hasClick = notNil(onClick);
+  const clickHandler = onClick ?? (() => {});
+  const handleClick = useCallback(() => clickHandler(spell), [spell, onClick]);
   const handleKeyUp = useCallback<h.JSX.KeyboardEventHandler<any>>(
     (e) => {
       if (e.code === "Enter" || e.code === "Space") {
         e.preventDefault();
-        onClick(spell);
+        clickHandler(spell);
       }
     },
     [spell, onClick]
   );
+  
+  const articleClasses = classNames(
+    "spell-card pwx-4 pwt-4 pwb-2 bra-1",
+    { "fixed-card": fixed, "fs-d2": fixed, "crsr-pointer": hasClick },
+    className,
+    theme
+  );
+  const descriptionClasses = classNames(
+    "desc ct-base pwt-3 pwx-3 brb-1 inner-children ov-hi",
+    toFontSize(spell)
+  );
 
   return (
     <article
-      tabIndex={0}
-      aria-label={`${spell.name} spell card - ${theme === "ct-dark" ? "Unselected" : "Selected"}`}
-      class={`spell-card ${
-        fixed ? "fixed-card fs-d2" : "unfixed-card"
-      } pwx-4 pwt-4 pwb-2 bra-1 ${className} ${theme}`}
+      tabIndex={hasClick ? 0 : undefined}
+      aria-label={`${spell.name} Spell Card`}
+      class={articleClasses}
       onClick={handleClick}
       onKeyPress={handleKeyUp}
     >
@@ -84,7 +98,7 @@ export const SpellCard: FunctionalComponent<SpellCardProps> = ({
         </strong>
       ) : null}
       <section
-        class={`desc ct-base pwt-3 pwx-3 brb-1 inner-children ov-hi ${toFontSize(spell)}`}
+        class={descriptionClasses}
         dangerouslySetInnerHTML={{ __html: spell.description }}
       ></section>
       <footer class="spel fld-row jc-spb fs-d1">

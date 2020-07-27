@@ -48,22 +48,22 @@ export const Header = () => {
         >
           Spells
         </Link>
-        <Link
+        {/* <Link
           href="/creatures"
           aria-label="Creatures Page"
           class="pwx-3 pwy-2 ct-link"
           activeClassName="ct-link-reverse"
         >
           Creatures
-        </Link>
-        <Link
+        </Link> */}
+        {/* <Link
           href="/creatures/create"
           aria-label="Create Creature"
           class="fld-row flg-4 pwx-3 pwy-2 ct-link"
           activeClassName="ct-link-reverse"
         >
           <MdAdd />
-        </Link>
+        </Link> */}
       </nav>
     </header>
   );

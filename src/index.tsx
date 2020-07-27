@@ -6,11 +6,12 @@ import { h, render } from "preact";
 import { Router, route } from "preact-router";
 import { filterEvery } from "@nll/dux/Store";
 
+import { createClient, authStore, redirectCallback } from "./store/auth";
+
 import { PrintPage } from "./pages/PrintPage";
 import { SpellPage } from "./pages/SpellPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { AboutPage } from "./pages/AboutPage/AboutPage";
-import { createClient, authStore, redirectCallback } from "./store/auth";
 import { CreaturePage } from "./pages/CreaturePage";
 import { EditCreaturePage } from "./pages/EditCreaturePage";
 import { CreateCreaturePage } from "./pages/CreateCreaturePage";
@@ -43,9 +44,9 @@ const App = () => {
   return (
     <Router>
       <SpellPage path="/" />
-      <CreaturePage path="/creatures" />
-      <CreateCreaturePage path="/creatures/create" />
-      <EditCreaturePage path="/creatures/:id" />
+      {/* <CreaturePage path="/creatures" /> */}
+      {/* <CreateCreaturePage path="/creatures/create" /> */}
+      {/* <EditCreaturePage path="/creatures/:id" /> */}
       <PrintPage path="/print" />
       <AboutPage path="/about" />
       <NotFoundPage default />

@@ -113,18 +113,6 @@ const setSpellCountCase = caseFn(setSpellCount, (s: State, { value }) =>
 );
 
 /**
- * Recover State
- */
-const { restoreSuccess, restoreStateRunOnce, saveStateRunOnce } = createStateRestore<
-  StateCodec,
-  State
->(StateCodec, STORAGE_KEY);
-const recoverStateCase = caseFn(restoreSuccess, (s: State, { value }) => ({
-  ...s,
-  ...value,
-}));
-
-/**
  * Select Spells Filtered by Filters
  */
 export const selectBook = bookL.get;
@@ -156,11 +144,15 @@ export const store = createStore(INITIAL_STATE)
     setSpellCountCase,
     setSpellSortCase,
     resetFilterCase,
-    recoverStateCase,
     loadSpellsReducer
   )
-  .addRunOnces(loadSpellsRunOnce)
-  .addRunOnces(restoreStateRunOnce, saveStateRunOnce);
+  .addRunOnces(loadSpellsRunOnce);
+
+/**
+ * Store state in localstorage, recover on load
+ */
+const { wireup } = createStateRestore<StateCodec, State>(StateCodec, STORAGE_KEY);
+wireup(store, 30 * 1000);
 
 // Load Spells!
 store.dispatch(loadSpells.pending());

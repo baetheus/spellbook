@@ -156,14 +156,13 @@ const searchCreaturesCase = caseFn(searchCreatures, (s: State, { value }) => sea
 creatureStore.addReducers(searchCreaturesCase);
 
 /**
- * Restore Creature State
+ * Store Creature State in LocalStorage every 5 seconds
  */
-const { restoreSuccess, restoreStateRunOnce, saveStateRunOnce } = createStateRestore<
+const { wireup } = createStateRestore<CreatureStateCodec, State>(
   CreatureStateCodec,
-  State
->(CreatureStateCodec, CREATURE_STORAGE_KEY);
-const restoreSuccessCase = caseFn(restoreSuccess, (s: State, { value }) => ({ ...s, ...value }));
-creatureStore.addReducers(restoreSuccessCase).addRunOnces(restoreStateRunOnce, saveStateRunOnce);
+  CREATURE_STORAGE_KEY
+);
+wireup(creatureStore, 30 * 1000);
 
 /**
  * Selectors

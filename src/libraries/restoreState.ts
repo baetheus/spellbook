@@ -2,18 +2,22 @@ import * as C from "io-ts/es6/Codec";
 import * as E from "fp-ts/es6/Either";
 import { draw } from "io-ts/es6/Tree";
 import { pipe } from "fp-ts/es6/pipeable";
-import { ActionCreator, TypedAction, actionCreatorFactory } from "@nll/dux/Actions";
-import { RunOnce } from "@nll/dux/Store";
-import { of, EMPTY } from "rxjs";
-import { map, skip, tap, mergeMapTo } from "rxjs/operators";
+import { actionCreatorFactory, AsyncActionCreators } from "@nll/dux/Actions";
+import { asyncConcatMap } from "@nll/dux/Operators";
+import { RunOnce, filterEvery, RunEvery, Store } from "@nll/dux/Store";
+import { of, Observable, throwError, interval } from "rxjs";
+import { mergeMap, map } from "rxjs/operators";
 
 import { notNil } from "~/libraries/fns";
+import { Reducer, caseFn } from "@nll/dux/Reducers";
 
-const creator = actionCreatorFactory("STORE_STATE");
-
-const trySetState = <S>(codec: C.Codec<S>, key: string) => (s: S) =>
+const trySetState = <A>(codec: C.Codec<A>, key: string) => (s: A) =>
   E.tryCatch(
-    () => window.localStorage.setItem(key, JSON.stringify(codec.encode(s))),
+    () => {
+      const encoded = codec.encode(s);
+      window.localStorage.setItem(key, JSON.stringify(encoded));
+      return encoded;
+    },
     () => `Failed to set state at localStorage key ${key}`
   );
 
@@ -34,23 +38,40 @@ const tryParse = (s: string) =>
 
 const tryDecode = <S>(codec: C.Codec<S>) => (s: unknown) => pipe(codec.decode(s), E.mapLeft(draw));
 
-const asAnyAction = <P>(ac: ActionCreator<P, any>): ((p: P) => TypedAction) => (p: P) => ac(p);
+const throwLeft = <E, A>(obs: Observable<E.Either<E, A>>) =>
+  obs.pipe(mergeMap((v) => (E.isLeft(v) ? throwError(v.left) : of(v.right))));
 
-const restoreFailed = creator.simple<string>("RECOVER_STATE_ERROR", {}, true);
+type StorageAction<A> = AsyncActionCreators<string, A, string>;
 
-const restoreSuccessFactory = <A>(key: string) => creator.simple<A>(`RECOVER_${key}`);
-
-const restoreStateFactory = <A, B extends A>(
+const getStateFactory = <A, B extends A>(
   codec: C.Codec<A>,
-  key: string,
-  action: ActionCreator<A>
-): RunOnce<B> => () =>
-  of(
-    pipe(tryGetState(key), E.chain(tryCheckNull), E.chain(tryParse), E.chain(tryDecode(codec)))
-  ).pipe(map(E.fold(asAnyAction(restoreFailed), asAnyAction(action))));
+  getStateActions: StorageAction<A>
+): RunOnce<B> =>
+  asyncConcatMap(getStateActions, (key) =>
+    of(
+      pipe(tryGetState(key), E.chain(tryCheckNull), E.chain(tryParse), E.chain(tryDecode(codec)))
+    ).pipe(throwLeft)
+  );
 
-const saveStateFactory = <A, B extends A>(codec: C.Codec<A>, key: string): RunOnce<B> => (_, s$) =>
-  s$.pipe(skip(1), tap(trySetState(codec, key)), mergeMapTo(EMPTY));
+const setStateFactory = <A, B extends A>(
+  codec: C.Codec<A>,
+  setStateActions: StorageAction<unknown>
+): RunEvery<B> =>
+  filterEvery(setStateActions.pending, (state, { value: params }) => {
+    const result = trySetState(codec, params)(state);
+    if (E.isLeft(result)) {
+      return setStateActions.failure({ error: result.left, params });
+    }
+    return setStateActions.success({ result: result.right, params });
+  });
+
+const intervalFactory = <A>({ pending }: StorageAction<unknown>) => (
+  key: string,
+  period: number
+): RunOnce<A> => () => interval(period).pipe(map(() => pending(key)));
+
+const setStateCaseFactory = <A, B extends A>({ success }: StorageAction<A>): Reducer<B> =>
+  caseFn(success, (state: B, { value }) => ({ ...state, ...value }));
 
 /**
  * Creates reducers and actions for encoding/decoding parts of store to localstorage.
@@ -65,21 +86,42 @@ const saveStateFactory = <A, B extends A>(codec: C.Codec<A>, key: string): RunOn
  *
  * const store = createStore({ count: 0 });
  *
- * const restore = createStateRestore<StateCodec, State>(StateCodec, "COUNT_STATE");
- * const recoverStateCase = caseFn(restore.restoreSuccess, (s: State, { value }) => ({ ...s, ...value }));
- *
- * store
- *   .addReducers(recoverStateCase)
- *   .addRunOnces(restore.restoreStateRunOnce, restore.saveStateRunOnce);
+ * const { wireup } = createStateRestore<StateCodec, State>(StateCodec, "COUNT_STATE");
+ * wireup(store, 30 * 1000);
  */
 export const createStateRestore = <A, B extends A>(codec: C.Codec<A>, key: string) => {
-  const restoreSuccess = restoreSuccessFactory<A>(key);
-  const saveStateRunOnce = saveStateFactory<A, B>(codec, key);
-  const restoreStateRunOnce = restoreStateFactory<A, B>(codec, key, restoreSuccess);
+  const creator = actionCreatorFactory(`LOCALSTORAGE_${key}`);
+
+  // Set State
+  const setState = creator.async<string, unknown, string>("SET_STATE");
+  const setStateRunEvery = setStateFactory<A, B>(codec, setState);
+
+  // Get State
+  const getState = creator.async<string, A, string>("GET_STATE");
+  const getStateCase = setStateCaseFactory<A, B>(getState);
+  const getStateRunOnce = getStateFactory<A, B>(codec, getState);
+
+  // Set State on Interval
+  const intervalRunOnce = intervalFactory(setState);
+
+  // Wireup Store
+  const wireup = (store: Store<B>, period = 5 * 1000): Store<B> => {
+    store
+      .addReducers(getStateCase)
+      .addRunEverys(setStateRunEvery)
+      .addRunOnces(getStateRunOnce, intervalRunOnce(key, period))
+      .dispatch(getState.pending(key));
+
+    return store;
+  };
+
   return {
-    restoreSuccess,
-    restoreFailed,
-    saveStateRunOnce,
-    restoreStateRunOnce,
+    setState,
+    setStateRunEvery,
+    getState,
+    getStateCase,
+    getStateRunOnce,
+    intervalRunOnce,
+    wireup,
   };
 };
